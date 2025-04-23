@@ -72,12 +72,20 @@ class DrawerItemBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
       leading: CustomImageHandler(
         path: imagePath,
         width: 24.w,
         height: 24.h,
       ),
-      title: Text(title),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w500,
+          color: AppColors.white,
+        ),
+      ),
       onTap: () {
         // Update the state of the app
         // ...
