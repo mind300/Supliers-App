@@ -20,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
       this.borderRadius = 10,
       this.inputFormatters,
       this.maxLines = 1,
+      this.readOnly = false,
       this.fillColor = AppColors.textfieldColor,
       this.onChanged,
       this.autoValidateMode,
@@ -41,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final AutovalidateMode? autoValidateMode;
   final TextInputAction? textInputAction;
+  final bool readOnly;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -83,6 +85,7 @@ class CustomTextFormField extends StatelessWidget {
           onSaved: onSaved,
           onChanged: onChanged,
           inputFormatters: inputFormatters,
+          readOnly: readOnly,
           validator: validator ??
               (v) {
                 if (v!.isEmpty) {

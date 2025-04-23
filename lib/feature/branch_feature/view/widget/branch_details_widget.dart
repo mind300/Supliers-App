@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
+import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/routes/routes.dart';
 
 class BranchDetailsWidget extends StatelessWidget {
   const BranchDetailsWidget({super.key});
@@ -97,18 +99,23 @@ class BranchDetailsWidget extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            height: 100.h,
-            width: 59.w,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              borderRadius: BorderRadius.circular(10.r),
-              border: Border.all(
-                color: AppColors.primary,
-                width: 2.w,
+          GestureDetector(
+            onTap: () {
+              context.pushNamed(Routes.branchDetails);
+            },
+            child: Container(
+              height: 100.h,
+              width: 59.w,
+              decoration: BoxDecoration(
+                color: AppColors.white,
+                borderRadius: BorderRadius.circular(10.r),
+                border: Border.all(
+                  color: AppColors.primary,
+                  width: 2.w,
+                ),
               ),
+              child: Icon(Icons.arrow_forward),
             ),
-            child: Icon(Icons.arrow_forward),
           ),
         ],
       ),

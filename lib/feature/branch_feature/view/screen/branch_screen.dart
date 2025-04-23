@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/constant/app_images.dart';
+import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 
@@ -48,7 +50,7 @@ class BranchScreen extends StatelessWidget {
       floatingActionButton: CustomFloatingActionButton(
         icon: AppImages.add,
         onPressed: () {
-          print('Floating Action Button Pressed');
+          context.pushNamed(Routes.addBranch);
         },
       ),
     );

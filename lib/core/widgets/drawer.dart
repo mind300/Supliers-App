@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
+import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/routes/routes.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key, required this.currentPage});
@@ -28,6 +31,16 @@ class AppDrawer extends StatelessWidget {
     'About',
   ];
 
+  List route = [
+    Routes.branch,
+    Routes.profile,
+    Routes.offer,
+    Routes.cashier,
+    Routes.profile,
+    Routes.password,
+    Routes.about,
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,33 +58,45 @@ class AppDrawer extends StatelessWidget {
       child: SafeArea(
         child: Drawer(
           backgroundColor: Colors.transparent,
-          child: ListView(
+          child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-            children: [
-              ListTile(
-                leading: CustomImageHandler(path: AppImages.profileTest),
-                title: Text(
-                  'Muhammad \nkaiian',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white,
+            child: Column(
+              children: [
+                ListTile(
+                  leading: CustomImageHandler(path: AppImages.profileTest),
+                  title: Text(
+                    'Muhammad \nkaiian',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.white,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                SizedBox(height: 10.h),
+                ...List.generate(
+                  titles.length,
+                  (index) => DrawerItemBuilder(
+                    title: titles[index],
+                    imagePath: icons[index],
+                    selectedItem: currentPage,
+                    route: route[index],
                   ),
                 ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-              ),
-              SizedBox(height: 10.h),
-              ...List.generate(
-                titles.length,
-                (index) => DrawerItemBuilder(
-                  title: titles[index],
-                  imagePath: icons[index],
-                  selectedItem: currentPage,
+                Spacer(),
+                CustomButton(
+                  onPressed: () {
+                    context.pushNamedAndRemoveAll(
+                      Routes.login,
+                    );
+                  },
+                  text: "Log out",
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -85,10 +110,12 @@ class DrawerItemBuilder extends StatelessWidget {
     required this.title,
     required this.imagePath,
     required this.selectedItem,
+    required this.route,
   });
   final String title;
   final String imagePath;
   final String selectedItem;
+  final String route;
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +136,11 @@ class DrawerItemBuilder extends StatelessWidget {
         ),
       ),
       onTap: () {
-        // Update the state of the app
-        // ...
         Navigator.pop(context);
+        if (isSelected) {
+          return;
+        }
+        context.pushNamedAndRemoveAll(route);
       },
     );
   }

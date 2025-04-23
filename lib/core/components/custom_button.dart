@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.enabled = true,
     this.leading,
+    this.height,
   });
   final VoidCallback onPressed;
   final String? text;
@@ -25,13 +26,14 @@ class CustomButton extends StatelessWidget {
   final Color backgroundColor;
   final bool enabled;
   final dynamic? leading;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return Opacity(
       opacity: enabled ? 1 : 0.5,
       child: Container(
         width: width ?? double.infinity,
-        height: 54.sp,
+        height: height ?? 54.sp,
         decoration: BoxDecoration(
           border: Border.all(
             color: enabled ? borderColor : borderColor.withOpacity(0.5),

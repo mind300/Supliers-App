@@ -2,10 +2,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
+import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/routes/app_router.dart';
 import 'package:supplies/core/routes/routes.dart';
 
 void main() {
+  initGetIt();
+
   runApp(
     EasyLocalization(
       useOnlyLangCode: true,
