@@ -5,8 +5,28 @@ import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
-  final String selectedItem = 'Branch';
+  AppDrawer({super.key, required this.currentPage});
+  final String currentPage;
+
+  List icons = [
+    AppImages.branch,
+    AppImages.profile,
+    AppImages.offer,
+    AppImages.cashiers,
+    AppImages.history,
+    AppImages.password,
+    AppImages.about,
+  ];
+
+  List titles = [
+    'Branch',
+    'Profile',
+    'Offers',
+    'Cashiers',
+    'History',
+    "Password",
+    'About',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +35,7 @@ class AppDrawer extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFF1A1F54),
-            Color(0xFF000C1A),
-          ],
+          colors: AppColors.drawerLinearGradientColor,
         ),
         borderRadius: BorderRadiusDirectional.only(
           topEnd: Radius.circular(28.r),
@@ -29,7 +46,7 @@ class AppDrawer extends StatelessWidget {
         child: Drawer(
           backgroundColor: Colors.transparent,
           child: ListView(
-            padding: EdgeInsets.zero,
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             children: [
               ListTile(
                 leading: CustomImageHandler(path: AppImages.profileTest),
@@ -45,10 +62,14 @@ class AppDrawer extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
-              DrawerItemBuilder(
-                title: 'Branch',
-                imagePath: AppImages.branch,
-                selectedItem: selectedItem,
+              SizedBox(height: 10.h),
+              ...List.generate(
+                titles.length,
+                (index) => DrawerItemBuilder(
+                  title: titles[index],
+                  imagePath: icons[index],
+                  selectedItem: currentPage,
+                ),
               ),
             ],
           ),
@@ -71,19 +92,20 @@ class DrawerItemBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isSelected = selectedItem.toLowerCase() == title.toLowerCase();
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
       leading: CustomImageHandler(
         path: imagePath,
         width: 24.w,
         height: 24.h,
+        color: isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
       ),
       title: Text(
         title,
         style: TextStyle(
           fontSize: 14.sp,
           fontWeight: FontWeight.w500,
-          color: AppColors.white,
+          color: isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
         ),
       ),
       onTap: () {
