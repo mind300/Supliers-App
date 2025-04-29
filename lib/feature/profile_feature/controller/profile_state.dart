@@ -6,3 +6,5 @@ sealed class ProfileState {}
 final class ProfileInitial extends ProfileState {}
 
 final class ProfileNameUpdated extends ProfileState {}
+
+final class ProfileDelete extends ProfileState {}

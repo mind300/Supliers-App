@@ -3,9 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
+import 'package:supplies/core/enums/account_type.dart';
+import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/core/services/cache/cache_helper.dart';
+import 'package:supplies/core/services/cache/cache_keys.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key, required this.currentPage});
@@ -14,6 +18,8 @@ class AppDrawer extends StatelessWidget {
   List icons = [
     AppImages.branch,
     AppImages.profile,
+    AppImages.manager,
+    AppImages.qr,
     AppImages.offer,
     AppImages.cashiers,
     AppImages.history,
@@ -24,19 +30,23 @@ class AppDrawer extends StatelessWidget {
   List titles = [
     'Branch',
     'Profile',
+    'Managers',
+    'QR Scan',
     'Offers',
     'Cashiers',
     'History',
-    "Password",
+    "Change Password",
     'About',
   ];
 
   List route = [
     Routes.branch,
     Routes.profile,
+    Routes.manager,
+    Routes.qr,
     Routes.offer,
     Routes.cashier,
-    Routes.profile,
+    Routes.history,
     Routes.password,
     Routes.about,
   ];
@@ -65,7 +75,7 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: CustomImageHandler(path: AppImages.profileTest),
                   title: Text(
-                    'Muhammad \nkaiian',
+                    '${CacheHelper.getData(CacheKeys.name)}',
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
@@ -79,11 +89,14 @@ class AppDrawer extends StatelessWidget {
                 SizedBox(height: 10.h),
                 ...List.generate(
                   titles.length,
-                  (index) => DrawerItemBuilder(
-                    title: titles[index],
-                    imagePath: icons[index],
-                    selectedItem: currentPage,
-                    route: route[index],
+                  (index) => _handlePagePermission(
+                    page: titles[index],
+                    DrawerItemBuilder(
+                      title: titles[index],
+                      imagePath: icons[index],
+                      selectedItem: currentPage,
+                      route: route[index],
+                    ),
                   ),
                 ),
                 Spacer(),
@@ -101,6 +114,33 @@ class AppDrawer extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _handlePagePermission(
+    Widget tab, {
+    required String page,
+  }) {
+    var role = CacheHelper.getData(CacheKeys.userType) == "owner"
+        ? UsersType.owner
+        : UsersType.manager;
+    // print(role);
+    if (role != UsersType.owner && page == 'Branch') {
+      return SizedBox();
+    }
+    if ((role == UsersType.owner || role == UsersType.manager) &&
+        page == 'QR Scan') {
+      return SizedBox();
+    }
+    if ((role == UsersType.manager || role == UsersType.cashier) &&
+        page == 'Managers') {
+      return SizedBox();
+    }
+
+    if (role == UsersType.cashier && page == 'Cashiers') {
+      return SizedBox();
+    }
+
+    return tab;
   }
 }
 
@@ -132,7 +172,8 @@ class DrawerItemBuilder extends StatelessWidget {
         style: TextStyle(
           fontSize: 14.sp,
           fontWeight: FontWeight.w500,
-          color: isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
+          color:
+              isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
         ),
       ),
       onTap: () {
@@ -140,7 +181,12 @@ class DrawerItemBuilder extends StatelessWidget {
         if (isSelected) {
           return;
         }
-        context.pushNamedAndRemoveAll(route);
+        context.pushNamedAndRemoveAll(
+          route,
+          arguments: {
+            'accountType': ProfileType.personal,
+          },
+        );
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_images.dart';
+import 'package:supplies/core/enums/account_type.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
@@ -30,6 +31,9 @@ class CashierBuilder extends StatelessWidget {
           // Navigate to cashier details screen
           context.pushNamed(
             Routes.profile,
+            arguments: {
+              "accountType": ProfileType.cashier,
+            },
           );
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),

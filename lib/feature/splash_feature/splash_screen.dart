@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/core/services/cache/cache_helper.dart';
+import 'package:supplies/core/services/cache/cache_keys.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +18,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
-      context.pushNamedAndRemoveAll(Routes.login);
+      if (CacheHelper.getData(CacheKeys.userType) == 'owner') {
+        context.pushNamedAndRemoveAll(Routes.branch);
+      } else {
+        context.pushNamedAndRemoveAll(Routes.login);
+      }
     });
   }
 

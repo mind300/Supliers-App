@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
-import 'package:supplies/core/components/custom_text__form_field.dart';
+import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/di/injection.dart';
@@ -46,7 +46,8 @@ class BranchDetailsScreen extends StatelessWidget {
                   CustomTextFormField(
                     hintText: 'Branch Name',
                     title: 'Branch Name',
-                    controller: context.read<BranchDetailsCubit>().branchNameController,
+                    controller:
+                        context.read<BranchDetailsCubit>().branchNameController,
                   ),
                   SizedBox(height: 20.h),
                   Text(
@@ -69,22 +70,30 @@ class BranchDetailsScreen extends StatelessWidget {
                       CustomTextFormField(
                         hintText: "City Name",
                         title: "City Name",
-                        controller: context.read<BranchDetailsCubit>().cityNameController,
+                        controller: context
+                            .read<BranchDetailsCubit>()
+                            .cityNameController,
                       ),
                       CustomTextFormField(
                         hintText: "Street Name",
                         title: "Street Name",
-                        controller: context.read<BranchDetailsCubit>().streetNameController,
+                        controller: context
+                            .read<BranchDetailsCubit>()
+                            .streetNameController,
                       ),
                       CustomTextFormField(
                         hintText: "Building number",
                         title: "Building number",
-                        controller: context.read<BranchDetailsCubit>().buildingNumberController,
+                        controller: context
+                            .read<BranchDetailsCubit>()
+                            .buildingNumberController,
                       ),
                       CustomTextFormField(
                         hintText: "Floor number",
                         title: "Floor number",
-                        controller: context.read<BranchDetailsCubit>().floorNumberController,
+                        controller: context
+                            .read<BranchDetailsCubit>()
+                            .floorNumberController,
                       ),
                     ],
                   ),

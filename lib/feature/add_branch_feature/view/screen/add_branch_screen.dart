@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
-import 'package:supplies/core/components/custom_text__form_field.dart';
+import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supplies/core/constant/app_images.dart';

@@ -14,7 +14,8 @@ class GoogleMaps extends StatefulWidget {
 }
 
 class GoogleMapsState extends State<GoogleMaps> {
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -71,7 +72,8 @@ class GoogleMapsState extends State<GoogleMaps> {
       });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Location permissions are permanently denied. Please enable them in app settings.'),
+          content: Text(
+              'Location permissions are permanently denied. Please enable them in app settings.'),
         ),
       );
       return;
@@ -109,7 +111,9 @@ class GoogleMapsState extends State<GoogleMaps> {
         Marker(
           markerId: const MarkerId('selectedLocation'),
           position: latLng,
-          infoWindow: InfoWindow(title: 'Selected Location', snippet: '${latLng.latitude}, ${latLng.longitude}'),
+          infoWindow: InfoWindow(
+              title: 'Selected Location',
+              snippet: '${latLng.latitude}, ${latLng.longitude}'),
         ),
       );
     });
@@ -117,8 +121,10 @@ class GoogleMapsState extends State<GoogleMaps> {
 
   // Convert latitude and longitude to an address in Arabic
   Future<void> _convertLocationToAddress(LatLng latLng) async {
-    const apiKey = 'AIzaSyAAOcn3r6DVavhuoPatQvNGg5kUuV1zAFo'; // Replace with your API key
-    final url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}&language=ar&key=$apiKey';
+    const apiKey =
+        'AIzaSyAAOcn3r6DVavhuoPatQvNGg5kUuV1zAFo'; // Replace with your API key
+    final url =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}&language=ar&key=$apiKey';
 
     final dio = Dio(); // Create a Dio instance
 
@@ -159,7 +165,8 @@ class GoogleMapsState extends State<GoogleMaps> {
   }
 
   // Set the map language to Arabic
-  Future<void> _setMapLanguage(GoogleMapController controller, String language) async {
+  Future<void> _setMapLanguage(
+      GoogleMapController controller, String language) async {
     await controller.setMapStyle('''
       [
         {
@@ -208,7 +215,8 @@ class GoogleMapsState extends State<GoogleMaps> {
                   await _convertLocationToAddress(selectedLocation);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('الرجاء تحديد موقع على الخريطة')),
+                    const SnackBar(
+                        content: Text('الرجاء تحديد موقع على الخريطة')),
                   );
                 }
               },
@@ -216,7 +224,8 @@ class GoogleMapsState extends State<GoogleMaps> {
                 backgroundColor: AppColors.primary, // Button color
                 padding: EdgeInsets.symmetric(vertical: 16), // Button padding
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), // Button border radius
+                  borderRadius:
+                      BorderRadius.circular(8), // Button border radius
                 ),
               ),
               child: Text(

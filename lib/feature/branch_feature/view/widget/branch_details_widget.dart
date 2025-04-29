@@ -5,9 +5,11 @@ import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/feature/branch_feature/data/model/content.dart';
 
 class BranchDetailsWidget extends StatelessWidget {
-  const BranchDetailsWidget({super.key});
+  final Content branch;
+  const BranchDetailsWidget({super.key, required this.branch});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class BranchDetailsWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "11740 San Pablo Ave, El Cerrito, CA 94530",
+                          branch.name ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16.sp,

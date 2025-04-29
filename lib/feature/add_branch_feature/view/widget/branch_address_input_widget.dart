@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:supplies/core/components/custom_text__form_field.dart';
+import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/di/injection.dart';
@@ -40,8 +40,8 @@ class BranchAddressInputWidget extends StatelessWidget {
                 }
               },
               child: Container(
-                height: 50.sp,
-                width: 50.sp,
+                height: 45.sp,
+                width: 45.sp,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.r),
                   gradient: LinearGradient(

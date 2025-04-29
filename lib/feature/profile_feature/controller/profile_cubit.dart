@@ -12,4 +12,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     isEditing = !isEditing;
     emit(ProfileNameUpdated());
   }
+
+  deleteProfile() {
+    emit(ProfileDelete());
+  }
 }

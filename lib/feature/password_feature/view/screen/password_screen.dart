@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
-import 'package:supplies/core/components/custom_text__form_field.dart';
+import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 import 'package:supplies/core/widgets/drawer.dart';
@@ -21,7 +21,7 @@ class PasswordScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: AppDrawer(currentPage: 'password'),
+      drawer: AppDrawer(currentPage: 'Change Password'),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(24.w, 25.h, 24.w, 0),
         child: Column(
