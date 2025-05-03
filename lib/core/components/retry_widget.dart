@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
 
 class RetryWidget extends StatelessWidget {
-  const RetryWidget({super.key, this.message, required this.onRetry});
+  const RetryWidget({super.key, this.message, required this.onRetry, this.buttonText});
   final String? message;
   final Function() onRetry;
+  final String? buttonText;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class RetryWidget extends StatelessWidget {
             Text(
               message ?? "Something went wrong",
             ),
-            CustomButton(onPressed: onRetry, text: "Retry"),
+            CustomButton(onPressed: onRetry, text: buttonText ?? "Retry"),
           ],
         ),
       ),

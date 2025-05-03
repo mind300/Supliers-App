@@ -5,8 +5,8 @@ import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/enums/account_type.dart';
 import 'package:supplies/core/enums/users_type.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/cache/cache_keys.dart';
@@ -120,19 +120,15 @@ class AppDrawer extends StatelessWidget {
     Widget tab, {
     required String page,
   }) {
-    var role = CacheHelper.getData(CacheKeys.userType) == "owner"
-        ? UsersType.owner
-        : UsersType.manager;
+    var role = CacheHelper.getData(CacheKeys.userType) == "owner" ? UsersType.owner : UsersType.manager;
     // print(role);
     if (role != UsersType.owner && page == 'Branch') {
       return SizedBox();
     }
-    if ((role == UsersType.owner || role == UsersType.manager) &&
-        page == 'QR Scan') {
+    if ((role == UsersType.owner || role == UsersType.manager) && page == 'QR Scan') {
       return SizedBox();
     }
-    if ((role == UsersType.manager || role == UsersType.cashier) &&
-        page == 'Managers') {
+    if ((role == UsersType.manager || role == UsersType.cashier) && page == 'Managers') {
       return SizedBox();
     }
 
@@ -172,8 +168,7 @@ class DrawerItemBuilder extends StatelessWidget {
         style: TextStyle(
           fontSize: 14.sp,
           fontWeight: FontWeight.w500,
-          color:
-              isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
+          color: isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
         ),
       ),
       onTap: () {

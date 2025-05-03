@@ -5,7 +5,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
@@ -35,8 +35,7 @@ class BranchScreen extends StatelessWidget {
         // },
         builder: (context, state) {
           if (state is BranchSuccess) {
-            if (state.branches.content == null ||
-                state.branches.content!.isEmpty) {
+            if (state.branches.content == null || state.branches.content!.isEmpty) {
               return Center(
                 child: Text(
                   'No branches found',

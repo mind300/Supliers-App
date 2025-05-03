@@ -9,7 +9,7 @@ import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/enums/users_type.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/view/widget/action_buttons_widget.dart';
@@ -41,18 +41,13 @@ class BranchDetailsScreen extends StatelessWidget {
           }
         },
         buildWhen: (previous, current) {
-          return current is BranchDetailsLoading ||
-              current is BranchDetailsLoaded ||
-              current is BranchDetailsError;
+          return current is BranchDetailsLoading || current is BranchDetailsLoaded || current is BranchDetailsError;
         },
         builder: (context, state) {
           if (state is BranchDetailsError) {
             return RetryWidget(onRetry: () {
-              var args = ModalRoute.of(context)!.settings.arguments
-                  as BranchDetailsArguments;
-              context
-                  .read<BranchDetailsCubit>()
-                  .getBranchDetails(args.branchId);
+              var args = ModalRoute.of(context)!.settings.arguments as BranchDetailsArguments;
+              context.read<BranchDetailsCubit>().getBranchDetails(args.branchId);
             });
           } else if (state is BranchDetailsLoaded) {
             return SingleChildScrollView(
@@ -60,16 +55,13 @@ class BranchDetailsScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (CacheHelper.userType == UsersType.owner)
-                    ActionButtonsWidget(),
+                  if (CacheHelper.userType == UsersType.owner) ActionButtonsWidget(),
                   BlocBuilder<BranchDetailsCubit, BranchDetailsState>(
                     builder: (context, state) {
                       return CustomTextFormField(
                         hintText: 'Branch Name',
                         title: 'Branch Name',
-                        controller: context
-                            .read<BranchDetailsCubit>()
-                            .branchNameController,
+                        controller: context.read<BranchDetailsCubit>().branchNameController,
                         enabled: context.read<BranchDetailsCubit>().isEditing,
                       );
                     },
@@ -99,39 +91,27 @@ class BranchDetailsScreen extends StatelessWidget {
                         children: [
                           CustomTextFormField(
                             hintText: "City Name",
-                            enabled:
-                                context.read<BranchDetailsCubit>().isEditing,
+                            enabled: context.read<BranchDetailsCubit>().isEditing,
                             title: "City Name",
-                            controller: context
-                                .read<BranchDetailsCubit>()
-                                .cityNameController,
+                            controller: context.read<BranchDetailsCubit>().cityNameController,
                           ),
                           CustomTextFormField(
                             hintText: "Street Name",
                             title: "Street Name",
-                            controller: context
-                                .read<BranchDetailsCubit>()
-                                .streetNameController,
-                            enabled:
-                                context.read<BranchDetailsCubit>().isEditing,
+                            controller: context.read<BranchDetailsCubit>().streetNameController,
+                            enabled: context.read<BranchDetailsCubit>().isEditing,
                           ),
                           CustomTextFormField(
                             hintText: "Building number",
                             title: "Building number",
-                            controller: context
-                                .read<BranchDetailsCubit>()
-                                .buildingNumberController,
-                            enabled:
-                                context.read<BranchDetailsCubit>().isEditing,
+                            controller: context.read<BranchDetailsCubit>().buildingNumberController,
+                            enabled: context.read<BranchDetailsCubit>().isEditing,
                           ),
                           CustomTextFormField(
                             hintText: "Floor number",
                             title: "Floor number",
-                            enabled:
-                                context.read<BranchDetailsCubit>().isEditing,
-                            controller: context
-                                .read<BranchDetailsCubit>()
-                                .floorNumberController,
+                            enabled: context.read<BranchDetailsCubit>().isEditing,
+                            controller: context.read<BranchDetailsCubit>().floorNumberController,
                           ),
                         ],
                       );
@@ -163,15 +143,10 @@ class BranchDetailsScreen extends StatelessWidget {
                             child: FadeInAnimation(
                               child: EmployeeDataBuilder(
                                 // image: state.branchDetailsModel.content?.manager?.,
-                                name: state
-                                    .branchDetailsModel.content?.manager?.name,
-                                id: state
-                                    .branchDetailsModel.content?.manager?.id
-                                    .toString(),
+                                name: state.branchDetailsModel.content?.manager?.name,
+                                id: state.branchDetailsModel.content?.manager?.id.toString(),
                                 userType: UsersType.manager,
-                                subtitle: state
-                                    .branchDetailsModel.content?.manager?.jobId
-                                    .toString(),
+                                subtitle: state.branchDetailsModel.content?.manager?.jobId.toString(),
                               ),
                             ),
                           ),
@@ -195,13 +170,10 @@ class BranchDetailsScreen extends StatelessWidget {
                   else
                     ListView.separated(
                       shrinkWrap: true,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 15.h),
+                      separatorBuilder: (context, index) => SizedBox(height: 15.h),
                       physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.zero,
-                      itemCount:
-                          state.branchDetailsModel.content?.cashiers?.length ??
-                              0,
+                      itemCount: state.branchDetailsModel.content?.cashiers?.length ?? 0,
                       itemBuilder: (context, index) {
                         return AnimationConfiguration.staggeredList(
                           position: index,
@@ -211,15 +183,10 @@ class BranchDetailsScreen extends StatelessWidget {
                             child: FadeInAnimation(
                               child: EmployeeDataBuilder(
                                 // image: AppImages.cashier,
-                                name: state.branchDetailsModel.content
-                                    ?.cashiers?[index].name,
-                                id: state.branchDetailsModel.content
-                                    ?.cashiers?[index].id
-                                    .toString(),
+                                name: state.branchDetailsModel.content?.cashiers?[index].name,
+                                id: state.branchDetailsModel.content?.cashiers?[index].id.toString(),
                                 userType: UsersType.cashier,
-                                subtitle: state.branchDetailsModel.content
-                                    ?.cashiers?[index].jobId
-                                    .toString(),
+                                subtitle: state.branchDetailsModel.content?.cashiers?[index].jobId.toString(),
                               ),
                             ),
                           ),

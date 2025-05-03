@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 
 class ActionButtonsWidget extends StatelessWidget {

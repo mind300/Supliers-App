@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 
 class ScanDetails extends StatelessWidget {
   const ScanDetails({super.key});

@@ -35,7 +35,7 @@ class AddManagerRepoImpl implements AddManagerRepo {
     } catch (e) {
       return Left(
         CustomException(
-          message: "Connection Timeout",
+          message: e.toString(),
         ),
       );
     }
@@ -45,7 +45,7 @@ class AddManagerRepoImpl implements AddManagerRepo {
   Future<Either<CustomException, BranchListModel>> getAllBranches() async {
     try {
       Response res = await dioHelper.get(
-        endPoint: EndPoints.allBranches,
+        endPoint: EndPoints.allBranchesWithoutManagers,
       );
 
       if (res.statusCode == 200) {

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/feature/add_manager_feature/data/model/branch_list_model/branch_list_model.dart';
 import 'package:supplies/feature/add_manager_feature/data/repo/add_manager_repo.dart';
 
@@ -12,6 +13,8 @@ class AddManagerCubit extends Cubit<AddManagerState> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  String branchId = "";
+  var formKey = GlobalKey<FormState>();
 
   getBranches() async {
     emit(AddManagerLoading());
@@ -24,5 +27,35 @@ class AddManagerCubit extends Cubit<AddManagerState> {
         emit(AddManagerLoaded(r));
       },
     );
+  }
+
+  Future<void> addManager() async {
+    // startLoading();
+    emit(AddManagerAddedLoading());
+
+    if (formKey.currentState!.validate()) {
+      if (branchId.isEmpty) {
+        emit(AddManagerAddedError("Please select a branch"));
+        return;
+      }
+      var res = await addManagerRepo.addManager(
+        data: {
+          "name": nameController.text,
+          "mobile_number": phoneNumberController.text.toString(),
+          "email": emailController.text,
+          "branch_id": branchId,
+        },
+      );
+      res.fold(
+        (l) {
+          emit(AddManagerAddedError(l.message));
+        },
+        (r) {
+          emit(AddManagerAdded(r));
+        },
+      );
+    } else {
+      emit(AddManagerAddedError("Please fill all fields"));
+    }
   }
 }
