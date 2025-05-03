@@ -46,7 +46,9 @@ class CacheHelper {
   static List<int> getIdList(String idKey) {
     if (sharedPreferences!.containsKey(idKey)) {
       var response = getData(idKey).toString().trim();
-      return response == "" ? [] : response.split(' ').map((e) => int.parse(e)).toList();
+      return response == ""
+          ? []
+          : response.split(' ').map((e) => int.parse(e)).toList();
     }
     return [];
   }

@@ -7,6 +7,7 @@ import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/add_branch_screen.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/choose_address_screen.dart';
 import 'package:supplies/feature/add_cashier_feature/view/screen/add_cashier_screen.dart';
+import 'package:supplies/feature/add_manager_feature/controller/add_manager_cubit.dart';
 import 'package:supplies/feature/add_manager_feature/view/screen/add_manager_screen.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/view/screen/branch_details_screen.dart';
@@ -18,6 +19,7 @@ import 'package:supplies/feature/history_details_feature/view/screen/history_det
 import 'package:supplies/feature/history_feature/view/screen/history_screen.dart';
 import 'package:supplies/feature/login_feature/controller/login_cubit.dart';
 import 'package:supplies/feature/login_feature/view/screen/login_screen.dart';
+import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 import 'package:supplies/feature/manager_feature/view/screen/manager_screen.dart';
 import 'package:supplies/feature/offer_details_feature/view/screen/offer_details_screen.dart';
 import 'package:supplies/feature/offer_feature/view/screen/offer_screen.dart';
@@ -61,8 +63,7 @@ class AppRouter {
       case Routes.branchDetails:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<BranchDetailsCubit>()
-              ..getBranchDetails((args as BranchDetailsArguments).branchId),
+            create: (context) => getIt<BranchDetailsCubit>()..getBranchDetails((args as BranchDetailsArguments).branchId),
             child: const BranchDetailsScreen(),
           ),
         );
@@ -114,11 +115,17 @@ class AppRouter {
         );
       case Routes.manager:
         return MaterialPageRoute(
-          builder: (_) => const ManagerScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ManagersCubit>()..getManagers(),
+            child: const ManagerScreen(),
+          ),
         );
       case Routes.addManager:
         return MaterialPageRoute(
-          builder: (_) => const AddManagerScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AddManagerCubit>()..getBranches(),
+            child: const AddManagerScreen(),
+          ),
         );
       default:
         return MaterialPageRoute(

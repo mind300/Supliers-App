@@ -35,6 +35,15 @@ class BranchScreen extends StatelessWidget {
         // },
         builder: (context, state) {
           if (state is BranchSuccess) {
+            if (state.branches.content == null ||
+                state.branches.content!.isEmpty) {
+              return Center(
+                child: Text(
+                  'No branches found',
+                  style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                ),
+              );
+            }
             return AnimationLimiter(
               child: ListView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),

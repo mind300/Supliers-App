@@ -16,9 +16,11 @@ class BranchDetailsImpl extends BranchDetailsRepo {
 
   BranchDetailsImpl(this.dioHelper);
   @override
-  Future<Either<CustomException, BranchDetailsModel>> getBranchDetails(int branchId) async {
+  Future<Either<CustomException, BranchDetailsModel>> getBranchDetails(
+      int branchId) async {
     try {
-      Response res = await dioHelper.get(endPoint: "${EndPoints.branch}/$branchId");
+      Response res =
+          await dioHelper.get(endPoint: "${EndPoints.branch}/$branchId");
       if (res.statusCode == 200) {
         return Right(BranchDetailsModel.fromJson(res.data));
       } else {

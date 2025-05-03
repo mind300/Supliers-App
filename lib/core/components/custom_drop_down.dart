@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 
 class CustomDropdown<T> extends StatelessWidget {
-  final List<T> items;
-  final T? value;
+  final List<CustomDropdownModel> items;
+  final CustomDropdownModel? value;
   final String? hintText;
-  final void Function(T?) onChanged;
-  final String Function(T)? itemLabelBuilder;
+  final void Function(String?) onChanged;
+  final String Function(CustomDropdownModel)? itemLabelBuilder;
   final String? errorText;
   final String? title;
 
@@ -24,6 +24,12 @@ class CustomDropdown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = TextStyle(
+      color: AppColors.black.withOpacity(0.3),
+      fontSize: 12.sp,
+      fontWeight: FontWeight.w300,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,44 +38,31 @@ class CustomDropdown<T> extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 5),
             child: Text(
               title!,
-              style: TextStyle(
-                fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
-                fontWeight: FontWeight.w500,
-              ),
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
             ),
           ),
-        DropdownButtonFormField<T>(
-          value: value,
-          hint: Text(
-            hintText ?? '',
-            style: TextStyle(
-              color: AppColors.black.withOpacity(0.3),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w300,
-            ),
-          ),
+        DropdownButtonFormField<String>(
+          value: value?.id,
+          hint: Text(hintText ?? '', style: textStyle),
           dropdownColor: AppColors.white,
           decoration: InputDecoration(
             fillColor: AppColors.textfieldColor,
             filled: true,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
             border: buildBorder(),
             disabledBorder: buildBorder(),
             enabledBorder: buildBorder(),
             focusedBorder: buildBorder(),
             hintText: hintText,
-            hintStyle: TextStyle(
-              color: AppColors.black.withOpacity(0.3),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w300,
-            ),
+            hintStyle: textStyle,
             errorText: errorText,
           ),
-          items: items.map((T item) {
-            return DropdownMenuItem<T>(
-              value: item,
-              child: Text(itemLabelBuilder?.call(item) ?? item.toString()),
+          items: items.map((item) {
+            return DropdownMenuItem<String>(
+              value: item.id,
+              child: Text(itemLabelBuilder?.call(item) ?? item.name),
             );
           }).toList(),
           onChanged: onChanged,
@@ -87,4 +80,14 @@ class CustomDropdown<T> extends StatelessWidget {
       ),
     );
   }
+}
+
+class CustomDropdownModel {
+  final String name;
+  final String id;
+
+  CustomDropdownModel({
+    required this.name,
+    required this.id,
+  });
 }

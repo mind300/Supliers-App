@@ -27,6 +27,8 @@ Future<void> main() async {
   );
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
           title: 'Flutter Demo',
+          navigatorKey: navigatorKey,
           onGenerateRoute: AppRouter().generateRoute,
           debugShowCheckedModeBanner: false,
           initialRoute: Routes.splash,
