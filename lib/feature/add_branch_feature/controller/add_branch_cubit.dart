@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
+import 'package:supplies/feature/add_branch_feature/data/repo/add_branch_repo.dart';
 
 part 'add_branch_state.dart';
 
 class AddBranchCubit extends Cubit<AddBranchState> {
-  AddBranchCubit() : super(AddBranchInitial());
+  AddBranchCubit(this.addBranchRepo) : super(AddBranchInitial());
+  final AddBranchRepo addBranchRepo;
 
   TextEditingController branchNameController = TextEditingController();
   TextEditingController cityNameController = TextEditingController();
@@ -27,6 +29,14 @@ class AddBranchCubit extends Cubit<AddBranchState> {
     // addBranchDetail
     isBrachDetailsExpanded = !isBrachDetailsExpanded;
     emit(AddBranchDetailUpdated());
+  }
+
+  addBranch() async {
+    var res = await addBranchRepo.addBranch(data: {
+      "branchName": branchNameController.text,
+      "city": cityNameController.text,
+      "street": streetNameController.text,
+    });
   }
 
   @override

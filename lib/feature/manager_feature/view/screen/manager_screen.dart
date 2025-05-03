@@ -13,7 +13,7 @@ class ManagerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: AppDrawer(currentPage: 'Manager'),
+      drawer: AppDrawer(currentPage: 'Managers'),
       appBar: AppBar(
         title: const Text('Manager'),
         actions: [

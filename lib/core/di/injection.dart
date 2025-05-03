@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/network_service/api_service.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
+import 'package:supplies/feature/add_branch_feature/data/repo/add_branch_repo.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
 import 'package:supplies/feature/branch_feature/data/repo/branch_repo.dart';
@@ -21,8 +22,9 @@ void initGetIt() {
   //branch
   getIt.registerFactory<BranchRepo>(() => BranchRepoImpl(getIt()));
   getIt.registerFactory<BranchCubit>(() => BranchCubit(getIt()));
-
-  getIt.registerFactory<AddBranchCubit>(() => AddBranchCubit());
+  //add branch
+  getIt.registerFactory<AddBranchRepo>(() => AddBranchRepoImpl(getIt()));
+  getIt.registerFactory<AddBranchCubit>(() => AddBranchCubit(getIt()));
   getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit());
   getIt.registerFactory<ProfileCubit>(() => ProfileCubit());
 }
