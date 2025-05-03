@@ -8,9 +8,11 @@ import 'package:supplies/feature/add_branch_feature/view/screen/add_branch_scree
 import 'package:supplies/feature/add_branch_feature/view/screen/choose_address_screen.dart';
 import 'package:supplies/feature/add_cashier_feature/view/screen/add_cashier_screen.dart';
 import 'package:supplies/feature/add_manager_feature/view/screen/add_manager_screen.dart';
+import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/view/screen/branch_details_screen.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
 import 'package:supplies/feature/branch_feature/view/screen/branch_screen.dart';
+import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 import 'package:supplies/feature/cashier_feature/view/screen/cashier_screen.dart';
 import 'package:supplies/feature/history_details_feature/view/screen/history_details_screen.dart';
 import 'package:supplies/feature/history_feature/view/screen/history_screen.dart';
@@ -28,7 +30,7 @@ import 'package:supplies/feature/qr_feature/view/screen/scan_details.dart';
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
     //this arguments to be bassed in any screen like this >> (arguments as ClassName)
-    final Map args = settings.arguments as Map? ?? {};
+    final args = settings.arguments ?? {};
     switch (settings.name) {
       case Routes.splash:
         return MaterialPageRoute(
@@ -58,12 +60,16 @@ class AppRouter {
         );
       case Routes.branchDetails:
         return MaterialPageRoute(
-          builder: (_) => const BranchDetailsScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<BranchDetailsCubit>()
+              ..getBranchDetails((args as BranchDetailsArguments).branchId),
+            child: const BranchDetailsScreen(),
+          ),
         );
       case Routes.profile:
         return MaterialPageRoute(
           builder: (_) => ProfileScreen(
-            accountType: args['accountType'] as ProfileType,
+            accountType: (args as Map)['accountType'] as ProfileType,
           ),
         );
       case Routes.offer:

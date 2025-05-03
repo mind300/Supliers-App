@@ -22,7 +22,8 @@ class LoginRepoImpl implements LoginRepo {
   LoginRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, UsersType>> login(String email, String password) async {
+  Future<Either<CustomException, UsersType>> login(
+      String email, String password) async {
     try {
       Response res = await dioHelper.post(
         headers: {"Device-Token": "121321321"},
@@ -39,7 +40,8 @@ class LoginRepoImpl implements LoginRepo {
         CacheHelper.setData(CacheKeys.id, model.userId);
         CacheHelper.setData(CacheKeys.image, "");
         CacheHelper.setData(CacheKeys.userType, model.role.toString());
-        return Right(model.role == 'owner' ? UsersType.owner : UsersType.manager);
+        return Right(
+            model.role == 'owner' ? UsersType.owner : UsersType.manager);
       } else {
         return Left(
           CustomException(

@@ -35,7 +35,7 @@ class ManagerScreen extends StatelessWidget {
               child: SlideAnimation(
                 verticalOffset: 50.0,
                 child: FadeInAnimation(
-                  child: CashierBuilder(),
+                  child: EmployeeDataBuilder(),
                 ),
               ),
             );

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
+import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
@@ -29,14 +30,14 @@ class BranchScreen extends StatelessWidget {
         currentPage: 'branch',
       ),
       body: BlocBuilder<BranchCubit, BranchState>(
-        buildWhen: (_, current) {
-          return current is BranchLoading || current is BranchSuccess;
-        },
+        // buildWhen: (_, current) {
+        //   return current is BranchLoading || current is BranchSuccess;
+        // },
         builder: (context, state) {
           if (state is BranchSuccess) {
             return AnimationLimiter(
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 25.h),
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
                 itemCount: state.branches.content?.length ?? 0,
                 itemBuilder: (context, index) {
                   return AnimationConfiguration.staggeredList(
@@ -55,8 +56,11 @@ class BranchScreen extends StatelessWidget {
               ),
             );
           } else if (state is BranchError) {
-            return Center(
-              child: Text(state.message),
+            return RetryWidget(
+              onRetry: () {
+                context.read<BranchCubit>().getBranches();
+              },
+              message: state.message,
             );
           }
           return Center(

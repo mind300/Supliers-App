@@ -2,12 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/enums/account_type.dart';
+import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 
-class CashierBuilder extends StatelessWidget {
-  const CashierBuilder({super.key});
+class EmployeeDataBuilder extends StatelessWidget {
+  const EmployeeDataBuilder({
+    super.key,
+    this.image,
+    this.name,
+    this.id,
+    this.userType,
+    this.subtitle,
+  });
+  final String? image;
+  final String? name;
+  final String? id;
+  final UsersType? userType;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +54,15 @@ class CashierBuilder extends StatelessWidget {
           path: AppImages.profileTest,
         ),
         title: Text(
-          "Mohamed Ali",
+          // "Mohamed Ali",
+          name ?? "",
           style: TextStyle(
             fontSize: 16.sp,
             fontWeight: FontWeight.bold,
           ),
         ),
         subtitle: Text(
-          "#12897",
+          subtitle ?? "",
           style: TextStyle(
             fontSize: 14.sp,
             color: Colors.grey[600],

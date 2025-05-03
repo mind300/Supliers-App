@@ -86,7 +86,7 @@ class BranchDetailsWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "Mohamed Ali",
+                          branch.managerName ?? "None",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 13.sp,
@@ -103,7 +103,12 @@ class BranchDetailsWidget extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              context.pushNamed(Routes.branchDetails);
+              context.pushNamed(
+                Routes.branchDetails,
+                arguments: BranchDetailsArguments(
+                  branchId: branch.id!,
+                ),
+              );
             },
             child: Container(
               height: 100.h,
@@ -123,4 +128,9 @@ class BranchDetailsWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class BranchDetailsArguments {
+  final int branchId;
+  BranchDetailsArguments({required this.branchId});
 }
