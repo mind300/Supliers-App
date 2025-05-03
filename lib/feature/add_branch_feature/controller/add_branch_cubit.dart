@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:meta/meta.dart';
@@ -10,15 +12,19 @@ class AddBranchCubit extends Cubit<AddBranchState> {
   final AddBranchRepo addBranchRepo;
 
   TextEditingController branchNameController = TextEditingController();
+  TextEditingController branchAddressController = TextEditingController();
   TextEditingController cityNameController = TextEditingController();
   TextEditingController streetNameController = TextEditingController();
+  TextEditingController buildingNumberController = TextEditingController();
+  TextEditingController floorNumberController = TextEditingController();
   bool isBrachDetailsExpanded = false;
+  var formKey = GlobalKey<FormState>();
 
   void updateBranchDetails(
     fullAddress,
   ) {
     List<String> addressParts = fullAddress.split("،");
-    branchNameController.text = fullAddress;
+    branchAddressController.text = fullAddress;
     cityNameController.text = addressParts.last.trim();
     streetNameController.text = addressParts[1].trim();
 
@@ -32,11 +38,29 @@ class AddBranchCubit extends Cubit<AddBranchState> {
   }
 
   addBranch() async {
-    var res = await addBranchRepo.addBranch(data: {
-      "branchName": branchNameController.text,
-      "city": cityNameController.text,
-      "street": streetNameController.text,
-    });
+    emit(AddBranchLoading());
+    if (formKey.currentState!.validate()) {
+      var res = await addBranchRepo.addBranch(data: {
+        'address': branchAddressController.text,
+        'city': cityNameController.text,
+        'street': streetNameController.text,
+        'building_number': buildingNumberController.text,
+        'floor_number': floorNumberController.text,
+        'name': branchNameController.text,
+        'manager_id': '',
+      });
+      res.fold(
+        (l) {
+          emit(AddBranchError(l.message));
+        },
+        (r) {
+          emit(AddBranchSuccess(r));
+        },
+      );
+    } else {
+      emit(AddBranchError("Please fill all fields"));
+      return;
+    }
   }
 
   @override

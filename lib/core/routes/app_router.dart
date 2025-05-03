@@ -4,6 +4,7 @@ import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/enums/account_type.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
+import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/add_branch_screen.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/choose_address_screen.dart';
 import 'package:supplies/feature/add_cashier_feature/view/screen/add_cashier_screen.dart';
@@ -52,7 +53,10 @@ class AppRouter {
         );
       case Routes.addBranch:
         return MaterialPageRoute(
-          builder: (_) => const AddBranchScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AddBranchCubit>(),
+            child: const AddBranchScreen(),
+          ),
         );
       case Routes.chooseAddress:
         return MaterialPageRoute(
@@ -61,8 +65,7 @@ class AppRouter {
       case Routes.branchDetails:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<BranchDetailsCubit>()
-              ..getBranchDetails((args as BranchDetailsArguments).branchId),
+            create: (context) => getIt<BranchDetailsCubit>()..getBranchDetails((args as BranchDetailsArguments).branchId),
             child: const BranchDetailsScreen(),
           ),
         );

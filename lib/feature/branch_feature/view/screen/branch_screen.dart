@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/components/retry_widget.dart';
+import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
@@ -35,24 +36,31 @@ class BranchScreen extends StatelessWidget {
         // },
         builder: (context, state) {
           if (state is BranchSuccess) {
-            return AnimationLimiter(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
-                itemCount: state.branches.content?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 375),
-                    child: SlideAnimation(
-                      verticalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: BranchDetailsWidget(
-                          branch: state.branches.content![index],
+            return RefreshIndicator(
+              color: AppColors.primary,
+              backgroundColor: AppColors.white,
+              onRefresh: () async {
+                context.read<BranchCubit>().getBranches();
+              },
+              child: AnimationLimiter(
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                  itemCount: state.branches.content?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(milliseconds: 375),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: BranchDetailsWidget(
+                            branch: state.branches.content![index],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             );
           } else if (state is BranchError) {
@@ -70,8 +78,11 @@ class BranchScreen extends StatelessWidget {
       ),
       floatingActionButton: CustomFloatingActionButton(
         icon: AppImages.add,
-        onPressed: () {
-          context.pushNamed(Routes.addBranch);
+        onPressed: () async {
+          var res = await context.pushNamed(Routes.addBranch);
+          if (res != null) {
+            context.read<BranchCubit>().getBranches();
+          }
         },
       ),
     );

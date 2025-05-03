@@ -59,8 +59,7 @@ class CustomTextFormField extends StatelessWidget {
                   Text(
                     title!,
                     style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleSmall!.fontSize,
+                      fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -68,8 +67,7 @@ class CustomTextFormField extends StatelessWidget {
                     Tooltip(
                       message: toolTipMessage ?? "",
                       triggerMode: TooltipTriggerMode.tap,
-                      showDuration:
-                          Duration(seconds: toolTipMessage != null ? 3 : 0),
+                      showDuration: Duration(seconds: toolTipMessage != null ? 3 : 0),
                       child: Icon(
                         Icons.help_outline_outlined,
                         size: 14.sp,
