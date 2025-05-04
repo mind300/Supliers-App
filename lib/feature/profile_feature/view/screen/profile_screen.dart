@@ -5,7 +5,7 @@ import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/enums/account_type.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/view/widget/profile_button.dart';
@@ -37,8 +37,7 @@ class ProfileScreen extends StatelessWidget {
                     color: AppColors.red,
                   ),
                   // title: const Text('Delete Profile'),
-                  content: const Text(
-                      'Are you sure you want to delete this profile?'),
+                  content: const Text('Are you sure you want to delete this profile?'),
                   actions: [
                     TextButton(
                       onPressed: () {

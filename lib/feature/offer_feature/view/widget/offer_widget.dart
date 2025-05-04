@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 
 class OfferWidget extends StatelessWidget {

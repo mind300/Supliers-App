@@ -5,8 +5,8 @@ import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/di/injection.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 

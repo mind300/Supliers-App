@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/feature/offer_details_feature/view/screen/offer_details.dart';
 
 class HistoryDetailsScreen extends StatelessWidget {
@@ -24,8 +24,7 @@ class HistoryDetailsScreen extends StatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.r),
                     gradient: LinearGradient(
@@ -48,8 +47,7 @@ class HistoryDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4.r),
                           color: AppColors.green.withOpacity(0.25),
                         ),
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 5.w, vertical: 2.h),
+                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                         child: Text(
                           "Confirmed",
                           style: TextStyle(

@@ -6,7 +6,7 @@ import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
@@ -33,26 +33,27 @@ class BranchScreen extends StatelessWidget {
       body: BlocBuilder<BranchCubit, BranchState>(
         builder: (context, state) {
           if (state is BranchSuccess) {
-            return RefreshIndicator(
-              color: AppColors.primary,
-              backgroundColor: AppColors.white,
-              onRefresh: () async {
-                context.read<BranchCubit>().getBranches();
-              },
-              child: AnimationLimiter(
-                child: ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
-                  itemCount: state.branches.content?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 375),
-                      child: SlideAnimation(
-                        verticalOffset: 50.0,
-                        child: FadeInAnimation(
-                          child: BranchDetailsWidget(
-                            branch: state.branches.content![index],
-                          ),
+            if (state.branches.content == null || state.branches.content!.isEmpty) {
+              return Center(
+                child: Text(
+                  'No branches found',
+                  style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                ),
+              );
+            }
+            return AnimationLimiter(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                itemCount: state.branches.content?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: BranchDetailsWidget(
+                          branch: state.branches.content![index],
                         ),
                       ),
                     );

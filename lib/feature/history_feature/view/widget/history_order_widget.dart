@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 
 class HistoryOrderWidget extends StatelessWidget {
@@ -52,8 +52,7 @@ class HistoryOrderWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.r),
                       color: AppColors.green.withOpacity(0.25),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                     child: Text(
                       "Confirmed",
                       style: TextStyle(

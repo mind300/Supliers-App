@@ -7,10 +7,10 @@ final class ManagersInitial extends ManagersState {}
 
 final class ManagersLoading extends ManagersState {}
 
-final class ManagersSuccess extends ManagersState {
-  final List managers;
+final class ManagersLoaded extends ManagersState {
+  final ManagersModel managers;
 
-  ManagersSuccess(this.managers);
+  ManagersLoaded(this.managers);
 }
 
 final class ManagersError extends ManagersState {

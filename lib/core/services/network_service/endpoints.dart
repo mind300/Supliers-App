@@ -3,5 +3,8 @@ class EndPoints {
   static const String login = '$baseUrl/auth/login';
   static const String branch = '$baseUrl/branches';
   static const String addBranch = '$baseUrl/owners/branches';
+  static const String manager = '$baseUrl/managers';
   static const String allManagers = '$baseUrl/managers/list';
+  static const String allBranches = '$baseUrl/branches/list';
+  static const String allBranchesWithoutManagers = '$baseUrl/branches/withoutManagers';
 }

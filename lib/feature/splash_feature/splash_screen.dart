@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/cache/cache_keys.dart';

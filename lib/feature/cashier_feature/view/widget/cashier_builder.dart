@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/enums/account_type.dart';
 import 'package:supplies/core/enums/users_type.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 
 class EmployeeDataBuilder extends StatelessWidget {
@@ -50,8 +50,17 @@ class EmployeeDataBuilder extends StatelessWidget {
           );
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-        leading: CustomImageHandler(
-          path: AppImages.profileTest,
+        leading: ClipOval(
+          child: image != null && image!.isNotEmpty
+              ? CustomImageHandler(
+                  path: image!,
+                  width: 50.sp,
+                  height: 50.sp,
+                  fit: BoxFit.cover,
+                )
+              : CustomImageHandler(
+                  path: AppImages.profileTest,
+                ),
         ),
         title: Text(
           // "Mohamed Ali",
