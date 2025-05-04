@@ -41,13 +41,21 @@ class EmployeeDataBuilder extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () {
-          // Navigate to cashier details screen
-          context.pushNamed(
-            Routes.profile,
-            arguments: {
-              "accountType": ProfileType.cashier,
-            },
-          );
+          if (userType == UsersType.cashier) {
+            context.pushNamed(
+              Routes.cashierProfile,
+              arguments: {
+                "id": id,
+              },
+            );
+          } else if (userType == UsersType.manager) {
+            context.pushNamed(
+              Routes.managerProfile,
+              arguments: {
+                "id": id,
+              },
+            );
+          }
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         leading: ClipOval(

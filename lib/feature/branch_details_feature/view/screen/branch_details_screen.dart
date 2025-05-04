@@ -32,7 +32,8 @@ class BranchDetailsScreen extends StatelessWidget {
       ),
       body: BlocConsumer<BranchDetailsCubit, BranchDetailsState>(
         listener: (context, state) async {
-          if (state is BranchDetailsDeleteLoading || state is BranchDetailsEditLoading) {
+          if (state is BranchDetailsDeleteLoading ||
+              state is BranchDetailsEditLoading) {
             startLoading(context);
           }
           if (state is BranchDetailsDeleteError) {
@@ -55,13 +56,18 @@ class BranchDetailsScreen extends StatelessWidget {
           }
         },
         buildWhen: (previous, current) {
-          return current is BranchDetailsLoading || current is BranchDetailsLoaded || current is BranchDetailsError;
+          return current is BranchDetailsLoading ||
+              current is BranchDetailsLoaded ||
+              current is BranchDetailsError;
         },
         builder: (context, state) {
           if (state is BranchDetailsError) {
             return RetryWidget(onRetry: () {
-              var args = ModalRoute.of(context)!.settings.arguments as BranchDetailsArguments;
-              context.read<BranchDetailsCubit>().getBranchDetails(args.branchId);
+              var args = ModalRoute.of(context)!.settings.arguments
+                  as BranchDetailsArguments;
+              context
+                  .read<BranchDetailsCubit>()
+                  .getBranchDetails(args.branchId);
             });
           } else if (state is BranchDetailsLoaded) {
             return SingleChildScrollView(
@@ -95,7 +101,9 @@ class BranchDetailsScreen extends StatelessWidget {
                             }
                             return null;
                           },
-                          controller: context.read<BranchDetailsCubit>().branchNameController,
+                          controller: context
+                              .read<BranchDetailsCubit>()
+                              .branchNameController,
                           enabled: context.read<BranchDetailsCubit>().isEditing,
                         );
                       },
@@ -117,7 +125,8 @@ class BranchDetailsScreen extends StatelessWidget {
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 1.5.h,
                             crossAxisSpacing: 10.w,
@@ -125,7 +134,8 @@ class BranchDetailsScreen extends StatelessWidget {
                           children: [
                             CustomTextFormField(
                               hintText: "City Name",
-                              enabled: context.read<BranchDetailsCubit>().isEditing,
+                              enabled:
+                                  context.read<BranchDetailsCubit>().isEditing,
                               title: "City Name",
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -133,7 +143,9 @@ class BranchDetailsScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              controller: context.read<BranchDetailsCubit>().cityNameController,
+                              controller: context
+                                  .read<BranchDetailsCubit>()
+                                  .cityNameController,
                             ),
                             CustomTextFormField(
                               hintText: "Street Name",
@@ -144,8 +156,11 @@ class BranchDetailsScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              controller: context.read<BranchDetailsCubit>().streetNameController,
-                              enabled: context.read<BranchDetailsCubit>().isEditing,
+                              controller: context
+                                  .read<BranchDetailsCubit>()
+                                  .streetNameController,
+                              enabled:
+                                  context.read<BranchDetailsCubit>().isEditing,
                             ),
                             CustomTextFormField(
                               hintText: "Building number",
@@ -156,8 +171,11 @@ class BranchDetailsScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              controller: context.read<BranchDetailsCubit>().buildingNumberController,
-                              enabled: context.read<BranchDetailsCubit>().isEditing,
+                              controller: context
+                                  .read<BranchDetailsCubit>()
+                                  .buildingNumberController,
+                              enabled:
+                                  context.read<BranchDetailsCubit>().isEditing,
                             ),
                             CustomTextFormField(
                               hintText: "Floor number",
@@ -168,8 +186,11 @@ class BranchDetailsScreen extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              enabled: context.read<BranchDetailsCubit>().isEditing,
-                              controller: context.read<BranchDetailsCubit>().floorNumberController,
+                              enabled:
+                                  context.read<BranchDetailsCubit>().isEditing,
+                              controller: context
+                                  .read<BranchDetailsCubit>()
+                                  .floorNumberController,
                             ),
                           ],
                         );
@@ -181,7 +202,8 @@ class BranchDetailsScreen extends StatelessWidget {
                         Divider(color: AppColors.black),
                         Text(
                           "Manager Details",
-                          style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+                          style: TextStyle(
+                              fontSize: 15.sp, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(height: 10.h),
                         if (state.branchDetailsModel.content?.manager == null)
@@ -194,10 +216,15 @@ class BranchDetailsScreen extends StatelessWidget {
                               verticalOffset: 50.0,
                               child: FadeInAnimation(
                                 child: EmployeeDataBuilder(
-                                  name: state.branchDetailsModel.content?.manager?.name,
-                                  id: state.branchDetailsModel.content?.manager?.id.toString(),
+                                  name: state.branchDetailsModel.content
+                                      ?.manager?.name,
+                                  id: state
+                                      .branchDetailsModel.content?.manager?.id
+                                      .toString(),
                                   userType: UsersType.manager,
-                                  subtitle: state.branchDetailsModel.content?.manager?.jobId.toString(),
+                                  subtitle: state.branchDetailsModel.content
+                                      ?.manager?.jobId
+                                      .toString(),
                                 ),
                               ),
                             ),
@@ -208,20 +235,26 @@ class BranchDetailsScreen extends StatelessWidget {
                     Divider(color: AppColors.black),
                     Text(
                       "Cashiers Details",
-                      style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w700),
+                      style: TextStyle(
+                          fontSize: 15.sp, fontWeight: FontWeight.w700),
                     ),
                     SizedBox(height: 10.h),
-                    if (state.branchDetailsModel.content?.cashiers?.isEmpty ?? true)
+                    if (state.branchDetailsModel.content?.cashiers?.isEmpty ??
+                        true)
                       Text("No Cashiers assigned yet")
                     else
                       ListView.separated(
                         shrinkWrap: true,
-                        separatorBuilder: (context, index) => SizedBox(height: 15.h),
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 15.h),
                         physics: NeverScrollableScrollPhysics(),
                         padding: EdgeInsets.zero,
-                        itemCount: state.branchDetailsModel.content?.cashiers?.length ?? 0,
+                        itemCount: state
+                                .branchDetailsModel.content?.cashiers?.length ??
+                            0,
                         itemBuilder: (context, index) {
-                          final cashier = state.branchDetailsModel.content!.cashiers![index];
+                          final cashier = state
+                              .branchDetailsModel.content!.cashiers![index];
                           return AnimationConfiguration.staggeredList(
                             position: index,
                             duration: const Duration(milliseconds: 375),

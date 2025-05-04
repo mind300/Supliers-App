@@ -11,34 +11,43 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
-      buildWhen: (previous, current) => current is ProfileNameUpdated,
+      buildWhen: (previous, current) => current is ProfileNameUpdated || current is ProfileImageUpdated,
       builder: (context, state) {
         final isEditing = context.read<ProfileCubit>().isEditing;
-
         return Stack(
           alignment: Alignment.center,
           children: [
-            CustomImageHandler(
-              path: AppImages.profileTest,
-              width: 150.w,
-              height: 150.h,
+            ClipOval(
+              child: CustomImageHandler(
+                path: context.read<ProfileCubit>().profileImage.isEmpty ? null : context.read<ProfileCubit>().profileImage,
+                width: 150.sp,
+                fit: BoxFit.cover,
+                height: 150.sp,
+              ),
             ),
-            AnimatedOpacity(
-              opacity: isEditing ? 1.0 : 0.0,
-              duration: const Duration(milliseconds: 300),
-              child: Container(
-                width: 150.w,
-                height: 150.h,
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.72),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Text(
-                    "Edit",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
+            GestureDetector(
+              onTap: () {
+                if (isEditing) {
+                  context.read<ProfileCubit>().pickImage(context);
+                }
+              },
+              child: AnimatedOpacity(
+                opacity: isEditing ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                child: Container(
+                  width: 150.w,
+                  height: 150.h,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.72),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Edit",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14.sp,
+                      ),
                     ),
                   ),
                 ),

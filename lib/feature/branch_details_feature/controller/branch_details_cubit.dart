@@ -8,7 +8,8 @@ import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
 part 'branch_details_state.dart';
 
 class BranchDetailsCubit extends Cubit<BranchDetailsState> {
-  BranchDetailsCubit(this.branchDetailsRepo, this.branchCubit) : super(BranchDetailsInitial());
+  BranchDetailsCubit(this.branchDetailsRepo, this.branchCubit)
+      : super(BranchDetailsInitial());
   final BranchDetailsRepo branchDetailsRepo;
   final BranchCubit branchCubit;
 

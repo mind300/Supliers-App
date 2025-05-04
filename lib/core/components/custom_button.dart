@@ -56,7 +56,8 @@ class CustomButton extends StatelessWidget {
                 10.r,
               ),
             ),
-            backgroundColor: enabled ? backgroundColor : backgroundColor.withOpacity(0.5),
+            backgroundColor:
+                enabled ? backgroundColor : backgroundColor.withOpacity(0.5),
           ),
           onPressed: enabled ? onPressed : () {},
           icon: leading == null
@@ -73,7 +74,8 @@ class CustomButton extends StatelessWidget {
                   child: Text(
                     text.toString(),
                     style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium!.fontSize,
                       fontWeight: FontWeight.bold,
                       color: color ?? AppColors.white,
                     ),

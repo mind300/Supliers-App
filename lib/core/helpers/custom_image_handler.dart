@@ -21,6 +21,13 @@ class CustomImageHandler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (path == null) {
+      return Icon(
+        Icons.error,
+        size: width ?? size ?? 24,
+        color: Colors.red,
+      );
+    }
     if (path is IconData) {
       return Icon(
         path,
@@ -64,9 +71,7 @@ class CustomImageHandler extends StatelessWidget {
         ),
       );
     }
-    if (path.startsWith('http') ||
-        path.startsWith('https') ||
-        path.startsWith('www.')) {
+    if (path.startsWith('http') || path.startsWith('https') || path.startsWith('www.')) {
       return CachedNetworkImage(
         imageUrl: path,
         fit: fit,

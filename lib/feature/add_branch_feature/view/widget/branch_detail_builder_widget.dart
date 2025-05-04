@@ -41,13 +41,17 @@ class BranchDetailBuilderWidget extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 300),
-                  opacity: context.watch<AddBranchCubit>().isBrachDetailsExpanded ? 1.0 : 0.0,
+                  opacity:
+                      context.watch<AddBranchCubit>().isBrachDetailsExpanded
+                          ? 1.0
+                          : 0.0,
                   child: context.watch<AddBranchCubit>().isBrachDetailsExpanded
                       ? GridView(
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 1.3.h,
                             crossAxisSpacing: 10.w,
@@ -65,7 +69,9 @@ class BranchDetailBuilderWidget extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              controller: context.read<AddBranchCubit>().cityNameController,
+                              controller: context
+                                  .read<AddBranchCubit>()
+                                  .cityNameController,
                             ),
                             CustomTextFormField(
                               hintText: "Street Name",
@@ -79,7 +85,9 @@ class BranchDetailBuilderWidget extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              controller: context.read<AddBranchCubit>().streetNameController,
+                              controller: context
+                                  .read<AddBranchCubit>()
+                                  .streetNameController,
                             ),
                             CustomTextFormField(
                               hintText: "Building number",
@@ -93,7 +101,9 @@ class BranchDetailBuilderWidget extends StatelessWidget {
                                 }
                                 return null;
                               },
-                              controller: context.read<AddBranchCubit>().buildingNumberController,
+                              controller: context
+                                  .read<AddBranchCubit>()
+                                  .buildingNumberController,
                             ),
                             CustomTextFormField(
                               hintText: "Floor number",
@@ -106,7 +116,9 @@ class BranchDetailBuilderWidget extends StatelessWidget {
 
                                 return null;
                               },
-                              controller: context.read<AddBranchCubit>().floorNumberController,
+                              controller: context
+                                  .read<AddBranchCubit>()
+                                  .floorNumberController,
                             ),
                           ],
                         )

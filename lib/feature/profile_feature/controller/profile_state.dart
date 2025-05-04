@@ -8,3 +8,26 @@ final class ProfileInitial extends ProfileState {}
 final class ProfileNameUpdated extends ProfileState {}
 
 final class ProfileDelete extends ProfileState {}
+
+// /profileImageUpdated
+final class ProfileImageUpdated extends ProfileState {}
+
+final class ProfileLoading extends ProfileState {}
+
+final class ProfileManagerLoaded extends ProfileState {
+  final ManagerProfileModel managerProfileModel;
+
+  ProfileManagerLoaded(this.managerProfileModel);
+}
+
+final class ProfileCashierLoaded extends ProfileState {
+  final ProfileCashierLoaded cashierProfileModel;
+
+  ProfileCashierLoaded(this.cashierProfileModel);
+}
+
+final class ProfileError extends ProfileState {
+  final String error;
+
+  ProfileError(this.error);
+}

@@ -52,7 +52,8 @@ class HistoryOrderWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.r),
                       color: AppColors.green.withOpacity(0.25),
                     ),
-                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                     child: Text(
                       "Confirmed",
                       style: TextStyle(

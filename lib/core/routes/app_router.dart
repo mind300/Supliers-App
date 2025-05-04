@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/enums/account_type.dart';
+import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
@@ -25,6 +26,9 @@ import 'package:supplies/feature/manager_feature/view/screen/manager_screen.dart
 import 'package:supplies/feature/offer_details_feature/view/screen/offer_details_screen.dart';
 import 'package:supplies/feature/offer_feature/view/screen/offer_screen.dart';
 import 'package:supplies/feature/password_feature/view/screen/password_screen.dart';
+import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
+import 'package:supplies/feature/profile_feature/view/screen/cashier_profile_screen.dart';
+import 'package:supplies/feature/profile_feature/view/screen/manager_profile_screen.dart';
 import 'package:supplies/feature/profile_feature/view/screen/profile_screen.dart';
 import 'package:supplies/feature/splash_feature/splash_screen.dart';
 import 'package:supplies/feature/qr_feature/view/screen/qr_screen.dart';
@@ -73,8 +77,23 @@ class AppRouter {
         );
       case Routes.profile:
         return MaterialPageRoute(
-          builder: (_) => ProfileScreen(
-            accountType: (args as Map)['accountType'] as ProfileType,
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ProfileCubit>()..getMe(),
+            child: ProfileScreen(),
+          ),
+        );
+      case Routes.managerProfile:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ProfileCubit>()..getManagerProfile((args as Map)['id'].toString()),
+            child: ManagerProfileScreen(),
+          ),
+        );
+      case Routes.cashierProfile:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ProfileCubit>()..getCashierProfile((args as Map)['id'].toString()),
+            child: CashierProfileScreen(),
           ),
         );
       case Routes.offer:

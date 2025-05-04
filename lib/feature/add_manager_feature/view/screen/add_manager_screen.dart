@@ -42,7 +42,9 @@ class AddManagerScreen extends StatelessWidget {
           }
         },
         buildWhen: (previous, current) {
-          return current is AddManagerLoading || current is AddManagerLoaded || current is AddManagerError;
+          return current is AddManagerLoading ||
+              current is AddManagerLoaded ||
+              current is AddManagerError;
         },
         builder: (context, state) {
           if (state is AddManagerLoaded) {
@@ -74,7 +76,8 @@ class AddManagerScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      controller: context.read<AddManagerCubit>().nameController,
+                      controller:
+                          context.read<AddManagerCubit>().nameController,
                     ),
                     CustomTextFormField(
                       title: "Email",
@@ -88,10 +91,12 @@ class AddManagerScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      controller: context.read<AddManagerCubit>().emailController,
+                      controller:
+                          context.read<AddManagerCubit>().emailController,
                     ),
                     CustomPhoneInput(
-                      controller: context.read<AddManagerCubit>().phoneNumberController,
+                      controller:
+                          context.read<AddManagerCubit>().phoneNumberController,
                       validator: (p0) {
                         if (p0 == null || p0.isEmpty) {
                           return "Please enter phone number";
@@ -110,7 +115,8 @@ class AddManagerScreen extends StatelessWidget {
                               ))
                           .toList(),
                       onChanged: (value) {
-                        context.read<AddManagerCubit>().branchId = value.toString();
+                        context.read<AddManagerCubit>().branchId =
+                            value.toString();
                       },
                     ),
                     // CustomTextFormField(
@@ -137,7 +143,10 @@ class AddManagerScreen extends StatelessWidget {
         },
       ),
       bottomNavigationBar: BlocBuilder<AddManagerCubit, AddManagerState>(
-        buildWhen: (previous, current) => current is AddManagerAddedError || current is AddManagerError || current is AddManagerLoaded,
+        buildWhen: (previous, current) =>
+            current is AddManagerAddedError ||
+            current is AddManagerError ||
+            current is AddManagerLoaded,
         builder: (context, state) {
           if (state is AddManagerAddedError || state is AddManagerError) {
             return const SizedBox();

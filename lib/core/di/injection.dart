@@ -14,6 +14,7 @@ import 'package:supplies/feature/login_feature/data/repo/login_repo.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 import 'package:supplies/feature/manager_feature/data/repo/manager_repo.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
+import 'package:supplies/feature/profile_feature/data/repo/profile_repo.dart';
 
 final getIt = GetIt.instance;
 
@@ -32,6 +33,16 @@ void initGetIt() {
   getIt.registerFactory<AddBranchCubit>(() => AddBranchCubit(getIt()));
   //branch details
   getIt.registerFactory<BranchDetailsRepo>(() => BranchDetailsImpl(getIt()));
-  getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit(getIt(), getIt()));
-  getIt.registerFactory<ProfileCubit>(() => ProfileCubit());
+  getIt.registerFactory<BranchDetailsCubit>(
+      () => BranchDetailsCubit(getIt(), getIt()));
+
+  //managers
+  getIt.registerFactory<ManagerRepo>(() => ManagerRepoImpl(getIt()));
+  getIt.registerFactory<ManagersCubit>(() => ManagersCubit(getIt()));
+  //add manager
+  getIt.registerFactory<AddManagerRepo>(() => AddManagerRepoImpl(getIt()));
+  getIt.registerFactory<AddManagerCubit>(() => AddManagerCubit(getIt()));
+  //profile
+  getIt.registerFactory<ProfileRepo>(() => ProfileRepoImpl(getIt()));
+  getIt.registerFactory<ProfileCubit>(() => ProfileCubit(getIt()));
 }

@@ -59,7 +59,8 @@ class CustomPhoneInput extends StatelessWidget {
                     Tooltip(
                       message: toolTipMessage ?? "",
                       triggerMode: TooltipTriggerMode.tap,
-                      showDuration: Duration(seconds: toolTipMessage != null ? 3 : 0),
+                      showDuration:
+                          Duration(seconds: toolTipMessage != null ? 3 : 0),
                       child: Icon(
                         Icons.help_outline_outlined,
                         size: 14.sp,
@@ -73,7 +74,8 @@ class CustomPhoneInput extends StatelessWidget {
           enabled: enabled,
           controller: controller,
           initialCountryCode: initialCountryCode,
-          autovalidateMode: autoValidateMode ?? AutovalidateMode.onUserInteraction,
+          autovalidateMode:
+              autoValidateMode ?? AutovalidateMode.onUserInteraction,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
           ],

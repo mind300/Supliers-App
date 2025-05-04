@@ -27,9 +27,10 @@ class ProfileNameEditor extends StatelessWidget {
                       key: const ValueKey('textField'),
                       hintText: "Name",
                       title: "Name",
+                      controller: context.read<ProfileCubit>().nameController,
                     )
                   : Text(
-                      'Mohammed Ali',
+                      context.read<ProfileCubit>().nameController.text,
                       key: const ValueKey('textDisplay'),
                       style: TextStyle(
                         fontSize: 24.sp,

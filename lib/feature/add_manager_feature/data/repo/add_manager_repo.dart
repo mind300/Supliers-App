@@ -16,7 +16,8 @@ class AddManagerRepoImpl implements AddManagerRepo {
   AddManagerRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, String>> addManager({required Map data}) async {
+  Future<Either<CustomException, String>> addManager(
+      {required Map data}) async {
     try {
       Response res = await dioHelper.post(
         endPoint: EndPoints.manager,
