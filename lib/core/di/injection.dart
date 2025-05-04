@@ -32,13 +32,6 @@ void initGetIt() {
   getIt.registerFactory<AddBranchCubit>(() => AddBranchCubit(getIt()));
   //branch details
   getIt.registerFactory<BranchDetailsRepo>(() => BranchDetailsImpl(getIt()));
-  getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit(getIt()));
-  //managers
-  getIt.registerFactory<ManagerRepo>(() => ManagerRepoImpl(getIt()));
-  getIt.registerFactory<ManagersCubit>(() => ManagersCubit(getIt()));
-  //add managers
-  getIt.registerFactory<AddManagerRepo>(() => AddManagerRepoImpl(getIt()));
-  getIt.registerFactory<AddManagerCubit>(() => AddManagerCubit(getIt()));
-
+  getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit(getIt(), getIt()));
   getIt.registerFactory<ProfileCubit>(() => ProfileCubit());
 }

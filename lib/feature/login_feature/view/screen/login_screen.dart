@@ -29,6 +29,8 @@ class LoginScreen extends StatelessWidget {
             stopLoading(context);
             if (state.usersType == UsersType.owner) {
               context.pushNamedAndRemoveAll(Routes.branch);
+            } else if (state.usersType == UsersType.manager) {
+              context.pushNamedAndRemoveAll(Routes.cashier);
             }
             ToastManager.showToast("Login Successfully");
           }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/constant/app_colors.dart';
+import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 
 class DeleteDialog extends StatelessWidget {
   const DeleteDialog({super.key});
@@ -14,25 +15,27 @@ class DeleteDialog extends StatelessWidget {
       title: Icon(
         Icons.info_outline,
         size: 75.sp,
+        color: AppColors.red,
       ),
-      content: Text('Do you want to delete the branch?'),
+      content: const Text('Do you want to delete the branch?'),
       actionsOverflowDirection: VerticalDirection.down,
       actions: [
-        CustomButton(
-          onPressed: () {},
-          text: "Delete",
-          backgroundColor: AppColors.red,
-          borderColor: AppColors.red,
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text("Cancel"),
         ),
-        CustomButton(
-          height: 35.h,
+        TextButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context); // close dialog
+            context.read<BranchDetailsCubit>().deleteBranch(); // trigger delete
           },
-          text: "Cancel",
-          backgroundColor: Colors.transparent,
-          borderColor: Colors.transparent,
-          color: AppColors.black,
+          child: Text(
+            "Delete",
+            style: TextStyle(
+              color: AppColors.red,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
       ],
     );
