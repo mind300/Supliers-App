@@ -9,6 +9,13 @@ abstract class BranchDetailsRepo {
   Future<Either<CustomException, BranchDetailsModel>> getBranchDetails(
     int branchId,
   );
+  Future<Either<CustomException, String>> deleteBranch(
+    int branchId,
+  );
+  Future<Either<CustomException, String>> updateBranchDetails(
+    int branchId,
+    Map<String, dynamic> data,
+  );
 }
 
 class BranchDetailsImpl extends BranchDetailsRepo {
@@ -21,6 +28,50 @@ class BranchDetailsImpl extends BranchDetailsRepo {
       Response res = await dioHelper.get(endPoint: "${EndPoints.branch}/$branchId");
       if (res.statusCode == 200) {
         return Right(BranchDetailsModel.fromJson(res.data));
+      } else {
+        return Left(CustomException(
+          message: res.data['message'] ?? "Something went wrong",
+        ));
+      }
+    } catch (e) {
+      return Left(CustomException(
+        message: e.toString(),
+      ));
+    }
+  }
+
+  @override
+  Future<Either<CustomException, String>> updateBranchDetails(
+    int branchId,
+    Map<String, dynamic> data,
+  ) async {
+    try {
+      Response res = await dioHelper.put(
+        endPoint: "${EndPoints.branch}/$branchId",
+        data: data,
+      );
+      if (res.statusCode == 200) {
+        return Right(res.data['message'] ?? "Branch updated successfully");
+      } else {
+        return Left(CustomException(
+          message: res.data['message'] ?? "Something went wrong",
+        ));
+      }
+    } catch (e) {
+      return Left(CustomException(
+        message: e.toString(),
+      ));
+    }
+  }
+
+  @override
+  Future<Either<CustomException, String>> deleteBranch(int branchId) async {
+    try {
+      Response res = await dioHelper.delete(
+        endPoint: "${EndPoints.branch}/$branchId",
+      );
+      if (res.statusCode == 200) {
+        return Right(res.data['message'] ?? "Branch deleted successfully");
       } else {
         return Left(CustomException(
           message: res.data['message'] ?? "Something went wrong",

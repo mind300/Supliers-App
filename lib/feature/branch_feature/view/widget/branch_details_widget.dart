@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 import 'package:supplies/core/helpers.dart/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
 import 'package:supplies/feature/branch_feature/data/model/content.dart';
 
 class BranchDetailsWidget extends StatelessWidget {
@@ -102,13 +104,16 @@ class BranchDetailsWidget extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () {
-              context.pushNamed(
+            onTap: () async {
+              var res = await context.pushNamed(
                 Routes.branchDetails,
                 arguments: BranchDetailsArguments(
                   branchId: branch.id!,
                 ),
               );
+              if (res != null) {
+                context.read<BranchCubit>().getBranches();
+              }
             },
             child: Container(
               height: 100.h,

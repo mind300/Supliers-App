@@ -19,21 +19,18 @@ class BranchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Branches'),
+        title: const Text('Branches'),
         actions: [
           IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {},
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              // TODO: Implement search functionality
+            },
           ),
         ],
       ),
-      drawer: AppDrawer(
-        currentPage: 'branch',
-      ),
+      drawer: AppDrawer(currentPage: 'branch'),
       body: BlocBuilder<BranchCubit, BranchState>(
-        // buildWhen: (_, current) {
-        //   return current is BranchLoading || current is BranchSuccess;
-        // },
         builder: (context, state) {
           if (state is BranchSuccess) {
             return RefreshIndicator(
@@ -65,21 +62,18 @@ class BranchScreen extends StatelessWidget {
             );
           } else if (state is BranchError) {
             return RetryWidget(
-              onRetry: () {
-                context.read<BranchCubit>().getBranches();
-              },
+              onRetry: () => context.read<BranchCubit>().getBranches(),
               message: state.message,
             );
           }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
+
+          return const Center(child: CircularProgressIndicator());
         },
       ),
       floatingActionButton: CustomFloatingActionButton(
         icon: AppImages.add,
         onPressed: () async {
-          var res = await context.pushNamed(Routes.addBranch);
+          final res = await context.pushNamed(Routes.addBranch);
           if (res != null) {
             context.read<BranchCubit>().getBranches();
           }

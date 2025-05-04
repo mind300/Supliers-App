@@ -28,6 +28,6 @@ void initGetIt() {
   getIt.registerFactory<AddBranchCubit>(() => AddBranchCubit(getIt()));
   //branch details
   getIt.registerFactory<BranchDetailsRepo>(() => BranchDetailsImpl(getIt()));
-  getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit(getIt()));
+  getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit(getIt(), getIt()));
   getIt.registerFactory<ProfileCubit>(() => ProfileCubit());
 }

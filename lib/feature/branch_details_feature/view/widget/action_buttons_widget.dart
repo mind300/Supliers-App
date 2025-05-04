@@ -5,9 +5,15 @@ import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
+import 'package:supplies/feature/branch_details_feature/view/widget/delete_dialog.dart';
 
 class ActionButtonsWidget extends StatelessWidget {
-  const ActionButtonsWidget({super.key});
+  final VoidCallback onDeletePressed;
+
+  const ActionButtonsWidget({
+    super.key,
+    required this.onDeletePressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +22,6 @@ class ActionButtonsWidget extends StatelessWidget {
       builder: (context, state) {
         bool isEditing = context.read<BranchDetailsCubit>().isEditing;
 
-        // Animation of the action buttons
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 300),
           child: SizedBox(
@@ -24,7 +29,7 @@ class ActionButtonsWidget extends StatelessWidget {
             child: isEditing
                 ? Align(
                     alignment: AlignmentDirectional.centerEnd,
-                    key: ValueKey('CancelButton'),
+                    key: const ValueKey('CancelButton'),
                     child: GestureDetector(
                       onTap: () {
                         context.read<BranchDetailsCubit>().toggleEditing();
@@ -40,9 +45,9 @@ class ActionButtonsWidget extends StatelessWidget {
                     ),
                   )
                 : Row(
-                    key: ValueKey('ActionButtons'),
+                    key: const ValueKey('ActionButtons'),
                     children: [
-                      Spacer(),
+                      const Spacer(),
                       actionButton(
                         title: 'Edit',
                         icon: AppImages.edit,
@@ -56,9 +61,7 @@ class ActionButtonsWidget extends StatelessWidget {
                         title: 'Delete',
                         icon: AppImages.edit,
                         color: AppColors.redDark,
-                        onTap: () {
-                          context.read<BranchDetailsCubit>().deleteBranch();
-                        },
+                        onTap: onDeletePressed,
                       ),
                     ],
                   ),
@@ -93,9 +96,7 @@ class ActionButtonsWidget extends StatelessWidget {
                 color: AppColors.white,
               ),
             ),
-            SizedBox(
-              width: 5.w,
-            ),
+            SizedBox(width: 5.w),
             CustomImageHandler(
               path: icon,
               width: 11.w,
