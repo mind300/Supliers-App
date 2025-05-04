@@ -34,7 +34,7 @@ class AddBranchRepoImpl implements AddBranchRepo {
     } catch (e) {
       return Left(
         CustomException(
-          message: "Connection Timeout",
+          message: e.toString(),
         ),
       );
     }
@@ -59,7 +59,7 @@ class AddBranchRepoImpl implements AddBranchRepo {
     } catch (e) {
       return Left(
         CustomException(
-          message: "Connection Timeout",
+          message: e.toString(),
         ),
       );
     }

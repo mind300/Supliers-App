@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/components/retry_widget.dart';
+import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
@@ -58,9 +59,9 @@ class BranchScreen extends StatelessWidget {
                           branch: state.branches.content![index],
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             );
           } else if (state is BranchError) {
@@ -78,8 +79,11 @@ class BranchScreen extends StatelessWidget {
       ),
       floatingActionButton: CustomFloatingActionButton(
         icon: AppImages.add,
-        onPressed: () {
-          context.pushNamed(Routes.addBranch);
+        onPressed: () async {
+          var res = await context.pushNamed(Routes.addBranch);
+          if (res != null) {
+            context.read<BranchCubit>().getBranches();
+          }
         },
       ),
     );

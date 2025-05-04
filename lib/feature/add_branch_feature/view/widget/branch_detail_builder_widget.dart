@@ -41,43 +41,72 @@ class BranchDetailBuilderWidget extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: AnimatedOpacity(
                   duration: const Duration(milliseconds: 300),
-                  opacity:
-                      context.watch<AddBranchCubit>().isBrachDetailsExpanded
-                          ? 1.0
-                          : 0.0,
+                  opacity: context.watch<AddBranchCubit>().isBrachDetailsExpanded ? 1.0 : 0.0,
                   child: context.watch<AddBranchCubit>().isBrachDetailsExpanded
                       ? GridView(
                           padding: EdgeInsets.zero,
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 1.5.h,
+                            childAspectRatio: 1.3.h,
                             crossAxisSpacing: 10.w,
                           ),
                           children: [
                             CustomTextFormField(
                               hintText: "City Name",
                               title: "City Name",
-                              controller: context
-                                  .read<AddBranchCubit>()
-                                  .cityNameController,
+                              validator: (p0) {
+                                if (p0 == null || p0.isEmpty) {
+                                  return "City Name is required";
+                                }
+                                if (p0.length < 3) {
+                                  return "City Name should be at least 3 characters";
+                                }
+                                return null;
+                              },
+                              controller: context.read<AddBranchCubit>().cityNameController,
                             ),
                             CustomTextFormField(
                               hintText: "Street Name",
                               title: "Street Name",
-                              controller: context
-                                  .read<AddBranchCubit>()
-                                  .streetNameController,
+                              validator: (p0) {
+                                if (p0 == null || p0.isEmpty) {
+                                  return "Street Name is required";
+                                }
+                                if (p0.length < 3) {
+                                  return "Street Name should be at least 3 characters";
+                                }
+                                return null;
+                              },
+                              controller: context.read<AddBranchCubit>().streetNameController,
                             ),
                             CustomTextFormField(
                               hintText: "Building number",
                               title: "Building number",
+                              validator: (p0) {
+                                if (p0 == null || p0.isEmpty) {
+                                  return "Building number is required";
+                                }
+                                if (p0.length < 3) {
+                                  return "Building number should be at least 3 characters";
+                                }
+                                return null;
+                              },
+                              controller: context.read<AddBranchCubit>().buildingNumberController,
                             ),
                             CustomTextFormField(
                               hintText: "Floor number",
                               title: "Floor number",
+                              textInputType: TextInputType.number,
+                              validator: (p0) {
+                                if (p0 == null || p0.isEmpty) {
+                                  return "Floor number is required";
+                                }
+
+                                return null;
+                              },
+                              controller: context.read<AddBranchCubit>().floorNumberController,
                             ),
                           ],
                         )
