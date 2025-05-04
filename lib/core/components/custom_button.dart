@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
     this.width,
     this.enabled = true,
     this.leading,
+    this.height,
   });
   final VoidCallback onPressed;
   final String? text;
@@ -25,13 +26,14 @@ class CustomButton extends StatelessWidget {
   final Color backgroundColor;
   final bool enabled;
   final dynamic? leading;
+  final double? height;
   @override
   Widget build(BuildContext context) {
     return Opacity(
       opacity: enabled ? 1 : 0.5,
       child: Container(
         width: width ?? double.infinity,
-        height: 54.sp,
+        height: height ?? 54.sp,
         decoration: BoxDecoration(
           border: Border.all(
             color: enabled ? borderColor : borderColor.withOpacity(0.5),
@@ -54,7 +56,8 @@ class CustomButton extends StatelessWidget {
                 10.r,
               ),
             ),
-            backgroundColor: enabled ? backgroundColor : backgroundColor.withOpacity(0.5),
+            backgroundColor:
+                enabled ? backgroundColor : backgroundColor.withOpacity(0.5),
           ),
           onPressed: enabled ? onPressed : () {},
           icon: leading == null
@@ -71,7 +74,8 @@ class CustomButton extends StatelessWidget {
                   child: Text(
                     text.toString(),
                     style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium!.fontSize,
                       fontWeight: FontWeight.bold,
                       color: color ?? AppColors.white,
                     ),

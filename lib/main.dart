@@ -2,10 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
+import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/routes/app_router.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/core/services/cache/cache_helper.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await CacheHelper.init();
+  initGetIt();
+
   runApp(
     EasyLocalization(
       useOnlyLangCode: true,
@@ -42,13 +49,16 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             scaffoldBackgroundColor: AppColors.white,
+            dialogTheme: DialogTheme(
+              backgroundColor: AppColors.white,
+            ),
             appBarTheme: AppBarTheme(
               backgroundColor: AppColors.primary,
               foregroundColor: AppColors.white,
               elevation: 0,
-              // centerTitle: true,
+              centerTitle: true,
               titleTextStyle: TextStyle(
-                fontSize: 20.sp,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
                 color: AppColors.white,
               ),

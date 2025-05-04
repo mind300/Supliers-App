@@ -1,7 +1,14 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supplies/core/enums/users_type.dart';
+import 'package:supplies/core/services/cache/cache_keys.dart';
 
 class CacheHelper {
   static SharedPreferences? sharedPreferences;
+  static UsersType userType = CacheHelper.getData(CacheKeys.userType) == 'owner'
+      ? UsersType.owner
+      : CacheHelper.getData(CacheKeys.userType) == 'manager'
+          ? UsersType.manager
+          : UsersType.cashier;
   static init() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
@@ -39,9 +46,7 @@ class CacheHelper {
   static List<int> getIdList(String idKey) {
     if (sharedPreferences!.containsKey(idKey)) {
       var response = getData(idKey).toString().trim();
-      return response == ""
-          ? []
-          : response.split(' ').map((e) => int.parse(e)).toList();
+      return response == "" ? [] : response.split(' ').map((e) => int.parse(e)).toList();
     }
     return [];
   }

@@ -10,7 +10,14 @@ class AppImages {
   static const String offer = 'assets/images/offer.svg';
   static const String password = 'assets/images/password.svg';
   static const String profile = 'assets/images/profile.svg';
+  static const String map = 'assets/images/map.svg';
+  static const String delete = 'assets/images/delete.svg';
+  static const String edit = 'assets/images/edit.svg';
+  static const String plus = 'assets/images/plus.svg';
+  static const String qr = 'assets/images/QR Code.svg';
+  static const String manager = 'assets/images/man.svg';
 
   //test assets
   static const String profileTest = 'assets/images/delete/test_profile.png';
+  static const String offerTest = 'assets/images/delete/test_offer.png';
 }

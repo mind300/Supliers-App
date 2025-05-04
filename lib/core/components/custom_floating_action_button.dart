@@ -4,9 +4,14 @@ import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
-  const CustomFloatingActionButton({super.key, this.icon, required this.onPressed});
+  const CustomFloatingActionButton(
+      {super.key,
+      this.icon,
+      required this.onPressed,
+      this.iconColor = AppColors.white});
   final dynamic icon;
   final Function() onPressed;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +25,7 @@ class CustomFloatingActionButton extends StatelessWidget {
         path: icon,
         width: 24.w,
         height: 24.h,
+        color: iconColor,
       ),
     );
   }
