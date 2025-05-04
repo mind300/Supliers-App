@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
 
 class RetryWidget extends StatelessWidget {
-  const RetryWidget({super.key, this.message, required this.onRetry, this.buttonText});
+  const RetryWidget(
+      {super.key, this.message, required this.onRetry, this.buttonText});
   final String? message;
   final Function() onRetry;
   final String? buttonText;

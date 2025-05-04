@@ -24,7 +24,8 @@ class HistoryDetailsScreen extends StatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12.r),
                     gradient: LinearGradient(
@@ -47,7 +48,8 @@ class HistoryDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4.r),
                           color: AppColors.green.withOpacity(0.25),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 5.w, vertical: 2.h),
                         child: Text(
                           "Confirmed",
                           style: TextStyle(

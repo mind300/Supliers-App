@@ -6,6 +6,8 @@ class Routes {
   static const String chooseAddress = '/chooseAddress';
   static const String branchDetails = '/branchDetails';
   static const String profile = '/profile';
+  static const String managerProfile = '/managerProfile';
+  static const String cashierProfile = '/cashierProfile';
   static const String offer = '/offer';
   static const String offerDetails = '/offerDetails';
   static const String cashier = '/cashier';

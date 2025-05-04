@@ -34,7 +34,8 @@ class BranchAddressInputWidget extends StatelessWidget {
                   }
                   return null;
                 },
-                controller: context.read<AddBranchCubit>().branchAddressController,
+                controller:
+                    context.read<AddBranchCubit>().branchAddressController,
               ),
             ),
             SizedBox(
