@@ -10,8 +10,7 @@ extension Navigation on BuildContext {
   }
 
   Future<dynamic> pushReplacementNamed(String routeName, {Object? arguments}) {
-    return Navigator.of(this)
-        .pushReplacementNamed(routeName, arguments: arguments);
+    return Navigator.of(this).pushReplacementNamed(routeName, arguments: arguments);
   }
 
   Future<dynamic> pushNamedAndRemoveAll(String routeName, {Object? arguments}) {
@@ -22,10 +21,8 @@ extension Navigation on BuildContext {
     );
   }
 
-  Future<dynamic> pushNamedAndRemoveUntil(String routeName,
-      {Object? arguments, required RoutePredicate predicate}) {
-    return Navigator.of(this)
-        .pushNamedAndRemoveUntil(routeName, predicate, arguments: arguments);
+  Future<dynamic> pushNamedAndRemoveUntil(String routeName, {Object? arguments, required RoutePredicate predicate}) {
+    return Navigator.of(this).pushNamedAndRemoveUntil(routeName, predicate, arguments: arguments);
   }
 
   /// ModalRoute.withName('/routeName') <<  this is predicate
@@ -74,6 +71,19 @@ class SlideRightTransition extends PageRouteBuilder {
 
 extension StringExtension on String? {
   bool isNullOrEmpty() => this == null || this == "";
+  bool isValidEmail() {
+    final RegExp regex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+    return regex.hasMatch(this!);
+  }
+
+  bool isValidPassword() {
+    final RegExp regex = RegExp(
+      r'^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$',
+    );
+    return regex.hasMatch(this!);
+  }
 }
 
 extension ListExtension<T> on List<T>? {

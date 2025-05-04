@@ -44,15 +44,13 @@ class LoginRepoImpl implements LoginRepo {
             model.role == 'owner' ? UsersType.owner : UsersType.manager);
       } else {
         return Left(
-          CustomException(
-            message: res.data['message'] ?? 'Unknown error',
-          ),
+          CustomException(message: res.data['message']),
         );
       }
     } catch (e) {
       return Left(
         CustomException(
-          message: "Unknown error",
+          message: e.toString(),
         ),
       );
     }

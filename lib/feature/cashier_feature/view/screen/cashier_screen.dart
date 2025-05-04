@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/constant/app_colors.dart';
-import 'package:supplies/core/helpers.dart/extensitions.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/cashier_feature/view/widget/cashier_builder.dart';

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/helpers.dart/custom_image_handler.dart';
+import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 
 class PasswordScreen extends StatelessWidget {

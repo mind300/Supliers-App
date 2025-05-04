@@ -1,12 +1,15 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/cache/cache_keys.dart';
 import 'package:supplies/core/services/network_service/endpoints.dart';
 import 'package:supplies/core/services/network_service/error.dart';
 import 'package:supplies/core/services/network_service/error_model/error_model.dart';
+import 'package:supplies/main.dart';
 
 abstract class DioHelper {
   Future<dynamic> post({
@@ -289,14 +292,12 @@ class DioImpl extends DioHelper {
         case DioExceptionType.badResponse:
           if (e.response!.statusCode == 401) {
             // Handle token refresh or logout
+            reset();
           }
           ErrorModel errorModel = ErrorModel.fromJson(e.response!.data);
           throw CustomException(
-            message: errorModel.errors?.isEmpty ?? true
-                ? errorModel.message
-                : errorModel.errors?.first.value?.first ??
-                    e.response!.data['message'] ??
-                    "Something went wrong",
+            message: errorModel.message ?? "Something went wrong",
+            // message: errorModel.errors?.isEmpty ?? true ? errorModel.message : errorModel.errors?.first.value?.first ?? e.response!.data['message'] ?? "Something went wrong",
           );
         default:
           throw CustomException(message: "An unknown error occurred.");
@@ -304,5 +305,11 @@ class DioImpl extends DioHelper {
     } catch (e) {
       throw CustomException(message: "An unknown error occurred.");
     }
+  }
+
+  void reset() async {
+    await CacheHelper.clear();
+    navigatorKey.currentState
+        ?.pushNamedAndRemoveUntil(Routes.login, (route) => false);
   }
 }
