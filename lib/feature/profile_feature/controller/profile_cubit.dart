@@ -133,9 +133,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
     res.fold(
       (l) {
-        emit(ProfileError(l.message));
+        emit(ProfileUpdateError(l.message));
       },
       (r) {
+        toggleEditing();
         CacheHelper.setData(CacheKeys.name, nameController.text);
         emit(ProfileUpdateSuccess("Profile updated successfully"));
       },

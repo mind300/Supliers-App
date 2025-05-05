@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
+import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/retry_widget.dart';
+import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/enums/account_type.dart';
@@ -22,11 +24,24 @@ class ProfileScreen extends StatelessWidget {
     final canPop = Navigator.of(context).canPop();
 
     return BlocConsumer<ProfileCubit, ProfileState>(
-      listener: (context, state) {},
-      buildWhen: (previous, current) =>
-          current is ProfileLoading ||
-          current is ProfileManagerLoaded ||
-          current is ProfileError,
+      listener: (context, state) {
+        if (state is ProfileUpdateLoading) {
+          startLoading(context);
+        }
+        if (state is ProfileUpdateSuccess) {
+          stopLoading(context);
+          ToastManager.showToast(
+            "Profile updated successfully",
+          );
+        }
+        if (state is ProfileUpdateError) {
+          stopLoading(context);
+          ToastManager.showErrorToast(
+            state.error,
+          );
+        }
+      },
+      buildWhen: (previous, current) => current is ProfileLoading || current is ProfileManagerLoaded || current is ProfileError,
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: Text(
@@ -55,17 +70,14 @@ class ProfileScreen extends StatelessWidget {
                         CustomTextFormField(
                           hintText: 'Phone Number',
                           title: 'Phone Number',
-                          controller: context
-                              .read<ProfileCubit>()
-                              .phoneNumberController,
+                          controller: context.read<ProfileCubit>().phoneNumberController,
                           enabled: context.read<ProfileCubit>().isEditing,
                         ),
                         SizedBox(height: 10.h),
                         CustomTextFormField(
                           hintText: 'Job ID (optional)',
                           title: 'Job ID (optional)',
-                          controller:
-                              context.read<ProfileCubit>().jobIdController,
+                          controller: context.read<ProfileCubit>().jobIdController,
                           enabled: context.read<ProfileCubit>().isEditing,
                         ),
                         SizedBox(height: 10.h),
