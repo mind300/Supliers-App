@@ -8,13 +8,32 @@ part 'branch_state.dart';
 class BranchCubit extends Cubit<BranchState> {
   BranchCubit(this.branchRepo) : super(BranchInitial());
   final BranchRepo branchRepo;
+  BranchModel? branchModel;
 
-  Future<void> getBranches() async {
-    emit(BranchLoading());
-    final result = await branchRepo.getBranches();
+  Future<void> getBranches({
+    int page = 1,
+    String? search,
+  }) async {
+    if (page == 1) {
+      emit(BranchLoading());
+    } else {
+      emit(BranchLoadingMore());
+    }
+    final result = await branchRepo.getBranches(
+      page: page,
+      search: search,
+    );
     result.fold(
       (error) => emit(BranchError(error.message)),
-      (branches) => emit(BranchSuccess(branches)),
+      (branches) {
+        if (page == 1) {
+          branchModel = branches;
+        } else {
+          branchModel!.content!.addAll(branches.content!);
+          branchModel!.pagination = branches.pagination;
+        }
+        emit(BranchSuccess(branches));
+      },
     );
   }
 }

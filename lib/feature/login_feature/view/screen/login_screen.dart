@@ -31,6 +31,8 @@ class LoginScreen extends StatelessWidget {
               context.pushNamedAndRemoveAll(Routes.branch);
             } else if (state.usersType == UsersType.manager) {
               context.pushNamedAndRemoveAll(Routes.cashier);
+            } else if (state.usersType == UsersType.cashier) {
+              context.pushNamedAndRemoveAll(Routes.offer);
             }
             ToastManager.showToast("Login Successfully");
           }
@@ -45,107 +47,110 @@ class LoginScreen extends StatelessWidget {
           padding: EdgeInsets.all(26.sp),
           child: Form(
             key: context.read<LoginCubit>().formKey,
-            child: Column(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 35.h),
-                CustomImageHandler(
-                  path: AppImages.logoH,
-                  width: 200.w,
-                  height: 150.h,
-                ),
-                SizedBox(height: 20.h),
-                Text(
-                  'Log in',
-                  style: TextStyle(
-                    fontSize: 48.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.authTitleColor,
+            child: SingleChildScrollView(
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: 35.h),
+                  CustomImageHandler(
+                    path: AppImages.logoH,
+                    width: 200.w,
+                    height: 150.h,
                   ),
-                ),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: 'Please enter your email and password to ',
+                  SizedBox(height: 20.h),
+                  Text(
+                    'Log in',
                     style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.authSubTitleColor,
+                      fontSize: 48.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.authTitleColor,
                     ),
-                    children: [
-                      TextSpan(
-                        text: 'log in',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                        ),
+                  ),
+                  // RichText(
+                  //   textAlign: TextAlign.center,
+                  //   text: TextSpan(
+                  //     text: 'Please enter your email and password to ',
+                  //     style: TextStyle(
+                  //       fontSize: 20.sp,
+                  //       fontWeight: FontWeight.w400,
+                  //       color: AppColors.authSubTitleColor,
+                  //     ),
+                  //     children: [
+                  //       TextSpan(
+                  //         text: 'log in',
+                  //         style: TextStyle(
+                  //           fontWeight: FontWeight.w800,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  SizedBox(height: 20.h),
+                  CustomTextFormField(
+                    title: "Email",
+                    hintText: "Enter your email address",
+                    controller: context.read<LoginCubit>().emailController,
+                    textInputType: TextInputType.emailAddress,
+                    validator: (p0) {
+                      if (p0 == null || p0.isEmpty) {
+                        return "Please enter your email address";
+                      }
+                      if (!p0.contains("@")) {
+                        return "Please enter a valid email address";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 16.h),
+                  CustomTextFormField(
+                    title: "Password",
+                    hintText: "Enter your password",
+                    controller: context.read<LoginCubit>().passwordController,
+                    obscureText: true,
+                    suffixIcon: Padding(
+                      padding: EdgeInsets.all(12.sp),
+                      child: CustomImageHandler(path: AppImages.closeEye),
+                    ),
+                    validator: (p0) {
+                      if (p0 == null || p0.isEmpty) {
+                        return "Please enter your password";
+                      }
+
+                      if (p0.length < 6) {
+                        return "Password must be at least 6 characters";
+                      }
+
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 4.h),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Text(
+                      "Forget password?",
+                      style: TextStyle(
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.black,
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                CustomTextFormField(
-                  title: "Email",
-                  hintText: "Enter your email address",
-                  controller: context.read<LoginCubit>().emailController,
-                  textInputType: TextInputType.emailAddress,
-                  validator: (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return "Please enter your email address";
-                    }
-                    if (!p0.contains("@")) {
-                      return "Please enter a valid email address";
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.h),
-                CustomTextFormField(
-                  title: "Password",
-                  hintText: "Enter your password",
-                  controller: context.read<LoginCubit>().passwordController,
-                  obscureText: true,
-                  suffixIcon: Padding(
-                    padding: EdgeInsets.all(12.sp),
-                    child: CustomImageHandler(path: AppImages.closeEye),
-                  ),
-                  validator: (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return "Please enter your password";
-                    }
-
-                    if (p0.length < 6) {
-                      return "Password must be at least 6 characters";
-                    }
-
-                    return null;
-                  },
-                ),
-                SizedBox(height: 4.h),
-                Align(
-                  alignment: AlignmentDirectional.centerEnd,
-                  child: Text(
-                    "Forget password?",
-                    style: TextStyle(
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.black,
                     ),
                   ),
-                ),
-                SizedBox(height: 20.h),
-                CustomButton(
-                  onPressed: () {
-                    context.read<LoginCubit>().login();
-                    // context.pushNamedAndRemoveAll(
-                    //   Routes.branch,
-                    //   // arguments: {
-                    //   //   "canAdd": true,
-                    //   // },
-                    // );
-                  },
-                  text: "Log in",
-                ),
-              ],
+                  SizedBox(height: 20.h),
+                  CustomButton(
+                    onPressed: () {
+                      context.read<LoginCubit>().login();
+                      // context.pushNamedAndRemoveAll(
+                      //   Routes.branch,
+                      //   // arguments: {
+                      //   //   "canAdd": true,
+                      //   // },
+                      // );
+                    },
+                    text: "Log in",
+                  ),
+                ],
+              ),
             ),
           ),
         ),

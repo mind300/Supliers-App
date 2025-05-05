@@ -30,10 +30,23 @@ class BranchScreen extends StatelessWidget {
         ],
       ),
       drawer: AppDrawer(currentPage: 'branch'),
-      body: BlocBuilder<BranchCubit, BranchState>(
+      body: BlocConsumer<BranchCubit, BranchState>(
+        listener: (context, state) {},
+        buildWhen: (previous, current) {
+          if (current is BranchLoading) {
+            return true;
+          }
+          if (current is BranchSuccess) {
+            return true;
+          }
+          if (current is BranchError) {
+            return true;
+          }
+          return false;
+        },
         builder: (context, state) {
           if (state is BranchSuccess) {
-            final branches = state.branches.content ?? [];
+            final branches = context.read<BranchCubit>().branchModel?.content ?? [];
 
             if (branches.isEmpty) {
               return Center(
@@ -45,21 +58,32 @@ class BranchScreen extends StatelessWidget {
             }
 
             return AnimationLimiter(
-              child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
-                itemCount: branches.length,
-                itemBuilder: (context, index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 375),
-                    child: SlideAnimation(
-                      verticalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: BranchDetailsWidget(branch: branches[index]),
-                      ),
-                    ),
-                  );
+              child: NotificationListener(
+                onNotification: (ScrollNotification scrollInfo) {
+                  if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && context.read<BranchCubit>().branchModel!.pagination!.nextPageUrl != null) {
+                    context.read<BranchCubit>().getBranches(
+                          page: context.read<BranchCubit>().branchModel!.pagination!.currentPage! + 1,
+                        );
+                  }
+                  return true;
                 },
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                  itemCount: branches.length,
+                  itemBuilder: (context, index) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(milliseconds: 375),
+                      child: SlideAnimation(
+                        verticalOffset: 50.0,
+                        child: FadeInAnimation(
+                          child: BranchDetailsWidget(branch: branches[index]),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ),
             );
           }

@@ -18,3 +18,5 @@ final class BranchError extends BranchState {
 
   BranchError(this.message);
 }
+
+final class BranchLoadingMore extends BranchState {}

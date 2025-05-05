@@ -23,7 +23,10 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {},
-      buildWhen: (previous, current) => current is ProfileLoading || current is ProfileManagerLoaded || current is ProfileError,
+      buildWhen: (previous, current) =>
+          current is ProfileLoading ||
+          current is ProfileManagerLoaded ||
+          current is ProfileError,
       builder: (context, state) => Scaffold(
         appBar: AppBar(
           title: Text(
@@ -52,14 +55,17 @@ class ProfileScreen extends StatelessWidget {
                         CustomTextFormField(
                           hintText: 'Phone Number',
                           title: 'Phone Number',
-                          controller: context.read<ProfileCubit>().phoneNumberController,
+                          controller: context
+                              .read<ProfileCubit>()
+                              .phoneNumberController,
                           enabled: context.read<ProfileCubit>().isEditing,
                         ),
                         SizedBox(height: 10.h),
                         CustomTextFormField(
                           hintText: 'Job ID (optional)',
                           title: 'Job ID (optional)',
-                          controller: context.read<ProfileCubit>().jobIdController,
+                          controller:
+                              context.read<ProfileCubit>().jobIdController,
                           enabled: context.read<ProfileCubit>().isEditing,
                         ),
                         SizedBox(height: 10.h),

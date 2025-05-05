@@ -8,5 +8,6 @@ class EndPoints {
   static const String manager = '$baseUrl/managers';
   static const String allManagers = '$baseUrl/managers/list';
   static const String allBranches = '$baseUrl/branches/list';
+  static const String updateProfile = '$baseUrl/profiles/update';
   static const String allBranchesWithoutManagers = '$baseUrl/branches/withoutManagers';
 }

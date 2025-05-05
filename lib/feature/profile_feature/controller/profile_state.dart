@@ -31,3 +31,18 @@ final class ProfileError extends ProfileState {
 
   ProfileError(this.error);
 }
+
+//update loading
+final class ProfileUpdateLoading extends ProfileState {}
+
+final class ProfileUpdateSuccess extends ProfileState {
+  final String message;
+
+  ProfileUpdateSuccess(this.message);
+}
+
+final class ProfileUpdateError extends ProfileState {
+  final String error;
+
+  ProfileUpdateError(this.error);
+}

@@ -8,6 +8,7 @@ import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/add_branch_screen.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/choose_address_screen.dart';
+import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/view/screen/add_cashier_screen.dart';
 import 'package:supplies/feature/add_manager_feature/controller/add_manager_cubit.dart';
 import 'package:supplies/feature/add_manager_feature/view/screen/add_manager_screen.dart';
@@ -16,6 +17,7 @@ import 'package:supplies/feature/branch_details_feature/view/screen/branch_detai
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
 import 'package:supplies/feature/branch_feature/view/screen/branch_screen.dart';
 import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
+import 'package:supplies/feature/cashier_feature/controller/cashiers_cubit.dart';
 import 'package:supplies/feature/cashier_feature/view/screen/cashier_screen.dart';
 import 'package:supplies/feature/history_details_feature/view/screen/history_details_screen.dart';
 import 'package:supplies/feature/history_feature/view/screen/history_screen.dart';
@@ -106,7 +108,10 @@ class AppRouter {
         );
       case Routes.cashier:
         return MaterialPageRoute(
-          builder: (_) => const CashierScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<CashiersCubit>()..getCashiers(),
+            child: const CashierScreen(),
+          ),
         );
       case Routes.password:
         return MaterialPageRoute(
@@ -130,7 +135,10 @@ class AppRouter {
         );
       case Routes.addCashiers:
         return MaterialPageRoute(
-          builder: (_) => const AddCashierScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AddCashiersCubit>(),
+            child: const AddCashierScreen(),
+          ),
         );
       case Routes.scanDetails:
         return MaterialPageRoute(
