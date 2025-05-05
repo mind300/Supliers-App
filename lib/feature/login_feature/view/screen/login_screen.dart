@@ -31,6 +31,8 @@ class LoginScreen extends StatelessWidget {
               context.pushNamedAndRemoveAll(Routes.branch);
             } else if (state.usersType == UsersType.manager) {
               context.pushNamedAndRemoveAll(Routes.cashier);
+            } else if (state.usersType == UsersType.cashier) {
+              context.pushNamedAndRemoveAll(Routes.offer);
             }
             ToastManager.showToast("Login Successfully");
           }
@@ -47,6 +49,7 @@ class LoginScreen extends StatelessWidget {
             key: context.read<LoginCubit>().formKey,
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 35.h),
                 CustomImageHandler(
@@ -63,25 +66,25 @@ class LoginScreen extends StatelessWidget {
                     color: AppColors.authTitleColor,
                   ),
                 ),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    text: 'Please enter your email and password to ',
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.authSubTitleColor,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: 'log in',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // RichText(
+                //   textAlign: TextAlign.center,
+                //   text: TextSpan(
+                //     text: 'Please enter your email and password to ',
+                //     style: TextStyle(
+                //       fontSize: 20.sp,
+                //       fontWeight: FontWeight.w400,
+                //       color: AppColors.authSubTitleColor,
+                //     ),
+                //     children: [
+                //       TextSpan(
+                //         text: 'log in',
+                //         style: TextStyle(
+                //           fontWeight: FontWeight.w800,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 SizedBox(height: 20.h),
                 CustomTextFormField(
                   title: "Email",

@@ -296,9 +296,16 @@ class DioImpl extends DioHelper {
           }
           ErrorModel errorModel = ErrorModel.fromJson(e.response!.data);
           throw CustomException(
-            message: errorModel.message ?? "Something went wrong",
+            message: e.response?.statusMessage ?? "Something went wrong",
             // message: errorModel.errors?.isEmpty ?? true ? errorModel.message : errorModel.errors?.first.value?.first ?? e.response!.data['message'] ?? "Something went wrong",
           );
+        case DioExceptionType.connectionError:
+          if (e.error is SocketException) {
+            throw CustomException(message: "No internet connection.");
+          } else {
+            throw CustomException(message: "Connection error.");
+          }
+
         default:
           throw CustomException(message: "An unknown error occurred.");
       }

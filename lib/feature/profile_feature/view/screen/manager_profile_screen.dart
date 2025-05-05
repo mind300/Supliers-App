@@ -39,7 +39,8 @@ class ManagerProfileScreen extends StatelessWidget {
                   color: AppColors.red,
                 ),
                 // title: const Text('Delete Profile'),
-                content: const Text('Are you sure you want to delete this profile?'),
+                content:
+                    const Text('Are you sure you want to delete this profile?'),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -124,13 +125,16 @@ class ManagerProfileScreen extends StatelessWidget {
                           CustomTextFormField(
                             hintText: 'Phone Number',
                             title: 'Phone Number',
-                            controller: context.read<ProfileCubit>().phoneNumberController,
+                            controller: context
+                                .read<ProfileCubit>()
+                                .phoneNumberController,
                           ),
                           SizedBox(height: 10.h),
                           CustomTextFormField(
                             hintText: 'Job ID (optional)',
                             title: 'Job ID (optional)',
-                            controller: context.read<ProfileCubit>().jobIdController,
+                            controller:
+                                context.read<ProfileCubit>().jobIdController,
                           ),
                           SizedBox(height: 10.h),
                           Align(
@@ -148,10 +152,12 @@ class ManagerProfileScreen extends StatelessWidget {
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return BranchDetailsWidget(
-                                branch: state.managerProfileModel.content!.branch![index],
+                                branch: state.managerProfileModel.content!
+                                    .branch![index],
                               );
                             },
-                            itemCount: state.managerProfileModel.content!.branch!.length,
+                            itemCount: state
+                                .managerProfileModel.content!.branch!.length,
                           ),
                           // if (isCashier)
                           // ProfileRelatedBranchDropDown(),

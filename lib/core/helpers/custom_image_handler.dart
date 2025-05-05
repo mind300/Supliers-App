@@ -71,7 +71,9 @@ class CustomImageHandler extends StatelessWidget {
         ),
       );
     }
-    if (path.startsWith('http') || path.startsWith('https') || path.startsWith('www.')) {
+    if (path.startsWith('http') ||
+        path.startsWith('https') ||
+        path.startsWith('www.')) {
       return CachedNetworkImage(
         imageUrl: path,
         fit: fit,

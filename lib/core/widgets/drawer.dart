@@ -120,7 +120,11 @@ class AppDrawer extends StatelessWidget {
     Widget tab, {
     required String page,
   }) {
-    var role = CacheHelper.getData(CacheKeys.userType) == "owner" ? UsersType.owner : UsersType.manager;
+    var role = CacheHelper.getData(CacheKeys.userType) == "owner"
+        ? UsersType.owner
+        : CacheHelper.getData(CacheKeys.userType) == "cashier"
+            ? UsersType.cashier
+            : UsersType.manager;
     // print(role);
     if (role != UsersType.owner && page == 'Branch') {
       return SizedBox();
