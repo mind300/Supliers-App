@@ -13,6 +13,7 @@ abstract class ProfileRepo {
     String id,
   );
   Future<Either<CustomException, ManagerProfileModel>> getMe();
+  Future<Either<CustomException, Unit>> updateProfile(FormData data);
 }
 
 class ProfileRepoImpl implements ProfileRepo {
@@ -21,14 +22,12 @@ class ProfileRepoImpl implements ProfileRepo {
   ProfileRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(
-      String id) async {
+  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(String id) async {
     try {
       Response res = await dioHelper.get(
         endPoint: "${EndPoints.manager}/$id",
       );
       if (res.statusCode == 200) {
-        // Handle the response data as needed
         return Right(
           ManagerProfileModel.fromJson(res.data),
         );
@@ -80,6 +79,29 @@ class ProfileRepoImpl implements ProfileRepo {
         return Right(
           ManagerProfileModel.fromJson(res.data),
         );
+      } else {
+        return Left(
+          CustomException(
+            message: res.statusMessage ?? 'Error',
+          ),
+        );
+      }
+    } on CustomException catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(CustomException(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<CustomException, Unit>> updateProfile(FormData data) async {
+    try {
+      Response res = await dioHelper.post(
+        endPoint: EndPoints.updateProfile,
+        data: data,
+      );
+      if (res.statusCode == 200) {
+        return Right(unit);
       } else {
         return Left(
           CustomException(

@@ -6,7 +6,10 @@ import 'package:supplies/core/services/network_service/error.dart';
 import 'package:supplies/feature/branch_feature/data/model/branch_model.dart';
 
 abstract class BranchRepo {
-  Future<Either<CustomException, BranchModel>> getBranches();
+  Future<Either<CustomException, BranchModel>> getBranches({
+    int page,
+    String? search,
+  });
 }
 
 class BranchRepoImpl implements BranchRepo {
@@ -14,9 +17,18 @@ class BranchRepoImpl implements BranchRepo {
   BranchRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, BranchModel>> getBranches() async {
+  Future<Either<CustomException, BranchModel>> getBranches({
+    int page = 1,
+    String? search,
+  }) async {
     try {
-      Response res = await dioHelper.get(endPoint: EndPoints.branch);
+      Response res = await dioHelper.get(
+        endPoint: EndPoints.branch,
+        query: {
+          'page': page,
+          // 'search': search,
+        },
+      );
 
       if (res.statusCode == 200) {
         return Right(BranchModel.fromJson(res.data));

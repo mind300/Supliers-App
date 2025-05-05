@@ -18,12 +18,14 @@ class ProfileButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
           child: CustomButton(
             onPressed: () {
-              context.read<ProfileCubit>().toggleEditing();
+              if (isEditing) {
+                context.read<ProfileCubit>().editProfile();
+              } else
+                context.read<ProfileCubit>().toggleEditing();
             },
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
-              transitionBuilder: (child, animation) =>
-                  FadeTransition(opacity: animation, child: child),
+              transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
               child: Text(
                 isEditing ? "Save" : "Edit",
                 key: ValueKey(isEditing),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
@@ -80,8 +81,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Choose Image Source',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Choose Image Source', style: TextStyle(fontWeight: FontWeight.bold)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -108,5 +108,37 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileImageUpdated());
 
     return File(pickedFile.path);
+  }
+
+  editProfile() async {
+    emit(ProfileUpdateLoading());
+    FormData data = FormData.fromMap({
+      'name': nameController.text,
+      'mobile_phone': phoneNumberController.text,
+    });
+
+    if (profileImage.isNotEmpty) {
+      data.files.add(
+        MapEntry(
+          'media',
+          await MultipartFile.fromFile(
+            profileImage,
+            filename: profileImage.split('/').last,
+          ),
+        ),
+      );
+    }
+    var res = await profileRepo.updateProfile(
+      data,
+    );
+    res.fold(
+      (l) {
+        emit(ProfileError(l.message));
+      },
+      (r) {
+        CacheHelper.setData(CacheKeys.name, nameController.text);
+        emit(ProfileUpdateSuccess("Profile updated successfully"));
+      },
+    );
   }
 }
