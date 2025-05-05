@@ -2,14 +2,8 @@ class CacheKeys {
   static const String token = "token";
   static const String userType = 'userType';
   static const String userModel = "userModel";
-  static const String userId = "userId";
-  static const String isDark = "isDark";
+  static const String name = "name";
+  static const String image = "image";
+  static const String id = "id";
   static const String languageCode = "languageCode";
-  static const String languageName = "languageName";
-  static const String countryCode = "countryCode";
-  static const String themeName = "themeName";
-  static const String typeAds = "typeAds";
-  static const String countryName = "countryName";
-  static const String countryImage = "countryImage";
-  static const String companyPhone = "966555959096";
 }
