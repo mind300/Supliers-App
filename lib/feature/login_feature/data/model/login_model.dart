@@ -22,7 +22,7 @@ class LoginModel {
   });
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        userId: json['user_id'] as int?,
+        userId: json['id'] as int?,
         name: json['name'].toString(),
         isNew: json['is_new'] as bool?,
         role: json['role'] as String?,
