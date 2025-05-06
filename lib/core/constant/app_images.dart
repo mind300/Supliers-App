@@ -2,6 +2,7 @@ class AppImages {
   static const String logoH = 'assets/images/logo_h.png';
   static const String logoV = 'assets/images/logo_v.png';
   static const String closeEye = 'assets/images/close_eye.svg';
+  static const String openEye = 'assets/images/open_eye.svg';
   static const String add = 'assets/images/add.svg';
   static const String about = 'assets/images/about.svg';
   static const String branch = 'assets/images/branch.svg';

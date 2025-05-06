@@ -20,4 +20,7 @@ class Routes {
   static const String history = '/history';
   static const String historyDetails = '/historyDetails';
   static const String addCashiers = '/addCashiers';
+  static const String forgetPassword = '/forgetPassword';
+  static const String pinCode = '/pinCode';
+  static const String resetPassword = '/resetPassword';
 }

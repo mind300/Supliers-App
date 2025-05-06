@@ -19,6 +19,9 @@ import 'package:supplies/feature/branch_feature/view/screen/branch_screen.dart';
 import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 import 'package:supplies/feature/cashier_feature/controller/cashiers_cubit.dart';
 import 'package:supplies/feature/cashier_feature/view/screen/cashier_screen.dart';
+import 'package:supplies/feature/forget_password_feature/controller/forget_cubit/forget_password_cubit.dart';
+import 'package:supplies/feature/forget_password_feature/controller/pin_cubit/pin_cubit.dart';
+import 'package:supplies/feature/forget_password_feature/controller/reset_cubit/reset_password_cubit.dart';
 import 'package:supplies/feature/history_details_feature/view/screen/history_details_screen.dart';
 import 'package:supplies/feature/history_feature/view/screen/history_screen.dart';
 import 'package:supplies/feature/login_feature/controller/login_cubit.dart';
@@ -35,6 +38,9 @@ import 'package:supplies/feature/profile_feature/view/screen/profile_screen.dart
 import 'package:supplies/feature/splash_feature/splash_screen.dart';
 import 'package:supplies/feature/qr_feature/view/screen/qr_screen.dart';
 import 'package:supplies/feature/qr_feature/view/screen/scan_details.dart';
+import 'package:supplies/feature/forget_password_feature/view/screen/forget_password_screen.dart';
+import 'package:supplies/feature/forget_password_feature/view/screen/pin_code_screen.dart';
+import 'package:supplies/feature/forget_password_feature/view/screen/reset_password_screen.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
@@ -157,6 +163,35 @@ class AppRouter {
             create: (context) => getIt<AddManagerCubit>()..getBranches(),
             child: const AddManagerScreen(),
           ),
+        );
+      case Routes.forgetPassword:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ForgetPasswordCubit>(),
+            child: const ForgetPasswordScreen(),
+          ),
+        );
+      case Routes.pinCode:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<PinCubit>()..startTimer(),
+            child: PinCodeScreen(
+              email: args.toString(),
+            ),
+          ),
+        );
+      case Routes.resetPassword:
+        return MaterialPageRoute(
+          builder: (_) {
+            Map argsMap = args as Map;
+            return BlocProvider(
+              create: (context) => getIt<ResetPasswordCubit>(),
+              child: ResetPasswordScreen(
+                email: argsMap['email'],
+                token: argsMap['token'],
+              ),
+            );
+          },
         );
       default:
         return MaterialPageRoute(
