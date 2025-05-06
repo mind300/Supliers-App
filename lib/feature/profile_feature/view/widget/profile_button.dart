@@ -25,7 +25,8 @@ class ProfileButton extends StatelessWidget {
             },
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
-              transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+              transitionBuilder: (child, animation) =>
+                  FadeTransition(opacity: animation, child: child),
               child: Text(
                 isEditing ? "Save" : "Edit",
                 key: ValueKey(isEditing),

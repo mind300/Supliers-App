@@ -22,7 +22,8 @@ class LoginRepoImpl implements LoginRepo {
   LoginRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, UsersType>> login(String email, String password) async {
+  Future<Either<CustomException, UsersType>> login(
+      String email, String password) async {
     try {
       Response res = await dioHelper.post(
         headers: {"Device-Token": "121321321"},

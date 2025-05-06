@@ -129,10 +129,12 @@ class AppDrawer extends StatelessWidget {
     if (role != UsersType.owner && page == 'Branch') {
       return SizedBox();
     }
-    if ((role == UsersType.owner || role == UsersType.manager) && page == 'QR Scan') {
+    if ((role == UsersType.owner || role == UsersType.manager) &&
+        page == 'QR Scan') {
       return SizedBox();
     }
-    if ((role == UsersType.manager || role == UsersType.cashier) && page == 'Managers') {
+    if ((role == UsersType.manager || role == UsersType.cashier) &&
+        page == 'Managers') {
       return SizedBox();
     }
 
@@ -172,7 +174,8 @@ class DrawerItemBuilder extends StatelessWidget {
         style: TextStyle(
           fontSize: 14.sp,
           fontWeight: FontWeight.w500,
-          color: isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
+          color:
+              isSelected ? AppColors.white : AppColors.white.withOpacity(0.56),
         ),
       ),
       onTap: () {
