@@ -7,11 +7,13 @@ import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
+import 'package:supplies/feature/branch_feature/data/model/contant_branch_cashier.dart';
 import 'package:supplies/feature/branch_feature/data/model/content.dart';
 
 class BranchDetailsWidget extends StatelessWidget {
-  final Content branch;
-  const BranchDetailsWidget({super.key, required this.branch});
+  final Content? branch;
+  final ContantBranchCashier? branchCashier;
+  const BranchDetailsWidget({super.key,  this.branch, this.branchCashier});
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,7 @@ class BranchDetailsWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Branch Address:",
+                          "Branch Name:",
                           style: TextStyle(
                             fontSize: 10.sp,
                             fontWeight: FontWeight.w300,
@@ -67,7 +69,7 @@ class BranchDetailsWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          branch.name ?? "",
+                          branch!.name ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16.sp,
@@ -88,7 +90,7 @@ class BranchDetailsWidget extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          branch.managerName ?? "None",
+                          branch?.managerName ?? "None",
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 13.sp,
@@ -108,7 +110,7 @@ class BranchDetailsWidget extends StatelessWidget {
               var res = await context.pushNamed(
                 Routes.branchDetails,
                 arguments: BranchDetailsArguments(
-                  branchId: branch.id!,
+                  branchId: branch!.id!,
                 ),
               );
               if (res != null) {
