@@ -9,10 +9,12 @@ class PaginatedDropdownExample extends StatefulWidget {
   final TextEditingController searchController;
   final Function(PaginationDropDownMenuModel)? onItemSelected;
 
-  const PaginatedDropdownExample({super.key, required this.searchController, this.onItemSelected});
+  const PaginatedDropdownExample(
+      {super.key, required this.searchController, this.onItemSelected});
 
   @override
-  _PaginatedDropdownExampleState createState() => _PaginatedDropdownExampleState();
+  _PaginatedDropdownExampleState createState() =>
+      _PaginatedDropdownExampleState();
 }
 
 class _PaginatedDropdownExampleState extends State<PaginatedDropdownExample> {
@@ -31,7 +33,10 @@ class _PaginatedDropdownExampleState extends State<PaginatedDropdownExample> {
     super.initState();
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent && !isLoading && hasMore) {
+      if (_scrollController.position.pixels ==
+              _scrollController.position.maxScrollExtent &&
+          !isLoading &&
+          hasMore) {
         currentPage++;
         fetchItems(currentPage);
       }
@@ -64,9 +69,13 @@ class _PaginatedDropdownExampleState extends State<PaginatedDropdownExample> {
 
     try {
       var dioHelper = DioImpl();
-      Response res = await dioHelper.get(endPoint: '${EndPoints.allBranches}?page=$page');
+      Response res =
+          await dioHelper.get(endPoint: '${EndPoints.allBranches}?page=$page');
 
-      List<PaginationDropDownMenuModel> fetchedItems = (res.data['content'] as List).map((item) => PaginationDropDownMenuModel.fromJson(item)).toList();
+      List<PaginationDropDownMenuModel> fetchedItems =
+          (res.data['content'] as List)
+              .map((item) => PaginationDropDownMenuModel.fromJson(item))
+              .toList();
 
       setState(() {
         if (fetchedItems.isEmpty) {
@@ -83,7 +92,8 @@ class _PaginatedDropdownExampleState extends State<PaginatedDropdownExample> {
   }
 
   OverlayEntry _createOverlayEntry() {
-    RenderBox renderBox = _fieldKey.currentContext!.findRenderObject() as RenderBox;
+    RenderBox renderBox =
+        _fieldKey.currentContext!.findRenderObject() as RenderBox;
     final size = renderBox.size;
     final offset = renderBox.localToGlobal(Offset.zero);
 

@@ -5,9 +5,11 @@ import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/feature/offer_feature/data/model/offer_model/content.dart';
 
 class OfferWidget extends StatelessWidget {
-  const OfferWidget({super.key});
+  const OfferWidget({super.key, required this.offer});
+  final Content offer;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class OfferWidget extends StatelessWidget {
         child: Column(
           children: [
             CustomImageHandler(
-              path: AppImages.offerTest,
+              path: offer.images!.isEmpty ? AppImages.offerTest : offer.images!.first,
               width: double.infinity,
             ),
             Container(
@@ -37,26 +39,19 @@ class OfferWidget extends StatelessWidget {
                   ),
                 ],
                 color: AppColors.primaryDark,
-                // borderRadius: BorderRadius.circular(12),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomImageHandler(
-                    path: AppImages.profileTest,
-                    width: 30.w,
-                    height: 30.h,
-                  ),
-                  SizedBox(width: 10.w),
                   Expanded(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Expanded(
                               child: Text(
-                                "KFC",
+                                offer.title ?? "",
                                 style: TextStyle(
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
@@ -77,7 +72,7 @@ class OfferWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          "An offer is a conditional proposal made by a buyer or seller to buy or sell an asset, which becomes legally binding if something for sale, or the submission of a total price for a product or service.",
+                          offer.description ?? "",
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -88,12 +83,15 @@ class OfferWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         //price
-                        Text(
-                          "200 EGP",
-                          style: TextStyle(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.yellow,
+                        Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: Text(
+                            "${offer.discount} %",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w900,
+                              color: AppColors.yellow,
+                            ),
                           ),
                         ),
                       ],

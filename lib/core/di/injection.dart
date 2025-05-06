@@ -7,6 +7,8 @@ import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cub
 import 'package:supplies/feature/add_cashier_feature/data/repo/add_cashiers_repo.dart';
 import 'package:supplies/feature/add_manager_feature/controller/add_manager_cubit.dart';
 import 'package:supplies/feature/add_manager_feature/data/repo/add_manager_repo.dart';
+import 'package:supplies/feature/add_offer_feature/controller/add_offer_cubit.dart';
+import 'package:supplies/feature/add_offer_feature/data/repo/add_offer_repo.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/data/repo/branch_details_repo.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
@@ -17,6 +19,8 @@ import 'package:supplies/feature/login_feature/controller/login_cubit.dart';
 import 'package:supplies/feature/login_feature/data/repo/login_repo.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 import 'package:supplies/feature/manager_feature/data/repo/manager_repo.dart';
+import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
+import 'package:supplies/feature/offer_feature/data/repo/offer_repo.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/data/repo/profile_repo.dart';
 
@@ -54,4 +58,10 @@ void initGetIt() {
   //add cashiers
   getIt.registerFactory<AddCashiersRepo>(() => AddCashiersRepoImpl(getIt()));
   getIt.registerFactory<AddCashiersCubit>(() => AddCashiersCubit(getIt()));
+  //offer
+  getIt.registerFactory<OfferRepo>(() => OfferRepoImpl(getIt()));
+  getIt.registerFactory<OfferCubit>(() => OfferCubit(getIt()));
+  //add offer
+  getIt.registerFactory<AddOfferRepo>(() => AddOfferRepoImpl(getIt()));
+  getIt.registerFactory<AddOfferCubit>(() => AddOfferCubit(getIt()));
 }

@@ -12,6 +12,8 @@ import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cub
 import 'package:supplies/feature/add_cashier_feature/view/screen/add_cashier_screen.dart';
 import 'package:supplies/feature/add_manager_feature/controller/add_manager_cubit.dart';
 import 'package:supplies/feature/add_manager_feature/view/screen/add_manager_screen.dart';
+import 'package:supplies/feature/add_offer_feature/controller/add_offer_cubit.dart';
+import 'package:supplies/feature/add_offer_feature/view/screen/add_offer_screen.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/view/screen/branch_details_screen.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
@@ -26,6 +28,7 @@ import 'package:supplies/feature/login_feature/view/screen/login_screen.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 import 'package:supplies/feature/manager_feature/view/screen/manager_screen.dart';
 import 'package:supplies/feature/offer_details_feature/view/screen/offer_details_screen.dart';
+import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
 import 'package:supplies/feature/offer_feature/view/screen/offer_screen.dart';
 import 'package:supplies/feature/password_feature/view/screen/password_screen.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
@@ -100,7 +103,17 @@ class AppRouter {
         );
       case Routes.offer:
         return MaterialPageRoute(
-          builder: (_) => const OfferScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<OfferCubit>()..getOffers(),
+            child: const OfferScreen(),
+          ),
+        );
+      case Routes.addOffer:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AddOfferCubit>(),
+            child: const AddOfferScreen(),
+          ),
         );
       case Routes.offerDetails:
         return MaterialPageRoute(
