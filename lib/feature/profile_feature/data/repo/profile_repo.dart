@@ -22,7 +22,8 @@ class ProfileRepoImpl implements ProfileRepo {
   ProfileRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(String id) async {
+  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(
+      String id) async {
     try {
       Response res = await dioHelper.get(
         endPoint: "${EndPoints.manager}/$id",

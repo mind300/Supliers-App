@@ -6,6 +6,7 @@ class EndPoints {
   static const String cashiers = '$baseUrl/cashiers';
   static const String addBranch = '$baseUrl/owners/branches';
   static const String manager = '$baseUrl/managers';
+  static const String offer = '$baseUrl/offers';
   static const String allManagers = '$baseUrl/managers/list';
   static const String allBranches = '$baseUrl/branches/list';
   static const String updateProfile = '$baseUrl/profiles/update';

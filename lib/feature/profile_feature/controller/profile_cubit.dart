@@ -91,7 +91,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Choose Image Source', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Choose Image Source',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

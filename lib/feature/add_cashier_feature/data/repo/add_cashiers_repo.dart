@@ -6,7 +6,8 @@ import 'package:supplies/core/services/network_service/error.dart';
 import 'package:supplies/feature/add_manager_feature/data/model/branch_list_model/branch_list_model.dart';
 
 abstract class AddCashiersRepo {
-  Future<Either<CustomException, BranchListModel>> getBranchList({int page = 1});
+  Future<Either<CustomException, BranchListModel>> getBranchList(
+      {int page = 1});
   Future<Either<CustomException, Unit>> addCashier({required Map data});
 }
 
@@ -19,7 +20,8 @@ class AddCashiersRepoImpl extends AddCashiersRepo {
     int page = 1,
   }) async {
     try {
-      Response res = await dioHelper.get(endPoint: '${EndPoints.allBranches}?page=$page');
+      Response res =
+          await dioHelper.get(endPoint: '${EndPoints.allBranches}?page=$page');
       if (res.statusCode == 200) {
         return Right(BranchListModel.fromJson(res.data));
       } else {
