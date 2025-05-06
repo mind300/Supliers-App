@@ -133,6 +133,9 @@ class CashierProfileScreen extends StatelessWidget {
                         ),
                         SizedBox(height: 10.h),
                         // ProfileRelatedBranchDropDown(),
+                        Align(
+                            alignment: Alignment.topLeft,
+                            child: Text("Profile Related Branch")),
                         ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
@@ -141,8 +144,7 @@ class CashierProfileScreen extends StatelessWidget {
                               branch: Content.fromJson(state.cashierProfileModel.content!.branchCashier![index].toJson())
                             );
                           },
-                          itemCount: state
-                              .cashierProfileModel.content!.branchCashier!.length,
+                          itemCount: state.cashierProfileModel.content!.branchCashier!.length,
                         ),
                       ],
                     ),
