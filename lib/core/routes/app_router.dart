@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/feature/about_feature/controller/about_cubit.dart';
 import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
+import 'package:supplies/feature/offer_feature/data/model/offer_model/content.dart';
+
 import 'package:supplies/feature/add_branch_feature/view/screen/add_branch_screen.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/choose_address_screen.dart';
 import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
@@ -76,7 +79,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<BranchDetailsCubit>()..getBranchDetails((args as BranchDetailsArguments).branchId),
-            child: const BranchDetailsScreen(),
+            child: BranchDetailsScreen(branchId: (args as BranchDetailsArguments).branchId),
           ),
         );
       case Routes.profile:
@@ -109,14 +112,24 @@ class AppRouter {
         );
       case Routes.addOffer:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<AddOfferCubit>(),
-            child: const AddOfferScreen(),
-          ),
+          builder: (_) {
+            if (args is Content) {
+              return BlocProvider(
+                create: (context) => getIt<AddOfferCubit>()
+                  // ..getCategores()
+                  ..initData(args),
+                child: AddOfferScreen(),
+              );
+            }
+            return BlocProvider(
+              create: (context) => getIt<AddOfferCubit>()..getCategores(),
+              child: const AddOfferScreen(),
+            );
+          },
         );
       case Routes.offerDetails:
         return MaterialPageRoute(
-          builder: (_) => const OfferDetailsScreen(),
+          builder: (_) => OfferDetailsScreen(offer: args as Content),
         );
       case Routes.cashier:
         return MaterialPageRoute(
@@ -127,7 +140,10 @@ class AppRouter {
         );
       case Routes.about:
         return MaterialPageRoute(
-          builder: (_) => const AboutScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AboutCubit>()..getAbout(),
+            child: const AboutScreen(),
+          ),
         );
       case Routes.history:
         return MaterialPageRoute(

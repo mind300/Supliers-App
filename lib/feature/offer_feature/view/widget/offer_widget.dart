@@ -18,6 +18,7 @@ class OfferWidget extends StatelessWidget {
         // Navigate to the offer details screen
         context.pushNamed(
           Routes.offerDetails,
+          arguments: offer,
         );
       },
       child: ClipRRect(
@@ -86,7 +87,7 @@ class OfferWidget extends StatelessWidget {
                         Align(
                           alignment: AlignmentDirectional.centerEnd,
                           child: Text(
-                            "${offer.discount} %",
+                            "${offer.discount}% off",
                             style: TextStyle(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w900,
