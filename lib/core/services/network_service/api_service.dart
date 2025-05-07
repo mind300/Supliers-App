@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
@@ -299,6 +298,16 @@ class DioImpl extends DioHelper {
             message: e.response?.statusMessage ?? "Something went wrong",
             // message: errorModel.errors?.isEmpty ?? true ? errorModel.message : errorModel.errors?.first.value?.first ?? e.response!.data['message'] ?? "Something went wrong",
           );
+
+          case DioExceptionType.unknown:
+          if (e.response!.statusCode == 422) {
+
+           throw CustomException(
+              message: e.response!.data['message'] ?? "Something went wrong",
+              // message: errorModel.errors?.isEmpty ?? true ? errorModel.message : errorModel.errors?.first.value?.first ?? e.response!.data['message'] ?? "Something went wrong",
+            );
+          }
+
         case DioExceptionType.connectionError:
           if (e.error is SocketException) {
             throw CustomException(message: "No internet connection.");

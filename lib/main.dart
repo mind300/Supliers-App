@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             scaffoldBackgroundColor: AppColors.white,
-            dialogTheme: DialogTheme(
+            dialogTheme: const DialogThemeData(
               backgroundColor: AppColors.white,
             ),
             appBarTheme: AppBarTheme(

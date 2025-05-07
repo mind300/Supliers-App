@@ -1,6 +1,7 @@
 class EndPoints {
   static const String baseUrl = 'https://suppliers-api.all-classes.com/api/suppliers';
   static const String login = '$baseUrl/auth/login';
+  static const String changePassword = '$baseUrl/auth/password/change';
   static const String branch = '$baseUrl/branches';
   static const String me = '$baseUrl/profiles/me';
   static const String cashiers = '$baseUrl/cashiers';
@@ -11,4 +12,6 @@ class EndPoints {
   static const String allBranches = '$baseUrl/branches/list';
   static const String updateProfile = '$baseUrl/profiles/update';
   static const String allBranchesWithoutManagers = '$baseUrl/branches/withoutManagers';
+
+
 }

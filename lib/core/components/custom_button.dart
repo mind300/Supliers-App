@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
   final Color? color;
   final Color backgroundColor;
   final bool enabled;
-  final dynamic? leading;
+  final dynamic leading;
   final double? height;
   @override
   Widget build(BuildContext context) {
