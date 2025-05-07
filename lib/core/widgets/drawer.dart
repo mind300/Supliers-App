@@ -47,7 +47,7 @@ class AppDrawer extends StatelessWidget {
     Routes.offer,
     Routes.cashier,
     Routes.history,
-    Routes.password,
+    Routes.changePassword,
     Routes.about,
   ];
 

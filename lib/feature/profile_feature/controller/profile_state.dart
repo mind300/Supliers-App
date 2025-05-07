@@ -21,7 +21,7 @@ final class ProfileManagerLoaded extends ProfileState {
 }
 
 final class ProfileCashierLoaded extends ProfileState {
-  final ProfileCashierLoaded cashierProfileModel;
+  final ManagerProfileModel cashierProfileModel;
 
   ProfileCashierLoaded(this.cashierProfileModel);
 }

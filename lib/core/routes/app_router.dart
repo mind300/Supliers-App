@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supplies/core/di/injection.dart';
-import 'package:supplies/core/enums/account_type.dart';
-import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
@@ -30,7 +28,8 @@ import 'package:supplies/feature/manager_feature/view/screen/manager_screen.dart
 import 'package:supplies/feature/offer_details_feature/view/screen/offer_details_screen.dart';
 import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
 import 'package:supplies/feature/offer_feature/view/screen/offer_screen.dart';
-import 'package:supplies/feature/password_feature/view/screen/password_screen.dart';
+import 'package:supplies/feature/password_feature/controller/change_pass_cubit.dart';
+import 'package:supplies/feature/password_feature/view/screen/change_password_screen.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/view/screen/cashier_profile_screen.dart';
 import 'package:supplies/feature/profile_feature/view/screen/manager_profile_screen.dart';
@@ -126,10 +125,6 @@ class AppRouter {
             child: const CashierScreen(),
           ),
         );
-      case Routes.password:
-        return MaterialPageRoute(
-          builder: (_) => const PasswordScreen(),
-        );
       case Routes.about:
         return MaterialPageRoute(
           builder: (_) => const AboutScreen(),
@@ -169,6 +164,14 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<AddManagerCubit>()..getBranches(),
             child: const AddManagerScreen(),
+          ),
+        );
+
+        case Routes.changePassword:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ChangePasswordCubit>(),
+            child: const ChangePasswordScreen(),
           ),
         );
       default:

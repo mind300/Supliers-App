@@ -9,13 +9,16 @@ class CashiersCubit extends Cubit<CashiersState> {
   CashiersCubit(this.cashiersRepo) : super(CashiersInitial());
   final CashiersRepo cashiersRepo;
 
-  void getCashiers() {
+  void getCashiers({int page = 1}) async {
     emit(CashiersLoading());
-    cashiersRepo.getCashiers().then((value) {
-      value.fold(
-        (l) => emit(CashiersError(l.message)),
-        (r) => emit(CashiersSuccess(r)),
-      );
-    });
+
+    var response = await cashiersRepo.getCashiers(
+      page: page,
+    );
+    response.fold(
+          (l) => emit(CashiersError(l.message)),
+          (r) => emit(CashiersSuccess(r)),
+    );
   }
 }
+
