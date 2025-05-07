@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:supplies/core/constant/app_colors.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {super.key,
-      required this.hintText,
-      this.textInputType,
-      this.suffixIcon,
-      this.prefixIcon,
-      this.title,
-      this.toolTipMessage,
-      this.controller,
-      this.enabled,
-      this.onSaved,
-      this.obscureText = false,
-      this.validator,
-      this.borderRadius = 10,
-      this.inputFormatters,
-      this.maxLines = 1,
-      this.readOnly = false,
-      this.fillColor = AppColors.textfieldColor,
-      this.onChanged,
-      this.autoValidateMode,
-      this.textInputAction});
+import '../constant/app_colors.dart';
+
+class CustomTextFormField extends StatefulWidget {
+  const CustomTextFormField({
+    super.key,
+    required this.hintText,
+    this.textInputType,
+    this.suffixIcon,
+    this.prefixIcon,
+    this.title,
+    this.toolTipMessage,
+    this.controller,
+    this.enabled,
+    this.onSaved,
+    this.obscureText = false,
+    this.validator,
+    this.borderRadius = 10,
+    this.inputFormatters,
+    this.maxLines = 1,
+    this.readOnly = false,
+    this.fillColor = AppColors.textfieldColor,
+    this.onChanged,
+    this.autoValidateMode,
+    this.textInputAction,
+  });
+
   final String hintText;
   final String? title;
   final String? toolTipMessage;
@@ -43,33 +46,47 @@ class CustomTextFormField extends StatelessWidget {
   final AutovalidateMode? autoValidateMode;
   final TextInputAction? textInputAction;
   final bool readOnly;
+
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool isPasswordVisible;
+
+  @override
+  void initState() {
+    super.initState();
+    isPasswordVisible = !widget.obscureText;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final bool isPasswordField = widget.obscureText;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (title != null)
+        if (widget.title != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 5),
             child: Tooltip(
-              message: toolTipMessage ?? '',
+              message: widget.toolTipMessage ?? '',
               child: Row(
-                spacing: 5.w,
                 children: [
                   Text(
-                    title!,
+                    widget.title!,
                     style: TextStyle(
                       fontSize:
-                          Theme.of(context).textTheme.titleSmall!.fontSize,
+                      Theme.of(context).textTheme.titleSmall!.fontSize,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  if (toolTipMessage != null)
+                  if (widget.toolTipMessage != null)
                     Tooltip(
-                      message: toolTipMessage ?? "",
+                      message: widget.toolTipMessage!,
                       triggerMode: TooltipTriggerMode.tap,
-                      showDuration:
-                          Duration(seconds: toolTipMessage != null ? 3 : 0),
+                      showDuration: const Duration(seconds: 3),
                       child: Icon(
                         Icons.help_outline_outlined,
                         size: 14.sp,
@@ -81,44 +98,57 @@ class CustomTextFormField extends StatelessWidget {
           ),
         TextFormField(
           textAlign: TextAlign.start,
-          enabled: enabled,
-          controller: controller,
-          obscureText: obscureText,
-          onSaved: onSaved,
-          onChanged: onChanged,
-          inputFormatters: inputFormatters,
-          readOnly: readOnly,
-          validator: validator ??
-              (v) {
+          enabled: widget.enabled,
+          controller: widget.controller,
+          obscureText: isPasswordField && !isPasswordVisible,
+          onSaved: widget.onSaved,
+          onChanged: widget.onChanged,
+          inputFormatters: widget.inputFormatters,
+          readOnly: widget.readOnly,
+          validator: widget.validator ??
+                  (v) {
                 if (v!.isEmpty) {
                   return 'هذا الحقل مطلوب';
                 }
                 return null;
               },
-          keyboardType: textInputType,
-          maxLines: maxLines!.toInt(),
+          keyboardType: widget.textInputType,
+          maxLines: widget.maxLines!.toInt(),
           style: TextStyle(
             color: const Color(0xFF1D1D1D),
-            fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
+            fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
             fontWeight: FontWeight.bold,
           ),
           decoration: InputDecoration(
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon,
+            suffixIcon: isPasswordField
+                ? IconButton(
+              icon: Icon(
+                isPasswordVisible
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+              ),
+              onPressed: () {
+                setState(() {
+                  isPasswordVisible = !isPasswordVisible;
+                });
+              },
+            )
+                : widget.suffixIcon,
+            prefixIcon: widget.prefixIcon,
             hintStyle: TextStyle(
               color: AppColors.black.withOpacity(0.3),
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w300,
             ),
-            hintText: hintText,
+            hintText: widget.hintText,
             filled: true,
-            fillColor: fillColor,
+            fillColor: widget.fillColor,
             border: buildBorder(),
             enabledBorder: buildBorder(),
             focusedBorder: buildBorder(),
           ),
-          autovalidateMode: autoValidateMode,
-          textInputAction: textInputAction,
+          autovalidateMode: widget.autoValidateMode,
+          textInputAction: widget.textInputAction,
         ),
       ],
     );
@@ -126,7 +156,7 @@ class CustomTextFormField extends StatelessWidget {
 
   OutlineInputBorder buildBorder() {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(borderRadius!),
+      borderRadius: BorderRadius.circular(widget.borderRadius!),
       borderSide: BorderSide(
         width: 1,
         color: AppColors.textfieldBorderColor,

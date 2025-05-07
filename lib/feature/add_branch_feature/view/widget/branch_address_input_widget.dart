@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
