@@ -7,6 +7,8 @@ import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/core/services/cache/cache_helper.dart';
+import 'package:supplies/core/services/cache/cache_keys.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
 import 'package:supplies/feature/offer_feature/view/widget/offer_widget.dart';
@@ -69,13 +71,15 @@ class OfferScreen extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                     ),
-          floatingActionButton: CustomFloatingActionButton(
-            icon: Icons.add,
-            onPressed: () {
-              // Navigate to the add offer screen
-              context.pushNamed(Routes.addOffer);
-            },
-          ),
+          floatingActionButton: CacheHelper.getData(CacheKeys.userType) == 'cashier'
+              ? SizedBox()
+              : CustomFloatingActionButton(
+                  icon: Icons.add,
+                  onPressed: () {
+                    // Navigate to the add offer screen
+                    context.pushNamed(Routes.addOffer);
+                  },
+                ),
         );
       },
     );

@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/network_service/api_service.dart';
+import 'package:supplies/feature/about_feature/controller/about_cubit.dart';
+import 'package:supplies/feature/about_feature/data/repo/about_repo.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 import 'package:supplies/feature/add_branch_feature/data/repo/add_branch_repo.dart';
 import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
@@ -69,4 +71,7 @@ void initGetIt() {
   // change password
   getIt.registerFactory<ChangePassRepoImpl>(() => ChangePassRepoImpl(getIt()));
   getIt.registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(getIt()));
+  //about
+  getIt.registerFactory<AboutRepo>(() => AboutRepoImpl(getIt()));
+  getIt.registerFactory<AboutCubit>(() => AboutCubit(getIt()));
 }

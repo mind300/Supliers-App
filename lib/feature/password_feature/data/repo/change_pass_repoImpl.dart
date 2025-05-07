@@ -38,8 +38,6 @@ class ChangePassRepoImpl implements ChangePassRepo {
         return Left(CustomException(
           message: response.data['message'] ?? 'Something went wrong',
         ));
-
-
       }
     } catch (e) {
       return Left(CustomException(message: e.toString()));

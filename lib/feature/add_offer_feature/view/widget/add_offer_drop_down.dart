@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 
-final List<String> items = ['Item1', 'Item2', 'Item3', 'Item4'];
-List<String> selectedItems = [];
+// final List<String> items = ['Item1', 'Item2', 'Item3', 'Item4'];
+// List<DropDownModel> selectedItems = [];
 
 class AddOfferDropDown extends StatelessWidget {
-  const AddOfferDropDown({
+  AddOfferDropDown({
     super.key,
     this.title,
     this.toolTipMessage,
+    required this.items,
+    this.selectedItems = const [],
+    this.onChanged,
   });
 
   final String? title;
   final String? toolTipMessage;
+  final List<DropDownModel> items;
+  final List<DropDownModel> selectedItems;
+  final Function? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +66,7 @@ class AddOfferDropDown extends StatelessWidget {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: DropdownButtonHideUnderline(
-            child: DropdownButton2<String>(
+            child: DropdownButton2<int>(
               isExpanded: true,
               hint: Text(
                 'Select Items',
@@ -71,16 +77,22 @@ class AddOfferDropDown extends StatelessWidget {
                 ),
               ),
               items: items.map((item) {
-                return DropdownMenuItem<String>(
-                  value: item,
+                return DropdownMenuItem<int>(
+                  value: item.id,
                   enabled: false,
                   child: StatefulBuilder(
                     builder: (context, menuSetState) {
-                      final isSelected = selectedItems.contains(item);
+                      final isSelected = selectedItems.any((selectedItem) => selectedItem.id == item.id);
                       return InkWell(
                         onTap: () {
-                          isSelected ? selectedItems.remove(item) : selectedItems.add(item);
+                          if (isSelected) {
+                            selectedItems.removeWhere((selectedItem) => selectedItem.id == item.id);
+                          } else {
+                            selectedItems.add(item);
+                          }
+                          // isSelected ? selectedItems.remove(item) : selectedItems.add(item);
                           menuSetState(() {});
+                          onChanged?.call(selectedItems);
                         },
                         child: Container(
                           height: double.infinity,
@@ -95,7 +107,7 @@ class AddOfferDropDown extends StatelessWidget {
                               const SizedBox(width: 16),
                               Expanded(
                                 child: Text(
-                                  item,
+                                  item.name ?? '',
                                   style: TextStyle(fontSize: 12.sp),
                                 ),
                               ),
@@ -107,7 +119,7 @@ class AddOfferDropDown extends StatelessWidget {
                   ),
                 );
               }).toList(),
-              value: selectedItems.isEmpty ? null : selectedItems.last,
+              value: selectedItems.isEmpty ? null : selectedItems.last.id,
               onChanged: (value) {},
               selectedItemBuilder: (context) {
                 return items.map(
@@ -115,7 +127,7 @@ class AddOfferDropDown extends StatelessWidget {
                     return Container(
                       alignment: AlignmentDirectional.centerStart,
                       child: Text(
-                        selectedItems.join(', '),
+                        selectedItems.map((e) => e.name).join(', '),
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w400,
@@ -144,6 +156,20 @@ class AddOfferDropDown extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class DropDownModel {
+  final String? name;
+  final int? id;
+
+  DropDownModel({this.name, this.id});
+
+  factory DropDownModel.fromJson(Map<String, dynamic> json) {
+    return DropDownModel(
+      name: json['name'] as String?,
+      id: json['id'] as int?,
     );
   }
 }
