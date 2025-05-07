@@ -23,14 +23,7 @@ class AboutScreen extends StatelessWidget {
         child: BlocConsumer<AboutCubit, AboutState>(
           listener: (context, state) {},
           builder: (context, state) {
-            if (state is AboutError) {
-              return RetryWidget(
-                onRetry: () {
-                  context.read<AboutCubit>().getAbout();
-                },
-                message: state.error,
-              );
-            } else if (state is AboutSuccess) {
+            if (state is AboutSuccess) {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -64,9 +57,6 @@ class AboutScreen extends StatelessWidget {
                 ],
               );
             }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
           },
         ),
       ),

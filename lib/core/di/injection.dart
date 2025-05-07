@@ -68,9 +68,6 @@ void initGetIt() {
   //add offer
   getIt.registerFactory<AddOfferRepo>(() => AddOfferRepoImpl(getIt()));
   getIt.registerFactory<AddOfferCubit>(() => AddOfferCubit(getIt()));
-  // change password
-  getIt.registerFactory<ChangePassRepoImpl>(() => ChangePassRepoImpl(getIt()));
-  getIt.registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(getIt()));
   //about
   getIt.registerFactory<AboutRepo>(() => AboutRepoImpl(getIt()));
   getIt.registerFactory<AboutCubit>(() => AboutCubit(getIt()));
