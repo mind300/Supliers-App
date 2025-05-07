@@ -7,6 +7,8 @@ import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/core/services/cache/cache_helper.dart';
+import 'package:supplies/core/services/cache/cache_keys.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
 import 'package:supplies/feature/offer_feature/view/widget/offer_widget.dart';
@@ -30,48 +32,54 @@ class OfferScreen extends StatelessWidget {
                   message: state.error,
                 )
               : state is OfferLoaded
-                  ? state.offerModel.content!.isEmpty
-                      ? Center(
-                          child: Text(
-                            'No offers available',
-                            style: TextStyle(fontSize: 16.sp, color: AppColors.primary),
-                          ),
-                        )
-                      : ListView.separated(
-                          itemCount: state.offerModel.content?.length ?? 0,
-                          separatorBuilder: (context, index) => SizedBox(height: 20.h),
-                          padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 24.w),
-                          itemBuilder: (context, index) {
-                            return TweenAnimationBuilder<double>(
-                              tween: Tween<double>(begin: 0, end: 1),
-                              duration: Duration(milliseconds: 300 + index * 100),
-                              builder: (context, value, child) {
-                                return Opacity(
-                                  opacity: value,
-                                  child: Transform.translate(
-                                    offset: Offset(0, (1 - value) * 20),
-                                    child: child,
+                  ? RefreshIndicator(
+                      child: state.offerModel.content!.isEmpty
+                          ? Center(
+                              child: Text(
+                                'No offers available',
+                                style: TextStyle(fontSize: 16.sp, color: AppColors.primary),
+                              ),
+                            )
+                          : ListView.separated(
+                              itemCount: state.offerModel.content?.length ?? 0,
+                              separatorBuilder: (context, index) => SizedBox(height: 20.h),
+                              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 24.w),
+                              itemBuilder: (context, index) {
+                                return TweenAnimationBuilder<double>(
+                                  tween: Tween<double>(begin: 0, end: 1),
+                                  duration: Duration(milliseconds: 300 + index * 100),
+                                  builder: (context, value, child) {
+                                    return Opacity(
+                                      opacity: value,
+                                      child: Transform.translate(
+                                        offset: Offset(0, (1 - value) * 20),
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                  child: OfferWidget(
+                                    offer: state.offerModel.content![index],
                                   ),
                                 );
                               },
-                              child: OfferWidget(
-                                offer: state.offerModel.content![index],
-                              ),
-                            );
-                          },
-                        )
+                            ),
+                      onRefresh: () async {
+                        await context.read<OfferCubit>().getOffers();
+                      })
                   : Center(
                       child: CircularProgressIndicator(
                         color: AppColors.primary,
                       ),
                     ),
-          floatingActionButton: CustomFloatingActionButton(
-            icon: Icons.add,
-            onPressed: () {
-              // Navigate to the add offer screen
-              context.pushNamed(Routes.addOffer);
-            },
-          ),
+          floatingActionButton: CacheHelper.getData(CacheKeys.userType) == 'cashier'
+              ? SizedBox()
+              : CustomFloatingActionButton(
+                  icon: Icons.add,
+                  onPressed: () {
+                    // Navigate to the add offer screen
+                    context.pushNamed(Routes.addOffer);
+                  },
+                ),
         );
       },
     );

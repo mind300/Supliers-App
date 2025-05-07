@@ -4,9 +4,9 @@ class Cashier {
   String? email;
   int? code;
   int? branchId;
-  String? jobId;
+  int? jobId;
   int? isActive;
-  String? createdAt;
+  String? image;
 
   Cashier({
     this.id,
@@ -16,18 +16,14 @@ class Cashier {
     this.branchId,
     this.jobId,
     this.isActive,
-    this.createdAt,
+    this.image,
   });
 
   factory Cashier.fromJson(Map<String, dynamic> json) => Cashier(
         id: json['id'] as int?,
         name: json['name'] as String?,
-        email: json['email'] as String?,
-        code: json['code'] as int?,
-        branchId: json['branch_id'] as int?,
-        jobId: json['job_id'] as String?,
-        isActive: json['is_active'] as int?,
-        createdAt: json['created_at'] as String?,
+        jobId: json['job_id'] as int?,
+        image: json['image'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -38,6 +34,5 @@ class Cashier {
         'branch_id': branchId,
         'job_id': jobId,
         'is_active': isActive,
-        'created_at': createdAt,
       };
 }

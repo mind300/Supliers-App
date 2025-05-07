@@ -32,10 +32,9 @@ class BranchDetailsCubit extends Cubit<BranchDetailsState> {
     emit(BranchDetailsDeleteUpdated());
   }
 
-  getBranchDetails(int branchId) async {
-    this.branchId = branchId;
+  getBranchDetails(int? branchId) async {
     emit(BranchDetailsLoading());
-    var res = await branchDetailsRepo.getBranchDetails(branchId);
+    var res = await branchDetailsRepo.getBranchDetails(branchId!);
     res.fold((l) {
       emit(BranchDetailsError(l.message));
     }, (r) {
