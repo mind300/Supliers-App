@@ -26,7 +26,7 @@ class BranchRepoImpl implements BranchRepo {
         endPoint: EndPoints.branch,
         query: {
           'page': page,
-          // 'search': search,
+          'searchQuery': search,
         },
       );
 

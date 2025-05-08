@@ -129,7 +129,10 @@ class AppRouter {
         );
       case Routes.offerDetails:
         return MaterialPageRoute(
-          builder: (_) => OfferDetailsScreen(offer: args as Content),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AddOfferCubit>(),
+            child: OfferDetailsScreen(offer: args as Content),
+          ),
         );
       case Routes.cashier:
         return MaterialPageRoute(
@@ -183,7 +186,7 @@ class AppRouter {
           ),
         );
 
-        case Routes.changePassword:
+      case Routes.changePassword:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<ChangePasswordCubit>(),

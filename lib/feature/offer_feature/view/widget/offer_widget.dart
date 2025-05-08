@@ -26,8 +26,10 @@ class OfferWidget extends StatelessWidget {
         child: Column(
           children: [
             CustomImageHandler(
-              path: offer.images!.isEmpty ? AppImages.offerTest : offer.images!.first,
+              path: offer.images!.first,
+              // color: Colors.black,
               width: double.infinity,
+              height: MediaQuery.of(context).size.width / 3,
             ),
             Container(
               padding: EdgeInsets.all(12),

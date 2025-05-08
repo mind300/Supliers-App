@@ -77,8 +77,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   Text(
                     widget.title!,
                     style: TextStyle(
-                      fontSize:
-                      Theme.of(context).textTheme.titleSmall!.fontSize,
+                      fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -102,11 +101,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           controller: widget.controller,
           obscureText: isPasswordField && !isPasswordVisible,
           onSaved: widget.onSaved,
-          onChanged: widget.onChanged,
+          onEditingComplete: () {
+            widget.onChanged!(widget.controller!.text);
+          },
+          // onChanged: widget.onChanged,
           inputFormatters: widget.inputFormatters,
           readOnly: widget.readOnly,
           validator: widget.validator ??
-                  (v) {
+              (v) {
                 if (v!.isEmpty) {
                   return 'هذا الحقل مطلوب';
                 }
@@ -122,17 +124,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           decoration: InputDecoration(
             suffixIcon: isPasswordField
                 ? IconButton(
-              icon: Icon(
-                isPasswordVisible
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-              ),
-              onPressed: () {
-                setState(() {
-                  isPasswordVisible = !isPasswordVisible;
-                });
-              },
-            )
+                    icon: Icon(
+                      isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        isPasswordVisible = !isPasswordVisible;
+                      });
+                    },
+                  )
                 : widget.suffixIcon,
             prefixIcon: widget.prefixIcon,
             hintStyle: TextStyle(

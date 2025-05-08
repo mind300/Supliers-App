@@ -7,7 +7,7 @@ import 'package:supplies/feature/offer_feature/data/model/categories_list/catego
 import 'package:supplies/feature/offer_feature/data/model/offer_model/offer_model.dart';
 
 abstract class OfferRepo {
-  Future<Either<CustomException, OfferModel>> getOffers({required int page});
+  Future<Either<CustomException, OfferModel>> getOffers({required int page, String? search});
 }
 
 class OfferRepoImpl extends OfferRepo {
@@ -15,9 +15,11 @@ class OfferRepoImpl extends OfferRepo {
 
   OfferRepoImpl(this.dioHelper);
   @override
-  Future<Either<CustomException, OfferModel>> getOffers({required int page}) async {
+  Future<Either<CustomException, OfferModel>> getOffers({required int page, String? search}) async {
     try {
-      Response res = await dioHelper.get(endPoint: EndPoints.offer);
+      Response res = await dioHelper.get(endPoint: EndPoints.offer, query: {
+        "searchQuery": search,
+      });
       if (res.statusCode == 200) {
         return Right(OfferModel.fromJson(res.data));
       } else {

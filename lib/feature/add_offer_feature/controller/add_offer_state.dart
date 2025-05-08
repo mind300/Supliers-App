@@ -46,3 +46,18 @@ final class AddOfferCategoryError extends AddOfferState {
 final class AddOfferCategoryChanged extends AddOfferState {
   AddOfferCategoryChanged();
 }
+
+//delete offer
+final class AddOfferDeleteLoading extends AddOfferState {}
+
+final class AddOfferDeleteSuccess extends AddOfferState {
+  final String message;
+
+  AddOfferDeleteSuccess(this.message);
+}
+
+final class AddOfferDeleteError extends AddOfferState {
+  final String message;
+
+  AddOfferDeleteError(this.message);
+}

@@ -126,4 +126,17 @@ class AddOfferCubit extends Cubit<AddOfferState> {
     //     .map((e) => DropDownModel(id: e.id, name: e.name))
     // .toList();
   }
+
+  void deleteOffer(int id) async {
+    emit(AddOfferDeleteLoading());
+    var res = await addOfferRepo.deleteOffer(id);
+    res.fold(
+      (l) {
+        emit(AddOfferDeleteError(l.message));
+      },
+      (r) {
+        emit(AddOfferDeleteSuccess(r));
+      },
+    );
+  }
 }

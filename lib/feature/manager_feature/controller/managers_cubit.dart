@@ -9,11 +9,12 @@ class ManagersCubit extends Cubit<ManagersState> {
   ManagersCubit(this.managerRepo) : super(ManagersInitial());
   final ManagerRepo managerRepo;
 
-  getManagers({int page = 1}) async {
+  getManagers({
+    int page = 1,
+    String? search,
+  }) async {
     emit(ManagersLoading());
-    var res = await managerRepo.getManagers(
-      page: page,
-    );
+    var res = await managerRepo.getManagers(page: page, search: search);
     res.fold(
       (l) {
         emit(ManagersError(l.message));

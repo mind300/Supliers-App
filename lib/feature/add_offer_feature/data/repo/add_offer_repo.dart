@@ -8,6 +8,8 @@ import 'package:supplies/feature/offer_feature/data/model/categories_list/catego
 abstract class AddOfferRepo {
   Future<Either<CustomException, CategoriesList>> getCategories();
   Future<Either<CustomException, String>> addOffer(FormData data);
+
+  Future<Either<CustomException, String>> deleteOffer(int id);
 }
 
 class AddOfferRepoImpl extends AddOfferRepo {
@@ -18,7 +20,7 @@ class AddOfferRepoImpl extends AddOfferRepo {
   @override
   Future<Either<CustomException, CategoriesList>> getCategories() async {
     try {
-      Response res = await dioHelper.get(endPoint: EndPoints.addBranch);
+      Response res = await dioHelper.get(endPoint: EndPoints.withoutOffers);
       if (res.statusCode == 200) {
         return Right(CategoriesList.fromJson(res.data));
       } else {
@@ -42,6 +44,26 @@ class AddOfferRepoImpl extends AddOfferRepo {
       );
       if (res.statusCode == 200) {
         return Right(res.data['message'] ?? 'Offer added successfully');
+      } else {
+        return Left(CustomException(
+          message: res.data['message'] ?? 'Something went wrong',
+        ));
+      }
+    } catch (e) {
+      return Left(CustomException(
+        message: e.toString(),
+      ));
+    }
+  }
+
+  @override
+  Future<Either<CustomException, String>> deleteOffer(int id) async {
+    try {
+      Response res = await dioHelper.delete(
+        endPoint: '${EndPoints.offer}/$id',
+      );
+      if (res.statusCode == 200) {
+        return Right(res.data['message'] ?? 'Offer deleted successfully');
       } else {
         return Left(CustomException(
           message: res.data['message'] ?? 'Something went wrong',

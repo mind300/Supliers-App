@@ -22,7 +22,12 @@ class OfferScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: CustomAppBar(title: 'Offers'),
+          appBar: CustomAppBar(
+            title: 'Offers',
+            onChanged: (p0) async {
+              await context.read<OfferCubit>().getOffers(search: p0);
+            },
+          ),
           drawer: AppDrawer(currentPage: 'offers'),
           body: state is OfferError
               ? RetryWidget(
@@ -52,8 +57,8 @@ class OfferScreen extends StatelessWidget {
                                     return Opacity(
                                       opacity: value,
                                       child: Transform.translate(
-                                        offset: Offset(0, (1 - value) * 20),
                                         child: child,
+                                        offset: Offset(0, (1 - value) * 20),
                                       ),
                                     );
                                   },

@@ -19,7 +19,12 @@ class BranchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Branches'),
+      appBar: CustomAppBar(
+        title: 'Branches',
+        onChanged: (p0) {
+          context.read<BranchCubit>().getBranches(search: p0);
+        },
+      ),
       drawer: AppDrawer(currentPage: 'branch'),
       body: BlocConsumer<BranchCubit, BranchState>(
         listener: (context, state) {},
@@ -37,8 +42,7 @@ class BranchScreen extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is BranchSuccess) {
-            final branches =
-                context.read<BranchCubit>().branchModel?.content ?? [];
+            final branches = context.read<BranchCubit>().branchModel?.content ?? [];
 
             if (branches.isEmpty) {
               return Center(
@@ -52,29 +56,16 @@ class BranchScreen extends StatelessWidget {
             return AnimationLimiter(
               child: NotificationListener(
                 onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels ==
-                          scrollInfo.metrics.maxScrollExtent &&
-                      context
-                              .read<BranchCubit>()
-                              .branchModel!
-                              .pagination!
-                              .nextPageUrl !=
-                          null) {
+                  if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && context.read<BranchCubit>().branchModel!.pagination!.nextPageUrl != null) {
                     context.read<BranchCubit>().getBranches(
-                          page: context
-                                  .read<BranchCubit>()
-                                  .branchModel!
-                                  .pagination!
-                                  .currentPage! +
-                              1,
+                          page: context.read<BranchCubit>().branchModel!.pagination!.currentPage! + 1,
                         );
                   }
                   return true;
                 },
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
                   itemCount: branches.length,
                   itemBuilder: (context, index) {
                     return AnimationConfiguration.staggeredList(

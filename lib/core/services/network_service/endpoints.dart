@@ -12,8 +12,7 @@ class EndPoints {
   static const String categoriesList = '$baseUrl/categories/list';
   static const String allBranches = '$baseUrl/branches/list';
   static const String about = '$baseUrl/pages/1';
+  static const String withoutOffers = '$baseUrl/branches/withoutOffers';
   static const String updateProfile = '$baseUrl/profiles/update';
   static const String allBranchesWithoutManagers = '$baseUrl/branches/withoutManagers';
-
-
 }
