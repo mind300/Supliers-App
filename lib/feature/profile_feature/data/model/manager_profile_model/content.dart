@@ -38,16 +38,9 @@ class Content {
         code: json['code'] as int?,
         mobilePhone: json['mobile_number'] as String?,
         // branch: json['branch'] == null ? null : Branch.fromJson(json['branch'] as Map<String, dynamic>),
-        branch: (json['branches'] as List<dynamic>?)
-            ?.map((e) => s.Content.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        branchCashier: (json['branch'] != null && json['branch'] is Map<String, dynamic>)
-                ? [
-                    ContantBranchCashier.fromJson(
-                        json['branch'] as Map<String, dynamic>)
-                  ]
-                : [],
-        jobId: json['job_id'] as String?,
+        branch: json['branches'] is List ? (json['branches'] as List<dynamic>?)?.map((e) => s.Content.fromJson(e as Map<String, dynamic>)).toList() : [s.Content.fromJson(json['branches'] as Map<String, dynamic>)],
+        branchCashier: (json['branch'] != null && json['branch'] is Map<String, dynamic>) ? [ContantBranchCashier.fromJson(json['branch'] as Map<String, dynamic>)] : [],
+        jobId: json['job_id'].toString(),
         isActive: json['is_active'] as int?,
         manger: json['manager'],
         images: json['image'] as String?,
@@ -62,9 +55,7 @@ class Content {
         'code': code,
         'branches': branch?.map((e) => e.toJson()).toList(),
         'job_id': jobId,
-        'branch': branchCashier != null && branchCashier!.isNotEmpty
-            ? branchCashier!.first.toJson()
-            : null,
+        'branch': branchCashier != null && branchCashier!.isNotEmpty ? branchCashier!.first.toJson() : null,
         'is_active': isActive,
         'images': images,
         'manager': manger,

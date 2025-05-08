@@ -40,7 +40,7 @@ class ManagerRepoImpl implements ManagerRepo {
         ManagersModel.fromJson(res.data),
       );
     } catch (e) {
-      return Left(CustomException(message: "Failed to fetch managers"));
+      return Left(CustomException(message: e.toString()));
     }
   }
 }

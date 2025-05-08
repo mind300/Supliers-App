@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
+import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/retry_widget.dart';
+import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/enums/account_type.dart';
@@ -19,13 +21,15 @@ import 'package:supplies/feature/profile_feature/view/widget/profile_name_editor
 import 'package:supplies/feature/profile_feature/view/widget/profile_related_branch_drop_down.dart';
 
 class ManagerProfileScreen extends StatelessWidget {
-  const ManagerProfileScreen({super.key});
+  const ManagerProfileScreen({super.key, required this.id});
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     final canPop = Navigator.of(context).canPop();
 
     return BlocConsumer<ProfileCubit, ProfileState>(
+      buildWhen: (previous, current) => current is ProfileManagerLoaded || current is ProfileError,
       listener: (context, state) {
         if (state is ProfileDelete) {
           // context.read<ProfileCubit>().toggleEditing();
@@ -39,8 +43,7 @@ class ManagerProfileScreen extends StatelessWidget {
                   color: AppColors.red,
                 ),
                 // title: const Text('Delete Profile'),
-                content:
-                    const Text('Are you sure you want to delete this profile?'),
+                content: const Text('Are you sure you want to delete this profile?'),
                 actions: [
                   TextButton(
                     onPressed: () {
@@ -57,7 +60,10 @@ class ManagerProfileScreen extends StatelessWidget {
                     onPressed: () {
                       // Handle delete action
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop();
+
+                      context.read<ProfileCubit>().deleteManager(
+                            id.toString(),
+                          );
                     },
                     child: const Text(
                       'Delete',
@@ -71,6 +77,17 @@ class ManagerProfileScreen extends StatelessWidget {
             },
           );
         }
+        if (state is ProfileLoading) {
+          startLoading(context);
+        }
+        if (state is ProfileDeleteSuccess) {
+          stopLoading(context);
+          Navigator.of(context).pop(true);
+        }
+        if (state is ProfileDeleteError) {
+          stopLoading(context);
+          ToastManager.showErrorToast(state.error);
+        }
       },
       builder: (context, state) {
         final cubit = context.read<ProfileCubit>();
@@ -80,23 +97,29 @@ class ManagerProfileScreen extends StatelessWidget {
               'Manager Profile',
             ),
             actions: [
-              PopupMenuButton(itemBuilder: (context) {
-                return [
-                  PopupMenuItem(
-                    child: Text('Edit'),
-                    onTap: () {
-                      context.read<ProfileCubit>().toggleEditing();
-                    },
-                  ),
-                  PopupMenuItem(
-                    child: Text('Delete'),
-                    onTap: () {
-                      // Handle delete action
-                      context.read<ProfileCubit>().deleteProfile();
-                    },
-                  ),
-                ];
-              }),
+              PopupMenuButton(
+                itemBuilder: (context) {
+                  return [
+                    // PopupMenuItem(
+                    //   child: Text('Edit'),
+                    //   onTap: () {
+                    //     context.read<ProfileCubit>().toggleEditing();
+                    //   },
+                    // ),
+                    PopupMenuItem(
+                      child: Text('Delete'),
+                      onTap: () {
+                        // Handle delete action
+                        context.read<ProfileCubit>().deleteProfile();
+                      },
+                    ),
+                  ];
+                },
+                child: Icon(
+                  Icons.more_vert,
+                  color: AppColors.white,
+                ),
+              ),
             ],
           ),
           drawer: canPop
@@ -109,7 +132,7 @@ class ManagerProfileScreen extends StatelessWidget {
                   onRetry: () {
                     var args = ModalRoute.of(context)!.settings.arguments;
                     cubit.getManagerProfile(
-                      args is Map<String, dynamic> ? args['id'] : '',
+                      id,
                     );
                   },
                   message: state.error,
@@ -125,16 +148,15 @@ class ManagerProfileScreen extends StatelessWidget {
                           CustomTextFormField(
                             hintText: 'Phone Number',
                             title: 'Phone Number',
-                            controller: context
-                                .read<ProfileCubit>()
-                                .phoneNumberController,
+                            enabled: false,
+                            controller: context.read<ProfileCubit>().phoneNumberController,
                           ),
                           SizedBox(height: 10.h),
                           CustomTextFormField(
                             hintText: 'Job ID (optional)',
+                            enabled: false,
                             title: 'Job ID (optional)',
-                            controller:
-                                context.read<ProfileCubit>().jobIdController,
+                            controller: context.read<ProfileCubit>().jobIdController,
                           ),
                           SizedBox(height: 10.h),
                           Align(
@@ -152,12 +174,10 @@ class ManagerProfileScreen extends StatelessWidget {
                             physics: NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return BranchDetailsWidget(
-                                branch: state.managerProfileModel.content!
-                                    .branch![index],
+                                branch: state.managerProfileModel.content!.branch![index],
                               );
                             },
-                            itemCount: state
-                                .managerProfileModel.content!.branch!.length,
+                            itemCount: state.managerProfileModel.content!.branch!.length,
                           ),
                           // if (isCashier)
                           // ProfileRelatedBranchDropDown(),

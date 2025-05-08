@@ -32,6 +32,18 @@ final class ProfileError extends ProfileState {
   ProfileError(this.error);
 }
 
+final class ProfileDeleteError extends ProfileState {
+  final String error;
+
+  ProfileDeleteError(this.error);
+}
+
+final class ProfileDeleteSuccess extends ProfileState {
+  final String message;
+
+  ProfileDeleteSuccess(this.message);
+}
+
 //update loading
 final class ProfileUpdateLoading extends ProfileState {}
 

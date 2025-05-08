@@ -9,7 +9,13 @@ abstract class ProfileRepo {
   Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(
     String id,
   );
+  Future<Either<CustomException, String>> deleteManagerProfile(
+    String id,
+  );
   Future<Either<CustomException, ManagerProfileModel>> getCashierProfile(
+    String id,
+  );
+  Future<Either<CustomException, String>> deleteCashierProfile(
     String id,
   );
   Future<Either<CustomException, ManagerProfileModel>> getMe();
@@ -22,8 +28,7 @@ class ProfileRepoImpl implements ProfileRepo {
   ProfileRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(
-      String id) async {
+  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(String id) async {
     try {
       Response res = await dioHelper.get(
         endPoint: "${EndPoints.manager}/$id",
@@ -53,7 +58,6 @@ class ProfileRepoImpl implements ProfileRepo {
         endPoint: "${EndPoints.cashiers}/$id",
       );
       if (res.statusCode == 200) {
-
         return Right(ManagerProfileModel.fromJson(res.data));
       } else {
         return Left(
@@ -103,6 +107,54 @@ class ProfileRepoImpl implements ProfileRepo {
       );
       if (res.statusCode == 200) {
         return Right(unit);
+      } else {
+        return Left(
+          CustomException(
+            message: res.statusMessage ?? 'Error',
+          ),
+        );
+      }
+    } on CustomException catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(CustomException(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<CustomException, String>> deleteManagerProfile(String id) async {
+    try {
+      Response res = await dioHelper.delete(
+        endPoint: "${EndPoints.manager}/$id",
+      );
+      if (res.statusCode == 200) {
+        return Right(
+          res.data['message'] ?? 'Profile deleted successfully',
+        );
+      } else {
+        return Left(
+          CustomException(
+            message: res.statusMessage ?? 'Error',
+          ),
+        );
+      }
+    } on CustomException catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(CustomException(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<CustomException, String>> deleteCashierProfile(String id) async {
+    try {
+      Response res = await dioHelper.delete(
+        endPoint: "${EndPoints.cashiers}/$id",
+      );
+      if (res.statusCode == 200) {
+        return Right(
+          res.data['message'] ?? 'Cashiers deleted successfully',
+        );
       } else {
         return Left(
           CustomException(

@@ -19,7 +19,7 @@ class CashiersRepoImpl extends CashiersRepo {
   CashiersRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, CashierModel>> getCashiers({required int page} ) async {
+  Future<Either<CustomException, CashierModel>> getCashiers({required int page}) async {
     try {
       Response res = await dioHelper.get(
         endPoint: EndPoints.cashiers,
@@ -38,7 +38,7 @@ class CashiersRepoImpl extends CashiersRepo {
         CashierModel.fromJson(res.data),
       );
     } catch (e) {
-      return Left(CustomException(message: "Failed to fetch managers"));
+      return Left(CustomException(message: e.toString()));
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/enums/account_type.dart';
@@ -6,6 +7,8 @@ import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/feature/cashier_feature/controller/cashiers_cubit.dart';
+import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 
 class EmployeeDataBuilder extends StatelessWidget {
   const EmployeeDataBuilder({
@@ -40,21 +43,27 @@ class EmployeeDataBuilder extends StatelessWidget {
         ],
       ),
       child: ListTile(
-        onTap: () {
+        onTap: () async {
           if (userType == UsersType.cashier) {
-            context.pushNamed(
+            var res = await context.pushNamed(
               Routes.cashierProfile,
               arguments: {
                 "id": id,
               },
             );
+            if (res != null) {
+              context.read<CashiersCubit>().getCashiers();
+            }
           } else if (userType == UsersType.manager) {
-            context.pushNamed(
+            var res = await context.pushNamed(
               Routes.managerProfile,
               arguments: {
                 "id": id,
               },
             );
+            if (res != null) {
+              context.read<ManagersCubit>().getManagers();
+            }
           }
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),

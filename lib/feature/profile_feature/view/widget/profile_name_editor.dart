@@ -26,6 +26,7 @@ class ProfileNameEditor extends StatelessWidget {
                   ? CustomTextFormField(
                       key: const ValueKey('textField'),
                       hintText: "Name",
+                      enabled: false,
                       title: "Name",
                       controller: context.read<ProfileCubit>().nameController,
                     )

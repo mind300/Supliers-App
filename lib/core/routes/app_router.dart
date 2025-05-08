@@ -93,14 +93,14 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<ProfileCubit>()..getManagerProfile((args as Map)['id'].toString()),
-            child: ManagerProfileScreen(),
+            child: ManagerProfileScreen(id: (args as Map)['id'].toString()),
           ),
         );
       case Routes.cashierProfile:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<ProfileCubit>()..getCashierProfile((args as Map)['id'].toString()),
-            child: CashierProfileScreen(),
+            child: CashierProfileScreen(id: (args as Map)['id'].toString()),
           ),
         );
       case Routes.offer:

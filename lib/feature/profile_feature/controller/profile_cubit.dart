@@ -31,7 +31,35 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileDelete());
   }
 
-  getManagerProfile( String id, ) async {
+  deleteManager(String id) async {
+    emit(ProfileLoading());
+    var res = await profileRepo.deleteManagerProfile(id.toString());
+    res.fold(
+      (l) {
+        emit(ProfileDeleteError(l.message));
+      },
+      (r) {
+        emit(ProfileDeleteSuccess("Profile deleted successfully"));
+      },
+    );
+  }
+
+  deleteCashier(String id) async {
+    emit(ProfileLoading());
+    var res = await profileRepo.deleteManagerProfile(id.toString());
+    res.fold(
+      (l) {
+        emit(ProfileDeleteError(l.message));
+      },
+      (r) {
+        emit(ProfileDeleteSuccess("Profile deleted successfully"));
+      },
+    );
+  }
+
+  getManagerProfile(
+    String id,
+  ) async {
     // print(id);
     emit(ProfileLoading());
     var res = await profileRepo.getManagerProfile(id);
@@ -49,15 +77,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  getCashierProfile( String id, ) async {
+  getCashierProfile(
+    String id,
+  ) async {
     print("getCashierProfile id: ${id}");
     emit(ProfileLoading());
     var response = await profileRepo.getCashierProfile(id);
     response.fold(
-          (l) {
+      (l) {
         emit(ProfileError(l.message));
       },
-          (r) {
+      (r) {
         nameController.text = r.content?.name ?? '';
         phoneNumberController.text = r.content?.mobilePhone ?? '';
         jobIdController.text = r.content?.jobId ?? '';
@@ -91,8 +121,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Choose Image Source',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Choose Image Source', style: TextStyle(fontWeight: FontWeight.bold)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
