@@ -14,6 +14,7 @@ class EndPoints {
   static const String about = '$baseUrl/pages/1';
   static const String updateProfile = '$baseUrl/profiles/update';
   static const String allBranchesWithoutManagers = '$baseUrl/branches/withoutManagers';
+  static const String transactions = '$baseUrl/transactions';
 
 
 }
