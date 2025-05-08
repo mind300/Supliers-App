@@ -21,7 +21,6 @@ dependencies:
   flutter_svg: ^2.1.0
   flutter_staggered_animations: ^1.1.1
   google_maps_flutter: ^2.12.1
-  geolocator: ^14.0.0
   dio: ^5.8.0+1
   mobile_scanner: ^6.0.10
   pretty_dio_logger: ^1.4.0
@@ -32,6 +31,10 @@ dependencies:
   infinite_scroll_pagination: ^5.0.0
   dropdown_button2: ^2.3.9
   flutter_launcher_icons: ^0.14.3
+  geolocator: ^10.1.1
+  shimmer: ^3.0.0
+
+
 
 dev_dependencies:
   flutter_test:

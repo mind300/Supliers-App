@@ -5,6 +5,7 @@ import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/about_feature/controller/about_cubit.dart';
 import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
+import 'package:supplies/feature/history_feature/controller/transaction_cubit.dart';
 import 'package:supplies/feature/offer_feature/data/model/offer_model/content.dart';
 
 import 'package:supplies/feature/add_branch_feature/view/screen/add_branch_screen.dart';
@@ -147,7 +148,10 @@ class AppRouter {
         );
       case Routes.history:
         return MaterialPageRoute(
-          builder: (_) => const HistoryScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<TransactionCubit>()..getTransactions(),
+            child: const HistoryScreen(),
+          ),
         );
       case Routes.historyDetails:
         return MaterialPageRoute(

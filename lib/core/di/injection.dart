@@ -17,6 +17,8 @@ import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
 import 'package:supplies/feature/branch_feature/data/repo/branch_repo.dart';
 import 'package:supplies/feature/cashier_feature/controller/cashiers_cubit.dart';
 import 'package:supplies/feature/cashier_feature/data/repo/cashiers_repo.dart';
+import 'package:supplies/feature/history_feature/controller/transaction_cubit.dart';
+import 'package:supplies/feature/history_feature/data/repo/transaction_repo.dart';
 import 'package:supplies/feature/login_feature/controller/login_cubit.dart';
 import 'package:supplies/feature/login_feature/data/repo/login_repo.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
@@ -71,4 +73,8 @@ void initGetIt() {
   //about
   getIt.registerFactory<AboutRepo>(() => AboutRepoImpl(getIt()));
   getIt.registerFactory<AboutCubit>(() => AboutCubit(getIt()));
+
+  // History Transaction
+  getIt.registerFactory<TransactionRepo>(() => TransactionRepoImpl(getIt()));
+  getIt.registerFactory<TransactionCubit>(() => TransactionCubit(getIt()));
 }
