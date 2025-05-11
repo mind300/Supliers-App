@@ -32,7 +32,7 @@ class EmployeeDataBuilder extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
-          color: Color(0xFF544C4C24).withOpacity(0.14),
+          color: Color(0xff544c4c24).withOpacity(0.14),
         ),
         boxShadow: [
           BoxShadow(

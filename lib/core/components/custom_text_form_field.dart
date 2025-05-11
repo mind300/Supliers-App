@@ -23,6 +23,7 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLines = 1,
     this.readOnly = false,
     this.fillColor = AppColors.textfieldColor,
+    this.onEdit,
     this.onChanged,
     this.autoValidateMode,
     this.textInputAction,
@@ -38,7 +39,7 @@ class CustomTextFormField extends StatefulWidget {
   final double? maxLines;
   final bool? enabled;
   final Color fillColor;
-  final void Function(String?)? onSaved, onChanged;
+  final void Function(String?)? onSaved, onEdit, onChanged;
   final bool obscureText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -102,9 +103,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           obscureText: isPasswordField && !isPasswordVisible,
           onSaved: widget.onSaved,
           onEditingComplete: () {
-            widget.onChanged!(widget.controller!.text);
+            widget.onEdit!(widget.controller!.text);
+            //close the keyboard
+            FocusScope.of(context).unfocus();
           },
-          // onChanged: widget.onChanged,
+          onFieldSubmitted: (value) {
+            // widget.onEdit!(widget.controller!.text);
+            //close the keyboard
+            FocusScope.of(context).unfocus();
+          },
+          onChanged: widget.onChanged,
           inputFormatters: widget.inputFormatters,
           readOnly: widget.readOnly,
           validator: widget.validator ??

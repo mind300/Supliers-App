@@ -20,6 +20,12 @@ final class ProfileManagerLoaded extends ProfileState {
   ProfileManagerLoaded(this.managerProfileModel);
 }
 
+final class ProfileMeLoaded extends ProfileState {
+  final MyProfileModel managerProfileModel;
+
+  ProfileMeLoaded(this.managerProfileModel);
+}
+
 final class ProfileCashierLoaded extends ProfileState {
   final ManagerProfileModel cashierProfileModel;
 

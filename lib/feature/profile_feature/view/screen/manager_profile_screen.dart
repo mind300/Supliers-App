@@ -6,19 +6,11 @@ import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
-import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/enums/account_type.dart';
-import 'package:supplies/core/enums/users_type.dart';
-import 'package:supplies/core/helpers/custom_image_handler.dart';
-import 'package:supplies/core/helpers/extensitions.dart';
-import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
-import 'package:supplies/feature/profile_feature/view/widget/profile_button.dart';
 import 'package:supplies/feature/profile_feature/view/widget/profile_image.dart';
 import 'package:supplies/feature/profile_feature/view/widget/profile_name_editor.dart';
-import 'package:supplies/feature/profile_feature/view/widget/profile_related_branch_drop_down.dart';
 
 class ManagerProfileScreen extends StatelessWidget {
   const ManagerProfileScreen({super.key, required this.id});
@@ -29,7 +21,7 @@ class ManagerProfileScreen extends StatelessWidget {
     final canPop = Navigator.of(context).canPop();
 
     return BlocConsumer<ProfileCubit, ProfileState>(
-      buildWhen: (previous, current) => current is ProfileManagerLoaded || current is ProfileError,
+      buildWhen: (previous, current) => current is ProfileMeLoaded || current is ProfileError,
       listener: (context, state) {
         if (state is ProfileDelete) {
           // context.read<ProfileCubit>().toggleEditing();

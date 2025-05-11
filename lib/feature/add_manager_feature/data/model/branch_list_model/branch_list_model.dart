@@ -7,27 +7,20 @@ class BranchListModel {
   bool? success;
   String? message;
   int? status;
-  Pagination? pagination;
 
   BranchListModel({
     this.content,
     this.success,
     this.message,
     this.status,
-    this.pagination,
   });
 
   factory BranchListModel.fromJson(Map<String, dynamic> json) {
     return BranchListModel(
-      content: (json['content'] as List<dynamic>?)
-          ?.map((e) => Content.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      content: (json['content'] as List<dynamic>?)?.map((e) => Content.fromJson(e as Map<String, dynamic>)).toList(),
       success: json['success'] as bool?,
       message: json['message'] as String?,
       status: json['status'] as int?,
-      pagination: json['pagination'] == null
-          ? null
-          : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
     );
   }
 
@@ -36,6 +29,5 @@ class BranchListModel {
         'success': success,
         'message': message,
         'status': status,
-        'pagination': pagination?.toJson(),
       };
 }

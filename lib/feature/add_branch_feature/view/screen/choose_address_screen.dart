@@ -28,7 +28,7 @@ class GoogleMapsState extends State<GoogleMaps> {
 
   LatLng? _currentLocation;
   bool _isLoading = true;
-  Set<Marker> _markers = {};
+  final Set<Marker> _markers = {};
   String _address = '';
 
   @override

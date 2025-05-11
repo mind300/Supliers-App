@@ -4,10 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/cache/cache_keys.dart';
 import 'package:supplies/feature/profile_feature/data/model/manager_profile_model/manager_profile_model.dart';
+import 'package:supplies/feature/profile_feature/data/model/my_profile_model/my_profile_model.dart';
 import 'package:supplies/feature/profile_feature/data/repo/profile_repo.dart';
 
 part 'profile_state.dart';
@@ -80,7 +80,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   getCashierProfile(
     String id,
   ) async {
-    print("getCashierProfile id: ${id}");
+    print("getCashierProfile id: $id");
     emit(ProfileLoading());
     var response = await profileRepo.getCashierProfile(id);
     response.fold(
@@ -106,10 +106,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         nameController.text = r.content?.name ?? '';
-        phoneNumberController.text = r.content?.mobilePhone ?? '';
-        jobIdController.text = r.content?.jobId ?? '';
-        profileImage = r.content?.images ?? '';
-        emit(ProfileManagerLoaded(r));
+        phoneNumberController.text = r.content?.mobileNumber ?? '';
+        jobIdController.text = r.content?.jobId.toString() ?? '';
+        profileImage = r.content?.image ?? '';
+        emit(ProfileMeLoaded(r));
       },
     );
   }

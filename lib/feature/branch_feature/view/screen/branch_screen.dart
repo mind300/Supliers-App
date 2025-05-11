@@ -5,7 +5,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_app_bar.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/components/retry_widget.dart';
-import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
@@ -42,7 +41,8 @@ class BranchScreen extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is BranchSuccess) {
-            final branches = context.read<BranchCubit>().branchModel?.content ?? [];
+            final branches =
+                context.read<BranchCubit>().branchModel?.content ?? [];
 
             if (branches.isEmpty) {
               return Center(
@@ -56,16 +56,29 @@ class BranchScreen extends StatelessWidget {
             return AnimationLimiter(
               child: NotificationListener(
                 onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && context.read<BranchCubit>().branchModel!.pagination!.nextPageUrl != null) {
+                  if (scrollInfo.metrics.pixels ==
+                          scrollInfo.metrics.maxScrollExtent &&
+                      context
+                              .read<BranchCubit>()
+                              .branchModel!
+                              .pagination!
+                              .nextPageUrl !=
+                          null) {
                     context.read<BranchCubit>().getBranches(
-                          page: context.read<BranchCubit>().branchModel!.pagination!.currentPage! + 1,
+                          page: context
+                                  .read<BranchCubit>()
+                                  .branchModel!
+                                  .pagination!
+                                  .currentPage! +
+                              1,
                         );
                   }
                   return true;
                 },
                 child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
                   itemCount: branches.length,
                   itemBuilder: (context, index) {
                     return AnimationConfiguration.staggeredList(

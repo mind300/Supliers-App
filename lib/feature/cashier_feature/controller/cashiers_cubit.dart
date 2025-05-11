@@ -16,9 +16,8 @@ class CashiersCubit extends Cubit<CashiersState> {
       page: page,
     );
     response.fold(
-          (l) => emit(CashiersError(l.message)),
-          (r) => emit(CashiersSuccess(r)),
+      (l) => emit(CashiersError(l.message)),
+      (r) => emit(CashiersSuccess(r)),
     );
   }
 }
-

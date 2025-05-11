@@ -7,7 +7,7 @@ import 'package:supplies/core/constant/app_colors.dart';
 // List<DropDownModel> selectedItems = [];
 
 class AddOfferDropDown extends StatelessWidget {
-  AddOfferDropDown({
+  const AddOfferDropDown({
     super.key,
     this.title,
     this.toolTipMessage,
@@ -37,7 +37,8 @@ class AddOfferDropDown extends StatelessWidget {
                   Text(
                     title!,
                     style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
+                      fontSize:
+                          Theme.of(context).textTheme.titleSmall!.fontSize,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -82,11 +83,13 @@ class AddOfferDropDown extends StatelessWidget {
                   enabled: false,
                   child: StatefulBuilder(
                     builder: (context, menuSetState) {
-                      final isSelected = selectedItems.any((selectedItem) => selectedItem.id == item.id);
+                      final isSelected = selectedItems
+                          .any((selectedItem) => selectedItem.id == item.id);
                       return InkWell(
                         onTap: () {
                           if (isSelected) {
-                            selectedItems.removeWhere((selectedItem) => selectedItem.id == item.id);
+                            selectedItems.removeWhere(
+                                (selectedItem) => selectedItem.id == item.id);
                           } else {
                             selectedItems.add(item);
                           }
@@ -101,7 +104,9 @@ class AddOfferDropDown extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(
-                                isSelected ? Icons.check_box_outlined : Icons.check_box_outline_blank,
+                                isSelected
+                                    ? Icons.check_box_outlined
+                                    : Icons.check_box_outline_blank,
                                 size: 18,
                               ),
                               const SizedBox(width: 16),

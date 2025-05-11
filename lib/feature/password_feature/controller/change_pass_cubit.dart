@@ -20,8 +20,8 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
     );
 
     result.fold(
-          (failure) => emit(ChangePasswordFailure(failure)),
-          (_) => emit(ChangePasswordSuccess()),
+      (failure) => emit(ChangePasswordFailure(failure)),
+      (_) => emit(ChangePasswordSuccess()),
     );
   }
 }

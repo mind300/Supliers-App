@@ -77,7 +77,7 @@ class _CustomAppBarState extends State<CustomAppBar> with SingleTickerProviderSt
               child: CustomTextFormField(
                 hintText: 'Search...',
                 controller: controller,
-                onChanged: (p0) => widget.onChanged!(p0.toString()),
+                onEdit: (p0) => widget.onChanged!(p0.toString()),
               ),
             ),
           ),

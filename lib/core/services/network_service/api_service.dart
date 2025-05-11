@@ -267,7 +267,8 @@ class DioImpl extends DioHelper {
 
   multiPartTheFile(File? file) async {
     if (file != null) {
-      return await MultipartFile.fromFile(file.path, filename: file.path.split('/').last);
+      return await MultipartFile.fromFile(file.path,
+          filename: file.path.split('/').last);
     } else {
       return null;
     }
@@ -285,7 +286,8 @@ class DioImpl extends DioHelper {
         case DioExceptionType.cancel:
           throw CustomException(message: "Request has been canceled.");
         case DioExceptionType.connectionTimeout:
-          throw CustomException(message: "Sorry! Your connection has timed out.");
+          throw CustomException(
+              message: "Sorry! Your connection has timed out.");
         case DioExceptionType.badResponse:
           if (e.response!.statusCode == 401) {
             // Handle token refresh or logout
@@ -322,6 +324,7 @@ class DioImpl extends DioHelper {
 
   void reset() async {
     await CacheHelper.clear();
-    navigatorKey.currentState?.pushNamedAndRemoveUntil(Routes.login, (route) => false);
+    navigatorKey.currentState
+        ?.pushNamedAndRemoveUntil(Routes.login, (route) => false);
   }
 }

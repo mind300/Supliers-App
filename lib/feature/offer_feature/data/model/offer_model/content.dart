@@ -8,7 +8,7 @@ class Content {
   int? discount;
   String? qrCode;
   String? description;
-  List<dynamic>? images;
+  List<String>? images;
   String? createdAt;
 
   Content({
@@ -35,7 +35,7 @@ class Content {
         discount: json['discount'] as int?,
         qrCode: json['qr_code'] as String?,
         description: json['description'] as String?,
-        images: json['images'] as List<dynamic>?,
+        images: json['images'].map((e) => e.toString()).toList().cast<String>(),
         createdAt: json['created_at'] as String?,
       );
 

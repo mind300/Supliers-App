@@ -17,13 +17,14 @@ class QrScreen extends StatelessWidget {
       ),
       body: MobileScanner(
         controller: controller,
-        onDetect: (barcodeCapture) {
-          final barcode = barcodeCapture.barcodes.first;
-          final String? code = barcode.rawValue;
+        onDetect: (barcodeCapture) async {
+          // controller.stop();
+          final barcode = await barcodeCapture.barcodes.first;
+          final String? code = await barcode.rawValue;
           debugPrint('Scanned code: $code');
 
           if (code != null) {
-            context.pushNamed(Routes.scanDetails);
+            context.pushNamed(Routes.scanDetails, arguments: code);
           }
         },
       ),

@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/feature/add_manager_feature/data/model/branch_list_model/branch_list_model.dart';
 import 'package:supplies/feature/add_manager_feature/data/repo/add_manager_repo.dart';
 

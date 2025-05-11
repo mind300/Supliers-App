@@ -23,7 +23,8 @@ class CashierProfileScreen extends StatelessWidget {
     final canPop = Navigator.of(context).canPop();
 
     return BlocConsumer<ProfileCubit, ProfileState>(
-        buildWhen: (previous, current) => current is ProfileCashierLoaded || current is ProfileError,
+        buildWhen: (previous, current) =>
+            current is ProfileCashierLoaded || current is ProfileError,
         listener: (context, state) {
           if (state is ProfileDelete) {
             // context.read<ProfileCubit>().toggleEditing();
@@ -37,7 +38,8 @@ class CashierProfileScreen extends StatelessWidget {
                     color: AppColors.red,
                   ),
                   // title: const Text('Delete Profile'),
-                  content: const Text('Are you sure you want to delete this profile?'),
+                  content: const Text(
+                      'Are you sure you want to delete this profile?'),
                   actions: [
                     TextButton(
                       onPressed: () {
@@ -140,25 +142,36 @@ class CashierProfileScreen extends StatelessWidget {
                               hintText: 'Phone Number',
                               title: 'Phone Number',
                               enabled: false,
-                              controller: context.read<ProfileCubit>().phoneNumberController,
+                              controller: context
+                                  .read<ProfileCubit>()
+                                  .phoneNumberController,
                             ),
                             SizedBox(height: 10.h),
                             CustomTextFormField(
                               enabled: false,
                               hintText: 'Job ID (optional)',
                               title: 'Job ID (optional)',
-                              controller: context.read<ProfileCubit>().jobIdController,
+                              controller:
+                                  context.read<ProfileCubit>().jobIdController,
                             ),
                             SizedBox(height: 10.h),
                             // ProfileRelatedBranchDropDown(),
-                            Align(alignment: Alignment.topLeft, child: Text("Profile Related Branch")),
+                            Align(
+                                alignment: Alignment.topLeft,
+                                child: Text("Profile Related Branch")),
                             ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
-                                return BranchDetailsWidget(branch: Content.fromJson(state.cashierProfileModel.content!.branch![index].toJson()));
+                                return BranchDetailsWidget(
+                                    branch: Content.fromJson(state
+                                        .cashierProfileModel
+                                        .content!
+                                        .branch![index]
+                                        .toJson()));
                               },
-                              itemCount: state.cashierProfileModel.content!.branch!.length,
+                              itemCount: state
+                                  .cashierProfileModel.content!.branch!.length,
                             ),
                           ],
                         ),

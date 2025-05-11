@@ -20,8 +20,9 @@ class ProfileButton extends StatelessWidget {
             onPressed: () {
               if (isEditing) {
                 context.read<ProfileCubit>().editProfile();
-              } else
+              } else {
                 context.read<ProfileCubit>().toggleEditing();
+              }
             },
             icon: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),

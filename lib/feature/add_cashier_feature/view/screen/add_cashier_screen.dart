@@ -5,10 +5,7 @@ import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_phone_input.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/components/loading.dart';
-import 'package:supplies/core/components/pagination_drop_down_menu.dart';
 import 'package:supplies/core/components/toast_manager.dart';
-import 'package:supplies/core/di/injection.dart';
-import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/view/widget/t.dart';
 

@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:supplies/feature/branch_details_feature/data/model/branch_details_model.dart';
 import 'package:supplies/feature/branch_details_feature/data/repo/branch_details_repo.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';

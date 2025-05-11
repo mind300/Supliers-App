@@ -13,7 +13,7 @@ import 'package:supplies/feature/branch_feature/data/model/content.dart';
 class BranchDetailsWidget extends StatelessWidget {
   final Content? branch;
   final ContantBranchCashier? branchCashier;
-  const BranchDetailsWidget({super.key,  this.branch, this.branchCashier});
+  const BranchDetailsWidget({super.key, this.branch, this.branchCashier});
 
   @override
   Widget build(BuildContext context) {

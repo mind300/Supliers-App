@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_drop_down.dart';
 import 'package:supplies/core/components/custom_phone_input.dart';

@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 import 'package:supplies/feature/add_branch_feature/data/repo/add_branch_repo.dart';
 
 part 'add_branch_state.dart';
@@ -61,11 +58,6 @@ class AddBranchCubit extends Cubit<AddBranchState> {
       emit(AddBranchError("Please fill all fields"));
       return;
     }
-  }
-
-  @override
-  Future<void> close() {
-    return super.close();
   }
 
   //onchange

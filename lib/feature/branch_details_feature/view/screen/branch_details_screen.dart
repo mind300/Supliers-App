@@ -2,22 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
-import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/view/widget/action_buttons_widget.dart';
 import 'package:supplies/feature/branch_details_feature/view/widget/delete_dialog.dart';
 import 'package:supplies/feature/branch_details_feature/view/widget/edit_button_widget.dart';
-import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
-import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 import 'package:supplies/feature/cashier_feature/view/widget/cashier_builder.dart';
 // keep all your imports as-is...
 

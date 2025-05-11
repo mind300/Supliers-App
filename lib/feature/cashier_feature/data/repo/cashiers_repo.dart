@@ -6,7 +6,8 @@ import 'package:supplies/core/services/network_service/error.dart';
 import 'package:supplies/feature/cashier_feature/data/model/cashier_model/cashier_model.dart';
 
 abstract class CashiersRepo {
-  Future<Either<CustomException, CashierModel>> getCashiers({required int page});
+  Future<Either<CustomException, CashierModel>> getCashiers(
+      {required int page});
 // Future<Cashier> getCashierById(String id);
 // Future<void> addCashier(Cashier cashier);
 // Future<void> updateCashier(Cashier cashier);
@@ -19,7 +20,8 @@ class CashiersRepoImpl extends CashiersRepo {
   CashiersRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, CashierModel>> getCashiers({required int page}) async {
+  Future<Either<CustomException, CashierModel>> getCashiers(
+      {required int page}) async {
     try {
       Response res = await dioHelper.get(
         endPoint: EndPoints.cashiers,
