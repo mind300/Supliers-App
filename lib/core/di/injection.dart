@@ -28,6 +28,7 @@ import 'package:supplies/feature/offer_feature/data/repo/offer_repo.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/data/repo/profile_repo.dart';
 import 'package:supplies/feature/qr_feature/controller/qr_cubit.dart';
+import 'package:supplies/feature/qr_feature/controller/qr_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -76,6 +77,11 @@ void initGetIt() {
   // History Transaction
   getIt.registerFactory<TransactionRepo>(() => TransactionRepoImpl(getIt()));
   getIt.registerFactory<TransactionCubit>(() => TransactionCubit(getIt()));
+
+  //qr
+  getIt.registerFactory<QrCubit>(
+    () => QrCubit(getIt())..getBranchDetails(),
+  );
   //qr
   getIt.registerFactory<QrCubit>(
     () => QrCubit(getIt())..getBranchDetails(),
