@@ -33,3 +33,5 @@ final class AddManagerAddedError extends AddManagerState {
 }
 
 final class AddManagerAddedLoading extends AddManagerState {}
+
+final class AddManagerBranchesSelected extends AddManagerState {}

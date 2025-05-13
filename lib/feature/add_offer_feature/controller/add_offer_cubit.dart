@@ -27,7 +27,12 @@ class AddOfferCubit extends Cubit<AddOfferState> {
     try {
       final List<XFile> images = await _picker.pickMultiImage(limit: 5);
       if (images.isNotEmpty) {
-        selectedImages = images.map((e) => File(e.path)).toList();
+        if (selectedImages == null) {
+          selectedImages = images.map((e) => File(e.path)).toList();
+        } else {
+          selectedImages!.addAll(images.map((e) => File(e.path)).toList());
+        }
+        // selectedImages?.addAll(images);
         emit(AddOfferImagePicked());
       }
     } catch (e) {
@@ -44,27 +49,16 @@ class AddOfferCubit extends Cubit<AddOfferState> {
 
   addOffer() async {
     if (!formKey.currentState!.validate()) {
-      emit(AddOfferError("Please fill all fields"));
+      emit(AddOfferWarning("Please check fill all fields"));
       return;
     }
     if (selectedImages!.isEmpty) {
-      emit(AddOfferError("Please select images"));
+      emit(AddOfferWarning("Please select images"));
       return;
     }
-    // if (offerNameController.text.isEmpty) {
-    //   emit(AddOfferError("Please enter offer name"));
-    //   return;
-    // }
-    // if (offerDiscountController.text.isEmpty) {
-    //   emit(AddOfferError("Please enter offer discount"));
-    //   return;
-    // }
-    // if (offerDescriptionController.text.isEmpty) {
-    //   emit(AddOfferError("Please enter offer description"));
-    //   return;
-    // }
+
     if (selectedCategories.isEmpty) {
-      emit(AddOfferError("Please select categories"));
+      emit(AddOfferWarning("Please select categories"));
       return;
     }
 
@@ -76,12 +70,19 @@ class AddOfferCubit extends Cubit<AddOfferState> {
     for (var element in selectedCategories) {
       formData.fields.add(MapEntry("branch_ids[]", element.id.toString()));
     }
-    selectedImages!.forEach((element) async {
+    print("selected Image: ${selectedImages!.length}");
+    // selectedImages!.forEach((element) async {
+    //   formData.files.add(MapEntry(
+    //     "media[]",
+    //     await MultipartFile.fromFile(element.path, filename: element.name),
+    //   ));
+    // });
+    for (var element in selectedImages!) {
       formData.files.add(MapEntry(
         "media[]",
-        await MultipartFile.fromFile(element.path, filename: element.name),
+        await MultipartFile.fromFile(element.path, filename: element.path.split('/').last),
       ));
-    });
+    }
 
     emit(AddOfferLoading());
     var res = await addOfferRepo.addOffer(formData);

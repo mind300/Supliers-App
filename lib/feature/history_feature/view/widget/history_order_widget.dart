@@ -7,7 +7,6 @@ import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 
 class HistoryOrderWidget extends StatelessWidget {
-
   final String status, createdAt, branchName, brandName, cashierName, totalBefore, totalAfter, discountAmount;
   const HistoryOrderWidget({super.key, required this.status, required this.branchName, required this.brandName, required this.cashierName, required this.totalBefore, required this.totalAfter, required this.discountAmount, required this.createdAt});
 
@@ -16,7 +15,7 @@ class HistoryOrderWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // If Need it in future plan
-       // context.pushNamed(Routes.historyDetails);
+        // context.pushNamed(Routes.historyDetails);
       },
       child: Container(
         padding: EdgeInsets.all(15.sp),
@@ -56,8 +55,7 @@ class HistoryOrderWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.r),
                       color: AppColors.green.withOpacity(0.25),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+                    padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                     child: Text(
                       status ?? "",
                       style: TextStyle(
@@ -68,7 +66,7 @@ class HistoryOrderWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    branchName ??"",
+                    branchName ?? "",
                     style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
@@ -76,7 +74,7 @@ class HistoryOrderWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    cashierName ??"",
+                    cashierName ?? "",
                     style: TextStyle(
                       fontSize: 11.sp,
                       fontWeight: FontWeight.w500,

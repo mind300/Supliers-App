@@ -25,87 +25,78 @@ class BranchScreen extends StatelessWidget {
         },
       ),
       drawer: AppDrawer(currentPage: 'branch'),
-      body: BlocConsumer<BranchCubit, BranchState>(
-        listener: (context, state) {},
-        buildWhen: (previous, current) {
-          if (current is BranchLoading) {
-            return true;
-          }
-          if (current is BranchSuccess) {
-            return true;
-          }
-          if (current is BranchError) {
-            return true;
-          }
-          return false;
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<BranchCubit>().getBranches();
         },
-        builder: (context, state) {
-          if (state is BranchSuccess) {
-            final branches =
-                context.read<BranchCubit>().branchModel?.content ?? [];
+        child: BlocConsumer<BranchCubit, BranchState>(
+          listener: (context, state) {},
+          buildWhen: (previous, current) {
+            if (current is BranchLoading) {
+              return true;
+            }
+            if (current is BranchSuccess) {
+              return true;
+            }
+            if (current is BranchError) {
+              return true;
+            }
+            return false;
+          },
+          builder: (context, state) {
+            if (state is BranchSuccess) {
+              final branches = context.read<BranchCubit>().branchModel?.content ?? [];
 
-            if (branches.isEmpty) {
-              return Center(
-                child: Text(
-                  'No branches found',
-                  style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+              if (branches.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No branches found',
+                    style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                  ),
+                );
+              }
+
+              return AnimationLimiter(
+                child: NotificationListener(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && context.read<BranchCubit>().branchModel!.pagination!.nextPageUrl != null) {
+                      context.read<BranchCubit>().getBranches(
+                            page: context.read<BranchCubit>().branchModel!.pagination!.currentPage! + 1,
+                          );
+                    }
+                    return true;
+                  },
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                    itemCount: branches.length,
+                    itemBuilder: (context, index) {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: BranchDetailsWidget(branch: branches[index]),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               );
             }
 
-            return AnimationLimiter(
-              child: NotificationListener(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels ==
-                          scrollInfo.metrics.maxScrollExtent &&
-                      context
-                              .read<BranchCubit>()
-                              .branchModel!
-                              .pagination!
-                              .nextPageUrl !=
-                          null) {
-                    context.read<BranchCubit>().getBranches(
-                          page: context
-                                  .read<BranchCubit>()
-                                  .branchModel!
-                                  .pagination!
-                                  .currentPage! +
-                              1,
-                        );
-                  }
-                  return true;
-                },
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
-                  itemCount: branches.length,
-                  itemBuilder: (context, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 375),
-                      child: SlideAnimation(
-                        verticalOffset: 50.0,
-                        child: FadeInAnimation(
-                          child: BranchDetailsWidget(branch: branches[index]),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            );
-          }
+            if (state is BranchError) {
+              return RetryWidget(
+                onRetry: () => context.read<BranchCubit>().getBranches(),
+                message: state.message,
+              );
+            }
 
-          if (state is BranchError) {
-            return RetryWidget(
-              onRetry: () => context.read<BranchCubit>().getBranches(),
-              message: state.message,
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
-        },
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
       floatingActionButton: CustomFloatingActionButton(
         icon: AppImages.add,

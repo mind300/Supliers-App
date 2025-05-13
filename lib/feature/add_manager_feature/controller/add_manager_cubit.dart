@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:supplies/feature/add_manager_feature/data/model/branch_list_model/branch_list_model.dart';
 import 'package:supplies/feature/add_manager_feature/data/repo/add_manager_repo.dart';
+import 'package:supplies/feature/add_offer_feature/view/widget/add_offer_drop_down.dart';
 
 part 'add_manager_state.dart';
 
@@ -11,7 +13,7 @@ class AddManagerCubit extends Cubit<AddManagerState> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  String branchId = "";
+  List<DropDownModel> branchesId = [];
   var formKey = GlobalKey<FormState>();
 
   getBranches() async {
@@ -32,17 +34,30 @@ class AddManagerCubit extends Cubit<AddManagerState> {
     emit(AddManagerAddedLoading());
 
     if (formKey.currentState!.validate()) {
-      if (branchId.isEmpty) {
+      if (branchesId.isEmpty) {
         emit(AddManagerAddedError("Please select a branch"));
         return;
       }
-      var res = await addManagerRepo.addManager(
-        data: {
+      FormData data = FormData.fromMap(
+        {
           "name": nameController.text,
           "mobile_number": phoneNumberController.text.toString(),
           "email": emailController.text,
-          "branch_id": branchId,
+          // "branches_ids[]": branchesId.map((e) => e.id).toList(),
         },
+      );
+
+      for (var element in branchesId) {
+        print("branches_ids[]: ${element.id}");
+        data.fields.add(
+          MapEntry(
+            "branch_ids[]",
+            element.id.toString(),
+          ),
+        );
+      }
+      var res = await addManagerRepo.addManager(
+        data: data,
       );
       res.fold(
         (l) {
@@ -55,5 +70,10 @@ class AddManagerCubit extends Cubit<AddManagerState> {
     } else {
       emit(AddManagerAddedError("Please fill all fields"));
     }
+  }
+
+  void branchesSelected(List<DropDownModel> p0) {
+    branchesId = p0;
+    emit(AddManagerBranchesSelected());
   }
 }

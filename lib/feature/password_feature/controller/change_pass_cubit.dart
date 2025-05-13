@@ -3,7 +3,7 @@ import 'package:supplies/feature/password_feature/data/repo/change_pass_repoImpl
 import 'change_pass_state.dart';
 
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
-  final ChangePassRepoImpl authRepository;
+  final ChangePassRepo authRepository;
 
   ChangePasswordCubit(this.authRepository) : super(ChangePasswordInitial());
 

@@ -25,6 +25,8 @@ import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart'
 import 'package:supplies/feature/manager_feature/data/repo/manager_repo.dart';
 import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
 import 'package:supplies/feature/offer_feature/data/repo/offer_repo.dart';
+import 'package:supplies/feature/password_feature/controller/change_pass_cubit.dart';
+import 'package:supplies/feature/password_feature/data/repo/change_pass_repoImpl.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/data/repo/profile_repo.dart';
 import 'package:supplies/feature/qr_feature/controller/qr_cubit.dart';
@@ -47,8 +49,10 @@ void initGetIt() {
   getIt.registerFactory<AddBranchCubit>(() => AddBranchCubit(getIt()));
   //branch details
   getIt.registerFactory<BranchDetailsRepo>(() => BranchDetailsImpl(getIt()));
-  getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit(getIt(), getIt()));
-
+  getIt.registerFactory<BranchDetailsCubit>(() => BranchDetailsCubit(getIt(), getIt(), getIt()));
+  ////
+  // getIt.registerLazySingleton<ChangePassRepo>(() => ChangePassRepoImpl(getIt()));
+  // getIt.registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(getIt()));
   //managers
   getIt.registerFactory<ManagerRepo>(() => ManagerRepoImpl(getIt()));
   getIt.registerFactory<ManagersCubit>(() => ManagersCubit(getIt()));
@@ -80,10 +84,10 @@ void initGetIt() {
 
   //qr
   getIt.registerFactory<QrCubit>(
-    () => QrCubit(getIt())..getBranchDetails(),
+    () => QrCubit(getIt(), getIt())..getBranchDetails(),
   );
-  //qr
-  getIt.registerFactory<QrCubit>(
-    () => QrCubit(getIt())..getBranchDetails(),
-  );
+
+  //change password
+  getIt.registerFactory<ChangePassRepo>(() => ChangePassRepoimpl(getIt()));
+  getIt.registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(getIt()));
 }

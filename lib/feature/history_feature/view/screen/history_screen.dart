@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:supplies/core/components/custom_app_bar.dart';
 import 'package:supplies/core/widgets/build_shimmer_box.dart';
 
 import 'package:supplies/core/widgets/drawer.dart';
@@ -17,14 +18,20 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: AppDrawer(currentPage: 'History'),
-      appBar: AppBar(
-        title: const Text('History'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-        ],
+      // appBar: AppBar(
+      //   title: const Text('History'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: const Icon(Icons.search),
+      //     ),
+      //   ],
+      // ),
+      appBar: CustomAppBar(
+        title: 'History',
+        onChanged: (p0) {
+          context.read<TransactionCubit>().getTransactions(searchQuery: p0);
+        },
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -64,27 +71,26 @@ class HistoryScreen extends StatelessWidget {
                   Expanded(
                     child: transactions.content.isEmpty
                         ? Center(
-                      child: Text(
-                        'No transactions available.',
-                        style: TextStyle(fontSize: 14.sp, color: Colors.grey),
-                      ),
-                    )
+                            child: Text(
+                              'No transactions available.',
+                              style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                            ),
+                          )
                         : ListView.separated(
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 10.h),
-                      itemCount: transactions.content.length,
-                      itemBuilder: (context, index) => HistoryOrderWidget(
-                        status: transactions.content[index].status,
-                        branchName: transactions.content[index].branch?.name ?? '',
-                        brandName: transactions.content[index].brand?.name ?? '',
-                        cashierName: transactions.content[index].cashier?.name ?? '',
-                        totalBefore: transactions.content[index].totalBeforeDiscount,
-                        totalAfter: transactions.content[index].userAmount,
-                        discountAmount: transactions.content[index].userDiscount,
-                        createdAt: transactions.content[index].createdAt,
-                      ),
-                    ),
+                            shrinkWrap: true,
+                            separatorBuilder: (context, index) => SizedBox(height: 10.h),
+                            itemCount: transactions.content.length,
+                            itemBuilder: (context, index) => HistoryOrderWidget(
+                              status: transactions.content[index].status,
+                              branchName: transactions.content[index].branch?.name ?? '',
+                              brandName: transactions.content[index].brand?.name ?? '',
+                              cashierName: transactions.content[index].cashier?.name ?? '',
+                              totalBefore: transactions.content[index].totalBeforeDiscount,
+                              totalAfter: transactions.content[index].userAmount,
+                              discountAmount: transactions.content[index].userDiscount,
+                              createdAt: transactions.content[index].createdAt,
+                            ),
+                          ),
                   ),
                 ],
               );
@@ -95,6 +101,4 @@ class HistoryScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }

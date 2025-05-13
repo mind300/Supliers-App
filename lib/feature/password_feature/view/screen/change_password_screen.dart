@@ -4,29 +4,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/components/toast_manager.dart';
+import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import '../../controller/change_pass_cubit.dart';
 import '../../controller/change_pass_state.dart';
 
-class ChangePasswordScreen extends StatefulWidget {
-  const ChangePasswordScreen({super.key});
-
-  @override
-  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
-}
-
-class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+class ChangePasswordScreen extends StatelessWidget {
+  ChangePasswordScreen({super.key});
   final oldPasswordController = TextEditingController();
   final newPasswordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  @override
-  void dispose() {
-    oldPasswordController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   oldPasswordController.dispose();
+  //   newPasswordController.dispose();
+  //   confirmPasswordController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +37,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         }
       },
       builder: (context, state) {
+        // return SizedBox();
         return Scaffold(
           appBar: AppBar(
             title: const Text('Change Password'),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {},
-              ),
-            ],
           ),
           drawer: AppDrawer(currentPage: 'Change Password'),
           body: SingleChildScrollView(

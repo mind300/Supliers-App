@@ -21,6 +21,12 @@ final class AddOfferError extends AddOfferState {
   AddOfferError(this.message);
 }
 
+final class AddOfferWarning extends AddOfferState {
+  final String message;
+
+  AddOfferWarning(this.message);
+}
+
 final class AddOfferCategoriesLoaded extends AddOfferState {
   final CategoriesList categoriesList;
 

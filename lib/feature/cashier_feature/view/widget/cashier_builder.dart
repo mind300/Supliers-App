@@ -18,12 +18,14 @@ class EmployeeDataBuilder extends StatelessWidget {
     this.id,
     this.userType,
     this.subtitle,
+    this.onDeletePressed,
   });
   final String? image;
   final String? name;
   final String? id;
   final UsersType? userType;
   final String? subtitle;
+  final Function? onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,10 @@ class EmployeeDataBuilder extends StatelessWidget {
       ),
       child: ListTile(
         onTap: () async {
+          if (onDeletePressed != null) {
+            onDeletePressed!();
+            return;
+          }
           if (userType == UsersType.cashier) {
             var res = await context.pushNamed(
               Routes.cashierProfile,
@@ -94,7 +100,9 @@ class EmployeeDataBuilder extends StatelessWidget {
             color: Colors.grey[600],
           ),
         ),
-        trailing: Icon(Icons.arrow_forward_ios),
+        trailing: Icon(
+          onDeletePressed != null ? Icons.delete : Icons.arrow_forward_ios,
+        ),
       ),
     );
   }

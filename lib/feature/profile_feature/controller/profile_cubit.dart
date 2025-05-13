@@ -157,7 +157,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       'mobile_phone': phoneNumberController.text,
     });
 
-    if (profileImage.isNotEmpty) {
+    if (!profileImage.contains("http")) {
       data.files.add(
         MapEntry(
           'media',
@@ -177,8 +177,15 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         CacheHelper.setData(CacheKeys.name, nameController.text);
+        // CacheHelper.setData(CacheKeys.mo, phoneNumberController.text);
         emit(ProfileUpdateSuccess("Profile updated successfully"));
       },
     );
+  }
+
+  @override
+  void onChange(Change<ProfileState> change) {
+    print('State changed from ${change.currentState} to ${change.nextState}');
+    super.onChange(change);
   }
 }

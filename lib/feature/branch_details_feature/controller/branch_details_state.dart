@@ -52,3 +52,24 @@ final class BranchDetailsDeleteError extends BranchDetailsState {
 
   BranchDetailsDeleteError(this.error);
 }
+
+//loaded cashiers
+final class BranchDetailsLoadedCashiers extends BranchDetailsState {
+  final List<BranchDetailsModel> branchDetailsModel;
+
+  BranchDetailsLoadedCashiers(this.branchDetailsModel);
+}
+
+//BranchDetailsGetManager
+final class BranchDetailsGetManager extends BranchDetailsState {
+  final List<Manager> branchDetailsModel;
+
+  BranchDetailsGetManager(this.branchDetailsModel);
+}
+
+//BranchDetailsGetCashiers
+final class BranchDetailsGetCashiers extends BranchDetailsState {
+  final CashierModel branchDetailsModel;
+
+  BranchDetailsGetCashiers(this.branchDetailsModel);
+}

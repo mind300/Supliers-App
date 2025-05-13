@@ -11,10 +11,10 @@ abstract class ChangePassRepo {
   });
 }
 
-class ChangePassRepoImpl implements ChangePassRepo {
+class ChangePassRepoimpl implements ChangePassRepo {
   final DioHelper dioHelper;
 
-  ChangePassRepoImpl(this.dioHelper);
+  ChangePassRepoimpl(this.dioHelper);
 
   @override
   Future<Either<CustomException, Unit>> changePassword({
@@ -44,3 +44,36 @@ class ChangePassRepoImpl implements ChangePassRepo {
     }
   }
 }
+// class ChangePassRepoImpl implements ChangePassRepo {
+//   final DioHelper dioHelper;
+
+//   ChangePassRepoImpl(this.dioHelper);
+
+//   @override
+//   Future<Either<CustomException, Unit>> changePassword({
+//     required String oldPassword,
+//     required String newPassword,
+//     required String confirmPassword,
+//   }) async {
+//     try {
+//       final response = await dioHelper.post(
+//         endPoint: EndPoints.changePassword,
+//         data: {
+//           'old_password': oldPassword,
+//           'new_password': newPassword,
+//           'new_password_confirmation': confirmPassword,
+//         },
+//       );
+
+//       if (response.statusCode == 200) {
+//         return const Right(unit);
+//       } else {
+//         return Left(CustomException(
+//           message: response.data['message'] ?? 'Something went wrong',
+//         ));
+//       }
+//     } catch (e) {
+//       return Left(CustomException(message: e.toString()));
+//     }
+//   }
+// }

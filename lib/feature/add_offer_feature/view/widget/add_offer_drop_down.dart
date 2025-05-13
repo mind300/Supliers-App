@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 
-// final List<String> items = ['Item1', 'Item2', 'Item3', 'Item4'];
-// List<DropDownModel> selectedItems = [];
-
 class AddOfferDropDown extends StatelessWidget {
   const AddOfferDropDown({
     super.key,
@@ -20,7 +17,7 @@ class AddOfferDropDown extends StatelessWidget {
   final String? toolTipMessage;
   final List<DropDownModel> items;
   final List<DropDownModel> selectedItems;
-  final Function? onChanged;
+  final Function(List<DropDownModel>)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +34,7 @@ class AddOfferDropDown extends StatelessWidget {
                   Text(
                     title!,
                     style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleSmall!.fontSize,
+                      fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -70,10 +66,11 @@ class AddOfferDropDown extends StatelessWidget {
             child: DropdownButton2<int>(
               isExpanded: true,
               hint: Text(
-                'Select Items',
+                // 'Select Items',
+                selectedItems.isEmpty ? 'Select Items' : selectedItems.map((e) => e.name).join(', '),
                 style: TextStyle(
                   fontSize: 12.sp,
-                  color: AppColors.black.withOpacity(0.3),
+                  color: AppColors.black,
                   fontWeight: FontWeight.w300,
                 ),
               ),
@@ -83,19 +80,16 @@ class AddOfferDropDown extends StatelessWidget {
                   enabled: false,
                   child: StatefulBuilder(
                     builder: (context, menuSetState) {
-                      final isSelected = selectedItems
-                          .any((selectedItem) => selectedItem.id == item.id);
+                      final isSelected = selectedItems.any((selectedItem) => selectedItem.id == item.id);
                       return InkWell(
                         onTap: () {
                           if (isSelected) {
-                            selectedItems.removeWhere(
-                                (selectedItem) => selectedItem.id == item.id);
+                            selectedItems.removeWhere((selectedItem) => selectedItem.id == item.id);
                           } else {
                             selectedItems.add(item);
                           }
-                          // isSelected ? selectedItems.remove(item) : selectedItems.add(item);
                           menuSetState(() {});
-                          onChanged?.call(selectedItems);
+                          onChanged?.call(List<DropDownModel>.from(selectedItems));
                         },
                         child: Container(
                           height: double.infinity,
@@ -104,9 +98,7 @@ class AddOfferDropDown extends StatelessWidget {
                           child: Row(
                             children: [
                               Icon(
-                                isSelected
-                                    ? Icons.check_box_outlined
-                                    : Icons.check_box_outline_blank,
+                                isSelected ? Icons.check_box_outlined : Icons.check_box_outline_blank,
                                 size: 18,
                               ),
                               const SizedBox(width: 16),
@@ -124,8 +116,7 @@ class AddOfferDropDown extends StatelessWidget {
                   ),
                 );
               }).toList(),
-              value: selectedItems.isEmpty ? null : selectedItems.last.id,
-              onChanged: (value) {},
+              onChanged: (_) {}, // Still needed to prevent UI error
               selectedItemBuilder: (context) {
                 return items.map(
                   (item) {

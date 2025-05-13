@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
+import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/retry_widget.dart';
+import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/branch_feature/data/model/content.dart';
 import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
@@ -19,7 +21,22 @@ class ProfileScreen extends StatelessWidget {
     final canPop = Navigator.of(context).canPop();
 
     return BlocConsumer<ProfileCubit, ProfileState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ProfileUpdateLoading) {
+          startLoading(context);
+        }
+        if (state is ProfileError) {
+          stopLoading(context);
+          ToastManager.showErrorToast(
+            state.error,
+          );
+        }
+        if (state is ProfileUpdateSuccess) {
+          stopLoading(context);
+          Navigator.of(context).pop(true);
+          ToastManager.showToast(state.message);
+        }
+      },
       buildWhen: (previous, current) => current is ProfileLoading || current is ProfileMeLoaded || current is ProfileError,
       builder: (context, state) => Scaffold(
         appBar: AppBar(
@@ -57,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
                           hintText: 'Job ID (optional)',
                           title: 'Job ID (optional)',
                           controller: context.read<ProfileCubit>().jobIdController,
-                          enabled: context.read<ProfileCubit>().isEditing,
+                          enabled: false,
                         ),
                         SizedBox(height: 10.h),
                         Text("Related Branches"),

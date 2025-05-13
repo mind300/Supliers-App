@@ -16,3 +16,18 @@ final class QrError extends QrState {
   final String message;
   QrError(this.message);
 }
+
+final class QrDiscountedPriceUpdated extends QrState {}
+
+//redeem loading.loded,error
+final class QrRedeemLoading extends QrState {}
+
+final class QrRedeemLoaded extends QrState {
+  final String qrCode;
+  QrRedeemLoaded(this.qrCode);
+}
+
+final class QrRedeemError extends QrState {
+  final String message;
+  QrRedeemError(this.message);
+}

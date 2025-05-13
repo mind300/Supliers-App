@@ -174,10 +174,13 @@ class AppRouter {
         );
       case Routes.scanDetails:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<QrCubit>(),
-            child: const ScanDetails(),
-          ),
+          builder: (_) {
+            var args = settings.arguments;
+            return BlocProvider(
+              create: (context) => getIt<QrCubit>(),
+              child: ScanDetails(code: args.toString()),
+            );
+          },
         );
       case Routes.manager:
         return MaterialPageRoute(
@@ -198,7 +201,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<ChangePasswordCubit>(),
-            child: const ChangePasswordScreen(),
+            child: ChangePasswordScreen(),
           ),
         );
       default:

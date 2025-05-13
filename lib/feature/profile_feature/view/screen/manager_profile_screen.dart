@@ -21,57 +21,42 @@ class ManagerProfileScreen extends StatelessWidget {
     final canPop = Navigator.of(context).canPop();
 
     return BlocConsumer<ProfileCubit, ProfileState>(
-      buildWhen: (previous, current) => current is ProfileMeLoaded || current is ProfileError,
+      buildWhen: (previous, current) => current is ProfileMeLoaded || current is ProfileError || current is ProfileManagerLoaded,
       listener: (context, state) {
         if (state is ProfileDelete) {
-          // context.read<ProfileCubit>().toggleEditing();
           showDialog(
             context: context,
-            builder: (_) {
-              return AlertDialog.adaptive(
-                icon: Icon(
-                  Icons.error,
-                  size: 100.sp,
-                  color: AppColors.red,
+            builder: (_) => AlertDialog.adaptive(
+              icon: Icon(
+                Icons.error,
+                size: 100.sp,
+                color: AppColors.red,
+              ),
+              content: const Text('Are you sure you want to delete this profile?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: AppColors.gray),
+                  ),
                 ),
-                // title: const Text('Delete Profile'),
-                content: const Text('Are you sure you want to delete this profile?'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(
-                        color: AppColors.gray,
-                      ),
-                    ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    context.read<ProfileCubit>().deleteManager(id);
+                  },
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(color: AppColors.red),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      // Handle delete action
-                      Navigator.of(context).pop();
-
-                      context.read<ProfileCubit>().deleteManager(
-                            id.toString(),
-                          );
-                    },
-                    child: const Text(
-                      'Delete',
-                      style: TextStyle(
-                        color: AppColors.red,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+                ),
+              ],
+            ),
           );
         }
-        if (state is ProfileLoading) {
-          startLoading(context);
-        }
+
+        if (state is ProfileLoading) startLoading(context);
         if (state is ProfileDeleteSuccess) {
           stopLoading(context);
           Navigator.of(context).pop(true);
@@ -83,49 +68,35 @@ class ManagerProfileScreen extends StatelessWidget {
       },
       builder: (context, state) {
         final cubit = context.read<ProfileCubit>();
+
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              'Manager Profile',
-            ),
+            title: const Text('Manager Profile'),
             actions: [
-              PopupMenuButton(
-                itemBuilder: (context) {
-                  return [
-                    // PopupMenuItem(
-                    //   child: Text('Edit'),
-                    //   onTap: () {
-                    //     context.read<ProfileCubit>().toggleEditing();
-                    //   },
-                    // ),
-                    PopupMenuItem(
-                      child: Text('Delete'),
-                      onTap: () {
-                        // Handle delete action
-                        context.read<ProfileCubit>().deleteProfile();
-                      },
-                    ),
-                  ];
+              PopupMenuButton<String>(
+                onSelected: (value) {
+                  if (value == 'delete') {
+                    context.read<ProfileCubit>().deleteProfile();
+                  }
                 },
-                child: Icon(
+                itemBuilder: (context) => const [
+                  PopupMenuItem<String>(
+                    value: 'delete',
+                    child: Text('Delete'),
+                  ),
+                ],
+                child: const Icon(
                   Icons.more_vert,
                   color: AppColors.white,
                 ),
               ),
             ],
           ),
-          drawer: canPop
-              ? null
-              : AppDrawer(
-                  currentPage: 'profile',
-                ),
+          drawer: canPop ? null : AppDrawer(currentPage: 'profile'),
           body: state is ProfileError
               ? RetryWidget(
                   onRetry: () {
-                    var args = ModalRoute.of(context)!.settings.arguments;
-                    cubit.getManagerProfile(
-                      id,
-                    );
+                    cubit.getManagerProfile(id);
                   },
                   message: state.error,
                 )
@@ -135,51 +106,47 @@ class ManagerProfileScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ProfileImage(),
-                          ProfileNameEditor(),
+                          const ProfileImage(),
+                          const ProfileNameEditor(),
                           CustomTextFormField(
                             hintText: 'Phone Number',
                             title: 'Phone Number',
                             enabled: false,
-                            controller: context.read<ProfileCubit>().phoneNumberController,
+                            controller: cubit.phoneNumberController,
                           ),
                           SizedBox(height: 10.h),
                           CustomTextFormField(
                             hintText: 'Job ID (optional)',
                             enabled: false,
                             title: 'Job ID (optional)',
-                            controller: context.read<ProfileCubit>().jobIdController,
+                            controller: cubit.jobIdController,
                           ),
                           SizedBox(height: 10.h),
                           Align(
                             alignment: AlignmentDirectional.centerStart,
-                            child: Text("Related Branches",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.black,
-                                )),
+                            child: Text(
+                              "Related Branches",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.black,
+                              ),
+                            ),
                           ),
                           ListView.builder(
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: state.managerProfileModel.content?.branch?.length ?? 0,
                             itemBuilder: (context, index) {
                               return BranchDetailsWidget(
                                 branch: state.managerProfileModel.content!.branch![index],
                               );
                             },
-                            itemCount: state.managerProfileModel.content!.branch!.length,
                           ),
-                          // if (isCashier)
-                          // ProfileRelatedBranchDropDown(),
                         ],
                       ),
                     )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-          // bottomNavigationBar: ProfileButton(),
+                  : const Center(child: CircularProgressIndicator()),
         );
       },
     );
