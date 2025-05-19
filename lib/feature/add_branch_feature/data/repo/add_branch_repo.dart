@@ -19,7 +19,7 @@ class AddBranchRepoImpl implements AddBranchRepo {
   Future<Either<CustomException, String>> addBranch({required Map data}) async {
     try {
       Response res = await dioHelper.post(
-        endPoint: EndPoints.addBranch,
+        endPoint: EndPoints.branch,
         data: data,
       );
 

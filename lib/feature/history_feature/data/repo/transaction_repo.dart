@@ -28,7 +28,7 @@ class TransactionRepoImpl extends TransactionRepo {
   }) async {
     try {
       Response res = await dioHelper.get(
-        endPoint: "${EndPoints.transactions}searchQuery=$searchQuery",
+        endPoint: "${EndPoints.transactions}?searchQuery=$searchQuery",
       );
 
       if (res.statusCode != 200) {

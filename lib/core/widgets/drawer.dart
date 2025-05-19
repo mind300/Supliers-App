@@ -10,6 +10,7 @@ import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/cache/cache_keys.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key, required this.currentPage});
@@ -25,6 +26,7 @@ class AppDrawer extends StatelessWidget {
     AppImages.history,
     AppImages.password,
     AppImages.about,
+    AppImages.privacy,
   ];
 
   List titles = [
@@ -37,6 +39,7 @@ class AppDrawer extends StatelessWidget {
     'History',
     "Change Password",
     'About',
+    'Privacy Policy',
   ];
 
   List route = [
@@ -49,6 +52,7 @@ class AppDrawer extends StatelessWidget {
     Routes.history,
     Routes.changePassword,
     Routes.about,
+    '',
   ];
 
   @override
@@ -180,6 +184,13 @@ class DrawerItemBuilder extends StatelessWidget {
       onTap: () {
         Navigator.pop(context);
         if (isSelected) {
+          return;
+        }
+        if (route.trim().isEmpty) {
+          launchUrl(
+            Uri.parse("https://suppliers-api.all-classes.com/suppliers/privacy"),
+            mode: LaunchMode.inAppBrowserView,
+          );
           return;
         }
         context.pushNamedAndRemoveAll(

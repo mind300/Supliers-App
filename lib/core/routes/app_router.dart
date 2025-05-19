@@ -174,7 +174,7 @@ class AppRouter {
       case Routes.addCashiers:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<AddCashiersCubit>(),
+            create: (context) => getIt<AddCashiersCubit>()..getBranchList(),
             child: const AddCashierScreen(),
           ),
         );
@@ -231,7 +231,6 @@ class AppRouter {
             );
           },
         );
-
 
       case Routes.changePassword:
         return MaterialPageRoute(

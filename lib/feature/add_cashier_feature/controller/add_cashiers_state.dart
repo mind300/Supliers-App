@@ -18,3 +18,9 @@ final class AddCashiersError extends AddCashiersState {
 
   AddCashiersError(this.message);
 }
+
+final class AddCashiersGetBranchesSuccess extends AddCashiersState {
+  final BranchListModel data;
+
+  AddCashiersGetBranchesSuccess(this.data);
+}

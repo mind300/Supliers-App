@@ -17,10 +17,8 @@ class TransactionsResponse {
 
   factory TransactionsResponse.fromJson(Map<String, dynamic> json) {
     return TransactionsResponse(
-      content: (json['content'] as List)
-          .map((item) => Transaction.fromJson(item))
-          .toList(),
-      total: json['total'] ?? '00.0',
+      content: (json['content'] as List).map((item) => Transaction.fromJson(item)).toList(),
+      total: json['total'].toString(),
       success: json['success'] ?? false,
       message: json['message'] ?? '',
       status: json['status'] ?? 0,
@@ -72,7 +70,6 @@ class Transaction {
       cashier: json['cashier'] != null ? Cashier.fromJson(json['cashier']) : Cashier(id: 0, name: ''),
       branch: json['branch'] != null ? Branch.fromJson(json['branch']) : Branch(id: 0, name: ''),
       brand: json['brand'] != null ? Brand.fromJson(json['brand']) : Brand(id: 0, name: ''),
-
     );
   }
 }

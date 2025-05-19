@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_app_bar.dart';
+import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/widgets/build_shimmer_box.dart';
 
 import 'package:supplies/core/widgets/drawer.dart';
@@ -49,9 +50,11 @@ class HistoryScreen extends StatelessWidget {
               );
             } else if (state is TransactionError) {
               debugPrint(state.message);
-              return Text(
-                state.message,
-                style: TextStyle(color: Colors.red),
+              return RetryWidget(
+                onRetry: () {
+                  context.read<TransactionCubit>().getTransactions();
+                },
+                message: state.message,
               );
             } else if (state is TransactionLoaded) {
               final transactions = state.transactions;

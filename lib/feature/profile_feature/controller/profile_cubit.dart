@@ -69,7 +69,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         nameController.text = r.content?.name ?? '';
-        phoneNumberController.text = r.content?.mobilePhone ?? '';
+        phoneNumberController.text = (r.content?.mobilePhone?.startsWith('0') == false ? "0${r.content?.mobilePhone}" : r.content?.mobilePhone)!;
+
         jobIdController.text = r.content?.jobId ?? '';
         profileImage = r.content?.images ?? '';
         emit(ProfileManagerLoaded(r));
@@ -89,7 +90,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         nameController.text = r.content?.name ?? '';
-        phoneNumberController.text = r.content?.mobilePhone ?? '';
+        // phoneNumberController.text = r.content?.mobilePhone ?? '';
+        phoneNumberController.text = (r.content?.mobilePhone?.startsWith('0') == false ? "0${r.content?.mobilePhone}" : r.content?.mobilePhone)!;
         jobIdController.text = r.content?.jobId ?? '';
         profileImage = r.content?.images ?? '';
         emit(ProfileCashierLoaded(r));
@@ -106,7 +108,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         nameController.text = r.content?.name ?? '';
-        phoneNumberController.text = r.content?.mobileNumber ?? '';
+        // phoneNumberController.text = r.content?.mobileNumber ?? '';
+        phoneNumberController.text = (r.content?.mobileNumber?.startsWith('0') == false ? "0${r.content?.mobileNumber}" : r.content?.mobileNumber)!;
         jobIdController.text = r.content?.jobId.toString() ?? '';
         profileImage = r.content?.image ?? '';
         emit(ProfileMeLoaded(r));

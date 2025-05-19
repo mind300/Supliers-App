@@ -33,7 +33,6 @@ class ProfileScreen extends StatelessWidget {
         }
         if (state is ProfileUpdateSuccess) {
           stopLoading(context);
-          Navigator.of(context).pop(true);
           ToastManager.showToast(state.message);
         }
       },

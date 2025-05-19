@@ -105,6 +105,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             textAlign: TextAlign.start,
             enabled: widget.enabled,
             controller: widget.controller,
+            autofocus: false,
             obscureText: isPasswordField && !isPasswordVisible,
             onSaved: widget.onSaved,
             onEditingComplete: () {
@@ -114,6 +115,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             onFieldSubmitted: (value) {
               FocusScope.of(context).unfocus(); // Dismiss keyboard on field submission
             },
+            onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
             onChanged: widget.onChanged,
             inputFormatters: widget.inputFormatters,
             readOnly: widget.readOnly,

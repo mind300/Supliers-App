@@ -14,7 +14,7 @@ class AddBranchCubit extends Cubit<AddBranchState> {
   TextEditingController streetNameController = TextEditingController();
   TextEditingController buildingNumberController = TextEditingController();
   TextEditingController floorNumberController = TextEditingController();
-  bool isBrachDetailsExpanded = false;
+  bool isBrachDetailsExpanded = true;
   var formKey = GlobalKey<FormState>();
 
   void updateBranchDetails(

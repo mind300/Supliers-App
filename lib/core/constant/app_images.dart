@@ -17,6 +17,7 @@ class AppImages {
   static const String plus = 'assets/images/plus.svg';
   static const String qr = 'assets/images/QR Code.svg';
   static const String manager = 'assets/images/man.svg';
+  static const String privacy = 'assets/images/privacy.svg';
 
   //test assets
   static const String profileTest = 'assets/images/delete/test_profile.png';

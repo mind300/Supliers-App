@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/feature/add_cashier_feature/data/repo/add_cashiers_repo.dart';
+import 'package:supplies/feature/add_manager_feature/data/model/branch_list_model/branch_list_model.dart';
 
 part 'add_cashiers_state.dart';
 
@@ -15,18 +16,16 @@ class AddCashiersCubit extends Cubit<AddCashiersState> {
   var formKey = GlobalKey<FormState>();
   var branchId = 0;
 
-  // getBranchList({
-  //   int page = 1,
-  // }) async {
-  //   emit(AddCashiersLoading());
-  //   final response = await addCashiersRepo.getBranchList(
-  //     page: page,
-  //   );
-  //   response.fold(
-  //     (l) => emit(AddCashiersError(l.message)),
-  //     (r) => emit(AddCashiersSuccess(r)),
-  //   );
-  // }
+  getBranchList({
+    int page = 1,
+  }) async {
+    emit(AddCashiersLoading());
+    final response = await addCashiersRepo.getBranchList();
+    response.fold(
+      (l) => emit(AddCashiersError(l.message)),
+      (r) => emit(AddCashiersGetBranchesSuccess(r)),
+    );
+  }
 
   addCashier() async {
     if (!formKey.currentState!.validate() || branchId == 0) {

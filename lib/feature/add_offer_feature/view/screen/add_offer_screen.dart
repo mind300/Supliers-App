@@ -57,131 +57,138 @@ class AddOfferScreen extends StatelessWidget {
                   message: state.message,
                 )
               : state is AddOfferCategoriesLoaded
-                  ? SingleChildScrollView(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
-                      child: Form(
-                        key: context.read<AddOfferCubit>().formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Center(
-                              child: BlocBuilder<AddOfferCubit, AddOfferState>(
-                                buildWhen: (_, state) => state is AddOfferImagePicked,
-                                builder: (context, state) {
-                                  return SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: SizedBox(
-                                      height: 170.h,
-                                      child: Row(
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () => context.read<AddOfferCubit>().pickMultipleImages(),
-                                            child: Container(
-                                              margin: EdgeInsets.all(0.sp),
-                                              width: 150.sp,
-                                              height: 150.sp,
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[200],
-                                                borderRadius: BorderRadius.circular(10.r),
-                                              ),
-                                              child: Icon(
-                                                Icons.add_a_photo,
-                                                size: 50.sp,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ),
-                                          if (context.read<AddOfferCubit>().selectedImages != null && context.read<AddOfferCubit>().selectedImages!.isNotEmpty)
-                                            ...List.generate(
-                                              context.read<AddOfferCubit>().selectedImages!.length,
-                                              (index) => GestureDetector(
-                                                onTap: () {
-                                                  context.read<AddOfferCubit>().removeImage(index);
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: AddOfferImage(
-                                                    image: context.read<AddOfferCubit>().selectedImages![index].path,
+                  ? state.categoriesList.content!.isEmpty
+                      ? Center(
+                          child: Text(
+                            'No branches available to add an offer',
+                            style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                          ),
+                        )
+                      : SingleChildScrollView(
+                          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+                          child: Form(
+                            key: context.read<AddOfferCubit>().formKey,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Center(
+                                  child: BlocBuilder<AddOfferCubit, AddOfferState>(
+                                    buildWhen: (_, state) => state is AddOfferImagePicked,
+                                    builder: (context, state) {
+                                      return SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: SizedBox(
+                                          height: 170.h,
+                                          child: Row(
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () => context.read<AddOfferCubit>().pickMultipleImages(),
+                                                child: Container(
+                                                  margin: EdgeInsets.all(0.sp),
+                                                  width: 150.sp,
+                                                  height: 150.sp,
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.grey[200],
+                                                    borderRadius: BorderRadius.circular(10.r),
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.add_a_photo,
+                                                    size: 50.sp,
+                                                    color: Colors.grey,
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            CustomTextFormField(
-                              hintText: 'Title',
-                              title: "Title",
-                              controller: context.read<AddOfferCubit>().offerNameController,
-                              textInputType: TextInputType.text,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a title';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 20.h),
-                            CustomTextFormField(
-                              hintText: 'Description',
-                              title: "Description",
-                              controller: context.read<AddOfferCubit>().offerDescriptionController,
-                              textInputType: TextInputType.text,
-                              maxLines: 5,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a description';
-                                }
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 20.h),
-                            //discount
-                            CustomTextFormField(
-                              hintText: 'Discount',
-                              title: "Discount",
-                              controller: context.read<AddOfferCubit>().offerDiscountController,
-                              textInputType: TextInputType.number,
-                              suffixIcon: Padding(
-                                padding: EdgeInsets.all(12.sp),
-                                child: Text(
-                                  '%',
-                                  style: TextStyle(fontSize: 16.sp, color: Colors.black),
+                                              if (context.read<AddOfferCubit>().selectedImages != null && context.read<AddOfferCubit>().selectedImages!.isNotEmpty)
+                                                ...List.generate(
+                                                  context.read<AddOfferCubit>().selectedImages!.length,
+                                                  (index) => GestureDetector(
+                                                    onTap: () {
+                                                      context.read<AddOfferCubit>().removeImage(index);
+                                                    },
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(8.0),
+                                                      child: AddOfferImage(
+                                                        image: context.read<AddOfferCubit>().selectedImages![index],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter a discount';
-                                }
-                                if (double.tryParse(value) == null || double.parse(value) < 0 || double.parse(value) > 100) {
-                                  return 'Please enter a valid discount percentage';
-                                }
-
-                                return null;
-                              },
-                            ),
-                            SizedBox(height: 20.h),
-                            BlocBuilder<AddOfferCubit, AddOfferState>(
-                              buildWhen: (previous, current) => current is AddOfferCategoriesLoaded || current is AddOfferCategoryChanged,
-                              builder: (context, s) {
-                                return AddOfferDropDown(
-                                  title: "Select Category",
-                                  selectedItems: context.read<AddOfferCubit>().selectedCategories,
-                                  items: state.categoriesList.content!.map((e) => DropDownModel.fromJson(e.toJson())).toList(),
-                                  onChanged: (List<DropDownModel> selectedItems) {
-                                    context.read<AddOfferCubit>().onCategoryChanged(selectedItems);
+                                CustomTextFormField(
+                                  hintText: 'Title',
+                                  title: "Title",
+                                  controller: context.read<AddOfferCubit>().offerNameController,
+                                  textInputType: TextInputType.text,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a title';
+                                    }
+                                    return null;
                                   },
-                                );
-                              },
+                                ),
+                                SizedBox(height: 20.h),
+                                CustomTextFormField(
+                                  hintText: 'Description',
+                                  title: "Description",
+                                  controller: context.read<AddOfferCubit>().offerDescriptionController,
+                                  textInputType: TextInputType.text,
+                                  maxLines: 5,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a description';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: 20.h),
+                                //discount
+                                CustomTextFormField(
+                                  hintText: 'Discount',
+                                  title: "Discount",
+                                  controller: context.read<AddOfferCubit>().offerDiscountController,
+                                  textInputType: TextInputType.number,
+                                  suffixIcon: Padding(
+                                    padding: EdgeInsets.all(12.sp),
+                                    child: Text(
+                                      '%',
+                                      style: TextStyle(fontSize: 16.sp, color: Colors.black),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter a discount';
+                                    }
+                                    if (double.tryParse(value) == null || double.parse(value) < 0 || double.parse(value) > 100) {
+                                      return 'Please enter a valid discount percentage';
+                                    }
+
+                                    return null;
+                                  },
+                                ),
+                                SizedBox(height: 20.h),
+                                BlocBuilder<AddOfferCubit, AddOfferState>(
+                                  buildWhen: (previous, current) => current is AddOfferCategoriesLoaded || current is AddOfferCategoryChanged,
+                                  builder: (context, s) {
+                                    return AddOfferDropDown(
+                                      title: "Select Branch",
+                                      selectedItems: context.read<AddOfferCubit>().selectedCategories,
+                                      items: state.categoriesList.content!.map((e) => DropDownModel.fromJson(e.toJson())).toList(),
+                                      onChanged: (List<DropDownModel> selectedItems) {
+                                        context.read<AddOfferCubit>().onCategoryChanged(selectedItems);
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    )
+                          ),
+                        )
                   : Center(
                       child: CircularProgressIndicator(
                         color: Colors.grey,

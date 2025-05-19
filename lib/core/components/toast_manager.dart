@@ -13,9 +13,9 @@ class ToastManager {
   static showToast(String message) {
     Fluttertoast.showToast(
       msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.black87,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.TOP,
+      backgroundColor: Colors.green,
       textColor: Colors.white,
       fontSize: 14.0,
     );
@@ -25,7 +25,7 @@ class ToastManager {
     Fluttertoast.showToast(
       msg: message,
       toastLength: Toast.LENGTH_LONG,
-      gravity: ToastGravity.BOTTOM,
+      gravity: ToastGravity.TOP,
       backgroundColor: Colors.redAccent,
       textColor: Colors.white,
       fontSize: 14.0,

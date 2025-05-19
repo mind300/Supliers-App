@@ -4,8 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
+import 'package:supplies/core/components/loading.dart';
+import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
+import 'package:supplies/core/helpers/extensitions.dart';
+import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/forget_password_feature/controller/reset_cubit/reset_password_cubit.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
@@ -19,6 +23,16 @@ class ResetPasswordScreen extends StatelessWidget {
       buildWhen: (previous, current) => current is ResetPasswordLoading || current is ResetPasswordSuccess || current is ResetPasswordFailure,
       listener: (context, state) {
         // TODO: implement listener
+        if (state is ResetPasswordLoading) {
+          startLoading(context);
+        } else if (state is ResetPasswordSuccess) {
+          stopLoading(context);
+          context.pushNamedAndRemoveAll(Routes.login);
+          ToastManager.showToast(state.message);
+        } else if (state is ResetPasswordFailure) {
+          stopLoading(context);
+          ToastManager.showErrorToast(state.message);
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -48,16 +62,17 @@ class ResetPasswordScreen extends StatelessWidget {
                           hintText: 'New Password',
                           title: "New Password",
                           controller: context.read<ResetPasswordCubit>().passwordController,
-                          obscureText: context.read<ResetPasswordCubit>().isPasswordVisible,
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              context.read<ResetPasswordCubit>().togglePasswordVisibility();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(12.sp),
-                              child: CustomImageHandler(path: context.read<ResetPasswordCubit>().isPasswordVisible ? AppImages.openEye : AppImages.closeEye),
-                            ),
-                          ),
+                          obscureText: true,
+                          // obscureText: context.read<ResetPasswordCubit>().isPasswordVisible,
+                          // suffixIcon: GestureDetector(
+                          //   onTap: () {
+                          //     context.read<ResetPasswordCubit>().togglePasswordVisibility();
+                          //   },
+                          //   child: Padding(
+                          //     padding: EdgeInsets.all(12.sp),
+                          //     child: CustomImageHandler(path: context.read<ResetPasswordCubit>().isPasswordVisible ? AppImages.openEye : AppImages.closeEye),
+                          //   ),
+                          // ),
                           validator: (p0) {
                             if (p0 == null || p0.isEmpty) {
                               return 'Please enter your password';
@@ -78,16 +93,17 @@ class ResetPasswordScreen extends StatelessWidget {
                           hintText: 'Confirm Password',
                           title: "Confirm Password",
                           controller: context.read<ResetPasswordCubit>().confirmPasswordController,
-                          obscureText: context.read<ResetPasswordCubit>().isConfirmPasswordVisible,
-                          suffixIcon: GestureDetector(
-                            onTap: () {
-                              context.read<ResetPasswordCubit>().toggleConfirmPasswordVisibility();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.all(12.sp),
-                              child: CustomImageHandler(path: context.read<ResetPasswordCubit>().isConfirmPasswordVisible ? AppImages.openEye : AppImages.closeEye),
-                            ),
-                          ),
+                          // obscureText: context.read<ResetPasswordCubit>().isConfirmPasswordVisible,
+                          obscureText: true,
+                          // suffixIcon: GestureDetector(
+                          //   onTap: () {
+                          //     context.read<ResetPasswordCubit>().toggleConfirmPasswordVisibility();
+                          //   },
+                          //   child: Padding(
+                          //     padding: EdgeInsets.all(12.sp),
+                          //     child: CustomImageHandler(path: context.read<ResetPasswordCubit>().isConfirmPasswordVisible ? AppImages.openEye : AppImages.closeEye),
+                          //   ),
+                          // ),
                           validator: (p0) {
                             if (p0 == null || p0.isEmpty) {
                               return 'Please enter your password';

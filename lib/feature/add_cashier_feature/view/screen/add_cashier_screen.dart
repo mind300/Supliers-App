@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/components/custom_button.dart';
+import 'package:supplies/core/components/custom_drop_down.dart';
 import 'package:supplies/core/components/custom_phone_input.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/view/widget/t.dart';
+import 'package:supplies/feature/add_offer_feature/view/widget/add_offer_drop_down.dart';
 
 class AddCashierScreen extends StatelessWidget {
   const AddCashierScreen({super.key});
@@ -80,13 +82,35 @@ class AddCashierScreen extends StatelessWidget {
                   //   title: " Job ID (optional)",
                   //   hintText: ' Job ID (optional)',
                   // ),
-                  PaginatedDropdownExample(
-                    searchController: context.read<AddCashiersCubit>().searchController,
-                    onItemSelected: (p0) {
-                      context.read<AddCashiersCubit>().searchController.text = p0.name ?? '';
-                      context.read<AddCashiersCubit>().branchId = p0.id!;
+                  // PaginatedDropdownExample(
+                  //   searchController: context.read<AddCashiersCubit>().searchController,
+                  //   onItemSelected: (p0) {
+                  //     context.read<AddCashiersCubit>().searchController.text = p0.name ?? '';
+                  //     context.read<AddCashiersCubit>().branchId = p0.id!;
+                  //   },
+                  // ),
+                  BlocBuilder<AddCashiersCubit, AddCashiersState>(
+                    buildWhen: (previous, current) => current is AddCashiersGetBranchesSuccess,
+                    builder: (context, state) {
+                      if (state is AddCashiersGetBranchesSuccess) {
+                        return CustomDropdown(
+                          title: 'Select Branch',
+                          items: state.data.content!.map(
+                            (e) {
+                              return CustomDropdownModel(
+                                id: e.id.toString(),
+                                name: e.name.toString(),
+                              );
+                            },
+                          ).toList(),
+                          onChanged: (p0) {
+                            context.read<AddCashiersCubit>().branchId = int.parse(p0.toString());
+                          },
+                        );
+                      }
+                      return const SizedBox();
                     },
-                  ),
+                  )
                 ],
               ),
             ),

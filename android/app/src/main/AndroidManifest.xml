@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:label="supplies"
+        android:label="All Classes Supplier"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
             <meta-data android:name="com.google.android.geo.API_KEY"
