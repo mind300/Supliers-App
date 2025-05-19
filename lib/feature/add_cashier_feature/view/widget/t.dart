@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
-import 'package:supplies/core/components/pagination_drop_down_menu.dart';
 import 'package:supplies/core/services/network_service/api_service.dart';
 import 'package:supplies/core/services/network_service/endpoints.dart';
 
@@ -52,7 +51,7 @@ class _PaginatedDropdownExampleState extends State<PaginatedDropdownExample> {
       await fetchItems(currentPage); // Wait until data is fetched
       if (items.isNotEmpty) {
         _overlayEntry = _createOverlayEntry();
-        Overlay.of(context)?.insert(_overlayEntry!);
+        Overlay.of(context).insert(_overlayEntry!);
       }
     } else {
       _removeOverlay();

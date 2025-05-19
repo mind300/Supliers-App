@@ -22,7 +22,12 @@ class OfferScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: CustomAppBar(title: 'Offers'),
+          appBar: CustomAppBar(
+            title: 'Offers',
+            onChanged: (p0) async {
+              await context.read<OfferCubit>().getOffers(search: p0);
+            },
+          ),
           drawer: AppDrawer(currentPage: 'offers'),
           body: state is OfferError
               ? RetryWidget(
@@ -75,9 +80,12 @@ class OfferScreen extends StatelessWidget {
               ? SizedBox()
               : CustomFloatingActionButton(
                   icon: Icons.add,
-                  onPressed: () {
+                  onPressed: () async {
                     // Navigate to the add offer screen
-                    context.pushNamed(Routes.addOffer);
+                    var res = await context.pushNamed(Routes.addOffer);
+                    if (res != null) {
+                      context.read<OfferCubit>().getOffers();
+                    }
                   },
                 ),
         );

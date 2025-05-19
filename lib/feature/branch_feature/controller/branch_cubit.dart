@@ -14,6 +14,7 @@ class BranchCubit extends Cubit<BranchState> {
     int page = 1,
     String? search,
   }) async {
+    print(search);
     if (page == 1) {
       emit(BranchLoading());
     } else {

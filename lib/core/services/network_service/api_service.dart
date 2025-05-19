@@ -291,7 +291,6 @@ class DioImpl extends DioHelper {
             // Handle token refresh or logout
             reset();
           }
-          ErrorModel errorModel = ErrorModel.fromJson(e.response!.data);
           throw CustomException(
             message: e.response?.data['message'] ?? "Something went wrong",
             // message: errorModel.errors?.isEmpty ?? true ? errorModel.message : errorModel.errors?.first.value?.first ?? e.response!.data['message'] ?? "Something went wrong",

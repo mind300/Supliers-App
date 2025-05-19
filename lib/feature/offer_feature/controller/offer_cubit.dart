@@ -11,9 +11,13 @@ class OfferCubit extends Cubit<OfferState> {
 
   getOffers({
     int page = 1,
+    String? search,
   }) async {
     emit(OfferLoading());
-    var res = await offerRepo.getOffers(page: page);
+    var res = await offerRepo.getOffers(
+      page: page,
+      search: search,
+    );
     res.fold(
       (l) {
         emit(OfferError(l.message));

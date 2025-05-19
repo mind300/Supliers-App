@@ -4,10 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/cache/cache_keys.dart';
 import 'package:supplies/feature/profile_feature/data/model/manager_profile_model/manager_profile_model.dart';
+import 'package:supplies/feature/profile_feature/data/model/my_profile_model/my_profile_model.dart';
 import 'package:supplies/feature/profile_feature/data/repo/profile_repo.dart';
 
 part 'profile_state.dart';
@@ -31,7 +31,35 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileDelete());
   }
 
-  getManagerProfile( String id, ) async {
+  deleteManager(String id) async {
+    emit(ProfileLoading());
+    var res = await profileRepo.deleteManagerProfile(id.toString());
+    res.fold(
+      (l) {
+        emit(ProfileDeleteError(l.message));
+      },
+      (r) {
+        emit(ProfileDeleteSuccess("Profile deleted successfully"));
+      },
+    );
+  }
+
+  deleteCashier(String id) async {
+    emit(ProfileLoading());
+    var res = await profileRepo.deleteManagerProfile(id.toString());
+    res.fold(
+      (l) {
+        emit(ProfileDeleteError(l.message));
+      },
+      (r) {
+        emit(ProfileDeleteSuccess("Profile deleted successfully"));
+      },
+    );
+  }
+
+  getManagerProfile(
+    String id,
+  ) async {
     // print(id);
     emit(ProfileLoading());
     var res = await profileRepo.getManagerProfile(id);
@@ -49,15 +77,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  getCashierProfile( String id, ) async {
-    print("getCashierProfile id: ${id}");
+  getCashierProfile(
+    String id,
+  ) async {
+    print("getCashierProfile id: $id");
     emit(ProfileLoading());
     var response = await profileRepo.getCashierProfile(id);
     response.fold(
-          (l) {
+      (l) {
         emit(ProfileError(l.message));
       },
-          (r) {
+      (r) {
         nameController.text = r.content?.name ?? '';
         phoneNumberController.text = r.content?.mobilePhone ?? '';
         jobIdController.text = r.content?.jobId ?? '';
@@ -76,10 +106,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         nameController.text = r.content?.name ?? '';
-        phoneNumberController.text = r.content?.mobilePhone ?? '';
-        jobIdController.text = r.content?.jobId ?? '';
-        profileImage = r.content?.images ?? '';
-        emit(ProfileManagerLoaded(r));
+        phoneNumberController.text = r.content?.mobileNumber ?? '';
+        jobIdController.text = r.content?.jobId.toString() ?? '';
+        profileImage = r.content?.image ?? '';
+        emit(ProfileMeLoaded(r));
       },
     );
   }
@@ -91,8 +121,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Choose Image Source',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Choose Image Source', style: TextStyle(fontWeight: FontWeight.bold)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -128,7 +157,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       'mobile_phone': phoneNumberController.text,
     });
 
-    if (profileImage.isNotEmpty) {
+    if (!profileImage.contains("http")) {
       data.files.add(
         MapEntry(
           'media',
@@ -148,8 +177,15 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         CacheHelper.setData(CacheKeys.name, nameController.text);
+        // CacheHelper.setData(CacheKeys.mo, phoneNumberController.text);
         emit(ProfileUpdateSuccess("Profile updated successfully"));
       },
     );
+  }
+
+  @override
+  void onChange(Change<ProfileState> change) {
+    print('State changed from ${change.currentState} to ${change.nextState}');
+    super.onChange(change);
   }
 }

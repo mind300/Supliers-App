@@ -5,7 +5,6 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:supplies/core/components/custom_app_bar.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/components/retry_widget.dart';
-import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
@@ -19,89 +18,85 @@ class BranchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'Branches'),
-      drawer: AppDrawer(currentPage: 'branch'),
-      body: BlocConsumer<BranchCubit, BranchState>(
-        listener: (context, state) {},
-        buildWhen: (previous, current) {
-          if (current is BranchLoading) {
-            return true;
-          }
-          if (current is BranchSuccess) {
-            return true;
-          }
-          if (current is BranchError) {
-            return true;
-          }
-          return false;
+      appBar: CustomAppBar(
+        title: 'Branches',
+        onChanged: (p0) {
+          context.read<BranchCubit>().getBranches(search: p0);
         },
-        builder: (context, state) {
-          if (state is BranchSuccess) {
-            final branches =
-                context.read<BranchCubit>().branchModel?.content ?? [];
+      ),
+      drawer: AppDrawer(currentPage: 'branch'),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<BranchCubit>().getBranches();
+        },
+        child: BlocConsumer<BranchCubit, BranchState>(
+          listener: (context, state) {},
+          buildWhen: (previous, current) {
+            if (current is BranchLoading) {
+              return true;
+            }
+            if (current is BranchSuccess) {
+              return true;
+            }
+            if (current is BranchError) {
+              return true;
+            }
+            return false;
+          },
+          builder: (context, state) {
+            if (state is BranchSuccess) {
+              final branches = context.read<BranchCubit>().branchModel?.content ?? [];
 
-            if (branches.isEmpty) {
-              return Center(
-                child: Text(
-                  'No branches found',
-                  style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+              if (branches.isEmpty) {
+                return Center(
+                  child: Text(
+                    'No branches found',
+                    style: TextStyle(fontSize: 18.sp, color: Colors.grey),
+                  ),
+                );
+              }
+
+              return AnimationLimiter(
+                child: NotificationListener(
+                  onNotification: (ScrollNotification scrollInfo) {
+                    if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && context.read<BranchCubit>().branchModel!.pagination!.nextPageUrl != null) {
+                      context.read<BranchCubit>().getBranches(
+                            page: context.read<BranchCubit>().branchModel!.pagination!.currentPage! + 1,
+                          );
+                    }
+                    return true;
+                  },
+                  child: ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
+                    itemCount: branches.length,
+                    itemBuilder: (context, index) {
+                      return AnimationConfiguration.staggeredList(
+                        position: index,
+                        duration: const Duration(milliseconds: 375),
+                        child: SlideAnimation(
+                          verticalOffset: 50.0,
+                          child: FadeInAnimation(
+                            child: BranchDetailsWidget(branch: branches[index]),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               );
             }
 
-            return AnimationLimiter(
-              child: NotificationListener(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels ==
-                          scrollInfo.metrics.maxScrollExtent &&
-                      context
-                              .read<BranchCubit>()
-                              .branchModel!
-                              .pagination!
-                              .nextPageUrl !=
-                          null) {
-                    context.read<BranchCubit>().getBranches(
-                          page: context
-                                  .read<BranchCubit>()
-                                  .branchModel!
-                                  .pagination!
-                                  .currentPage! +
-                              1,
-                        );
-                  }
-                  return true;
-                },
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 15.h),
-                  itemCount: branches.length,
-                  itemBuilder: (context, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 375),
-                      child: SlideAnimation(
-                        verticalOffset: 50.0,
-                        child: FadeInAnimation(
-                          child: BranchDetailsWidget(branch: branches[index]),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-            );
-          }
+            if (state is BranchError) {
+              return RetryWidget(
+                onRetry: () => context.read<BranchCubit>().getBranches(),
+                message: state.message,
+              );
+            }
 
-          if (state is BranchError) {
-            return RetryWidget(
-              onRetry: () => context.read<BranchCubit>().getBranches(),
-              message: state.message,
-            );
-          }
-
-          return const Center(child: CircularProgressIndicator());
-        },
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
       floatingActionButton: CustomFloatingActionButton(
         icon: AppImages.add,

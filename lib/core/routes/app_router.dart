@@ -41,6 +41,7 @@ import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/view/screen/cashier_profile_screen.dart';
 import 'package:supplies/feature/profile_feature/view/screen/manager_profile_screen.dart';
 import 'package:supplies/feature/profile_feature/view/screen/profile_screen.dart';
+import 'package:supplies/feature/qr_feature/controller/qr_cubit.dart';
 import 'package:supplies/feature/splash_feature/splash_screen.dart';
 import 'package:supplies/feature/qr_feature/view/screen/qr_screen.dart';
 import 'package:supplies/feature/qr_feature/view/screen/scan_details.dart';
@@ -85,7 +86,7 @@ class AppRouter {
       case Routes.branchDetails:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<BranchDetailsCubit>()..getBranchDetails((args as BranchDetailsArguments).branchId),
+            create: (context) => getIt<BranchDetailsCubit>()..getBranchDetails((args).branchId),
             child: BranchDetailsScreen(branchId: (args as BranchDetailsArguments).branchId),
           ),
         );
@@ -99,15 +100,15 @@ class AppRouter {
       case Routes.managerProfile:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<ProfileCubit>()..getManagerProfile((args as Map)['id'].toString()),
-            child: ManagerProfileScreen(),
+            create: (context) => getIt<ProfileCubit>()..getManagerProfile((args)['id'].toString()),
+            child: ManagerProfileScreen(id: (args as Map)['id'].toString()),
           ),
         );
       case Routes.cashierProfile:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIt<ProfileCubit>()..getCashierProfile((args as Map)['id'].toString()),
-            child: CashierProfileScreen(),
+            create: (context) => getIt<ProfileCubit>()..getCashierProfile((args)['id'].toString()),
+            child: CashierProfileScreen(id: (args as Map)['id'].toString()),
           ),
         );
       case Routes.offer:
@@ -136,7 +137,10 @@ class AppRouter {
         );
       case Routes.offerDetails:
         return MaterialPageRoute(
-          builder: (_) => OfferDetailsScreen(offer: args as Content),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AddOfferCubit>(),
+            child: OfferDetailsScreen(offer: args as Content),
+          ),
         );
       case Routes.cashier:
         return MaterialPageRoute(
@@ -176,7 +180,13 @@ class AppRouter {
         );
       case Routes.scanDetails:
         return MaterialPageRoute(
-          builder: (_) => const ScanDetails(),
+          builder: (_) {
+            var args = settings.arguments;
+            return BlocProvider(
+              create: (context) => getIt<QrCubit>(),
+              child: ScanDetails(code: args.toString()),
+            );
+          },
         );
       case Routes.manager:
         return MaterialPageRoute(
@@ -223,11 +233,11 @@ class AppRouter {
         );
 
 
-        case Routes.changePassword:
+      case Routes.changePassword:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<ChangePasswordCubit>(),
-            child: const ChangePasswordScreen(),
+            child: ChangePasswordScreen(),
           ),
         );
       default:

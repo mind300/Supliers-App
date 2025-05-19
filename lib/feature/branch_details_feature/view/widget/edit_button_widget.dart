@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
-import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 
 class EditButtonWidget extends StatelessWidget {
   const EditButtonWidget({super.key});

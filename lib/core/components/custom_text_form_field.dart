@@ -23,6 +23,7 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLines = 1,
     this.readOnly = false,
     this.fillColor = AppColors.textfieldColor,
+    this.onEdit,
     this.onChanged,
     this.autoValidateMode,
     this.textInputAction,
@@ -38,7 +39,7 @@ class CustomTextFormField extends StatefulWidget {
   final double? maxLines;
   final bool? enabled;
   final Color fillColor;
-  final void Function(String?)? onSaved, onChanged;
+  final void Function(String?)? onSaved, onEdit, onChanged;
   final bool obscureText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
@@ -64,94 +65,103 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     final bool isPasswordField = widget.obscureText;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.title != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5),
-            child: Tooltip(
-              message: widget.toolTipMessage ?? '',
-              child: Row(
-                children: [
-                  Text(
-                    widget.title!,
-                    style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
-
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  if (widget.toolTipMessage != null)
-                    Tooltip(
-                      message: widget.toolTipMessage!,
-                      triggerMode: TooltipTriggerMode.tap,
-                      showDuration: Duration(seconds: toolTipMessage != null ? 3 : 0),
-
-                      child: Icon(
-                        Icons.help_outline_outlined,
-                        size: 14.sp,
+    return GestureDetector(
+      onTap: () {
+        // Dismiss the keyboard when tapping outside
+        FocusScope.of(context).unfocus();
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.title != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 5),
+              child: Tooltip(
+                message: widget.toolTipMessage ?? '',
+                child: Row(
+                  children: [
+                    Text(
+                      widget.title!,
+                      style: TextStyle(
+                        fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
+                        fontWeight: FontWeight.w500,
                       ),
+                    ),
+                    if (widget.toolTipMessage != null)
+                      Tooltip(
+                        message: widget.toolTipMessage!,
+                        triggerMode: TooltipTriggerMode.tap,
+                        showDuration: const Duration(seconds: 3),
+                        child: Icon(
+                          Icons.help_outline_outlined,
+                          size: 14.sp,
+                        ),
+                      )
+                  ],
+                ),
+              ),
+            ),
+          TextFormField(
+            textAlign: TextAlign.start,
+            enabled: widget.enabled,
+            controller: widget.controller,
+            obscureText: isPasswordField && !isPasswordVisible,
+            onSaved: widget.onSaved,
+            onEditingComplete: () {
+              widget.onEdit!(widget.controller!.text);
+              FocusScope.of(context).unfocus(); // Dismiss keyboard on editing complete
+            },
+            onFieldSubmitted: (value) {
+              FocusScope.of(context).unfocus(); // Dismiss keyboard on field submission
+            },
+            onChanged: widget.onChanged,
+            inputFormatters: widget.inputFormatters,
+            readOnly: widget.readOnly,
+            validator: widget.validator ??
+                (v) {
+                  if (v!.isEmpty) {
+                    return 'هذا الحقل مطلوب';
+                  }
+                  return null;
+                },
+            keyboardType: widget.textInputType,
+            maxLines: widget.maxLines!.toInt(),
+            style: TextStyle(
+              color: const Color(0xFF1D1D1D),
+              fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
+              fontWeight: FontWeight.bold,
+            ),
+            decoration: InputDecoration(
+              suffixIcon: isPasswordField
+                  ? IconButton(
+                      icon: Icon(
+                        !isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
                     )
-                ],
+                  : widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
+              hintStyle: TextStyle(
+                color: AppColors.black.withOpacity(0.3),
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w300,
               ),
+              hintText: widget.hintText,
+              filled: true,
+              fillColor: widget.fillColor,
+              border: buildBorder(),
+              enabledBorder: buildBorder(),
+              focusedBorder: buildBorder(),
             ),
+            autovalidateMode: widget.autoValidateMode,
+            textInputAction: widget.textInputAction,
           ),
-        TextFormField(
-          textAlign: TextAlign.start,
-          enabled: widget.enabled,
-          controller: widget.controller,
-          obscureText: isPasswordField && !isPasswordVisible,
-          onSaved: widget.onSaved,
-          onChanged: widget.onChanged,
-          inputFormatters: widget.inputFormatters,
-          readOnly: widget.readOnly,
-          validator: widget.validator ??
-                  (v) {
-                if (v!.isEmpty) {
-                  return 'هذا الحقل مطلوب';
-                }
-                return null;
-              },
-          keyboardType: widget.textInputType,
-          maxLines: widget.maxLines!.toInt(),
-          style: TextStyle(
-            color: const Color(0xFF1D1D1D),
-            fontSize: Theme.of(context).textTheme.titleMedium!.fontSize,
-            fontWeight: FontWeight.bold,
-          ),
-          decoration: InputDecoration(
-            suffixIcon: isPasswordField
-                ? IconButton(
-              icon: Icon(
-                isPasswordVisible
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-              ),
-              onPressed: () {
-                setState(() {
-                  isPasswordVisible = !isPasswordVisible;
-                });
-              },
-            )
-                : widget.suffixIcon,
-            prefixIcon: widget.prefixIcon,
-            hintStyle: TextStyle(
-              color: AppColors.black.withOpacity(0.3),
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w300,
-            ),
-            hintText: widget.hintText,
-            filled: true,
-            fillColor: widget.fillColor,
-            border: buildBorder(),
-            enabledBorder: buildBorder(),
-            focusedBorder: buildBorder(),
-          ),
-          autovalidateMode: widget.autoValidateMode,
-          textInputAction: widget.textInputAction,
-        ),
-      ],
+        ],
+      ),
     );
   }
 

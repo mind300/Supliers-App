@@ -5,10 +5,7 @@ import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_phone_input.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/components/loading.dart';
-import 'package:supplies/core/components/pagination_drop_down_menu.dart';
 import 'package:supplies/core/components/toast_manager.dart';
-import 'package:supplies/core/di/injection.dart';
-import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/view/widget/t.dart';
 
@@ -27,7 +24,7 @@ class AddCashierScreen extends StatelessWidget {
           ToastManager.showToast(
             'Cashier added successfully',
           );
-          Navigator.pop(context);
+          Navigator.of(context).pop(true);
         }
       },
       builder: (context, state) {
@@ -56,8 +53,7 @@ class AddCashierScreen extends StatelessWidget {
                   CustomTextFormField(
                     title: "Email",
                     hintText: 'Email',
-                    controller:
-                        context.read<AddCashiersCubit>().emailController,
+                    controller: context.read<AddCashiersCubit>().emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter email';
@@ -67,8 +63,7 @@ class AddCashierScreen extends StatelessWidget {
                   ),
                   CustomPhoneInput(
                     title: "Phone Number",
-                    controller:
-                        context.read<AddCashiersCubit>().phoneController,
+                    controller: context.read<AddCashiersCubit>().phoneController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter phone number';
@@ -86,11 +81,9 @@ class AddCashierScreen extends StatelessWidget {
                   //   hintText: ' Job ID (optional)',
                   // ),
                   PaginatedDropdownExample(
-                    searchController:
-                        context.read<AddCashiersCubit>().searchController,
+                    searchController: context.read<AddCashiersCubit>().searchController,
                     onItemSelected: (p0) {
-                      context.read<AddCashiersCubit>().searchController.text =
-                          p0.name ?? '';
+                      context.read<AddCashiersCubit>().searchController.text = p0.name ?? '';
                       context.read<AddCashiersCubit>().branchId = p0.id!;
                     },
                   ),

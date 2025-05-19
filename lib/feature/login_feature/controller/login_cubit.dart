@@ -1,7 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/widgets.dart';
-import 'package:meta/meta.dart';
 import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/services/network_service/error.dart';
 import 'package:supplies/feature/login_feature/data/repo/login_repo.dart';

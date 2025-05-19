@@ -3,11 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 
-// final List<String> items = ['Item1', 'Item2', 'Item3', 'Item4'];
-// List<DropDownModel> selectedItems = [];
-
 class AddOfferDropDown extends StatelessWidget {
-  AddOfferDropDown({
+  const AddOfferDropDown({
     super.key,
     this.title,
     this.toolTipMessage,
@@ -20,7 +17,7 @@ class AddOfferDropDown extends StatelessWidget {
   final String? toolTipMessage;
   final List<DropDownModel> items;
   final List<DropDownModel> selectedItems;
-  final Function? onChanged;
+  final Function(List<DropDownModel>)? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +66,11 @@ class AddOfferDropDown extends StatelessWidget {
             child: DropdownButton2<int>(
               isExpanded: true,
               hint: Text(
-                'Select Items',
+                // 'Select Items',
+                selectedItems.isEmpty ? 'Select Items' : selectedItems.map((e) => e.name).join(', '),
                 style: TextStyle(
                   fontSize: 12.sp,
-                  color: AppColors.black.withOpacity(0.3),
+                  color: AppColors.black,
                   fontWeight: FontWeight.w300,
                 ),
               ),
@@ -90,9 +88,8 @@ class AddOfferDropDown extends StatelessWidget {
                           } else {
                             selectedItems.add(item);
                           }
-                          // isSelected ? selectedItems.remove(item) : selectedItems.add(item);
                           menuSetState(() {});
-                          onChanged?.call(selectedItems);
+                          onChanged?.call(List<DropDownModel>.from(selectedItems));
                         },
                         child: Container(
                           height: double.infinity,
@@ -119,8 +116,7 @@ class AddOfferDropDown extends StatelessWidget {
                   ),
                 );
               }).toList(),
-              value: selectedItems.isEmpty ? null : selectedItems.last.id,
-              onChanged: (value) {},
+              onChanged: (_) {}, // Still needed to prevent UI error
               selectedItemBuilder: (context) {
                 return items.map(
                   (item) {

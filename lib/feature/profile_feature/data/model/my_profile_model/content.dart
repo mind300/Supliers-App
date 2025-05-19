@@ -1,47 +1,55 @@
+import 'branch.dart';
+
 class Content {
   int? id;
   String? name;
   String? email;
-  int? code;
-  int? branchId;
-  String? jobId;
+  String? type;
+  int? jobId;
+  String? mobileNumber;
   int? isActive;
-  String? images;
+  String? image;
   String? createdAt;
+  List<Branch>? branches;
 
   Content({
     this.id,
     this.name,
     this.email,
-    this.code,
-    this.branchId,
+    this.type,
     this.jobId,
+    this.mobileNumber,
     this.isActive,
-    this.images,
+    this.image,
     this.createdAt,
+    this.branches,
   });
 
   factory Content.fromJson(Map<String, dynamic> json) => Content(
         id: json['id'] as int?,
         name: json['name'] as String?,
         email: json['email'] as String?,
-        code: json['code'] as int?,
-        branchId: json['branch_id'] as int?,
-        jobId: json['job_id'].toString() as String?,
+        type: json['type'] as String?,
+        jobId: json['job_id'] as int?,
+        mobileNumber: json['mobile_number'] as String?,
         isActive: json['is_active'] as int?,
-        images: json['images'] as String?,
+        image: json['image'] as String?,
         createdAt: json['created_at'] as String?,
+        branches: (json['branches'] as List<dynamic>?)
+            ?.map((e) => Branch.fromJson(e as Map<String, dynamic>))
+            .toList(),
       );
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,
         'email': email,
-        'code': code,
-        'branch_id': branchId,
+        'type': type,
         'job_id': jobId,
+        'mobile_number': mobileNumber,
         'is_active': isActive,
-        'images': images,
+        'image': image,
         'created_at': createdAt,
+        'branches': branches?.map((e) => e.toJson()).toList(),
       };
 }

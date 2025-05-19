@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_drop_down.dart';
 import 'package:supplies/core/components/custom_phone_input.dart';
@@ -12,6 +10,7 @@ import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/feature/add_manager_feature/controller/add_manager_cubit.dart';
+import 'package:supplies/feature/add_offer_feature/view/widget/add_offer_drop_down.dart';
 
 class AddManagerScreen extends StatelessWidget {
   const AddManagerScreen({super.key});
@@ -42,9 +41,7 @@ class AddManagerScreen extends StatelessWidget {
           }
         },
         buildWhen: (previous, current) {
-          return current is AddManagerLoading ||
-              current is AddManagerLoaded ||
-              current is AddManagerError;
+          return current is AddManagerLoading || current is AddManagerLoaded || current is AddManagerError;
         },
         builder: (context, state) {
           if (state is AddManagerLoaded) {
@@ -76,8 +73,7 @@ class AddManagerScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      controller:
-                          context.read<AddManagerCubit>().nameController,
+                      controller: context.read<AddManagerCubit>().nameController,
                     ),
                     CustomTextFormField(
                       title: "Email",
@@ -91,12 +87,10 @@ class AddManagerScreen extends StatelessWidget {
                         }
                         return null;
                       },
-                      controller:
-                          context.read<AddManagerCubit>().emailController,
+                      controller: context.read<AddManagerCubit>().emailController,
                     ),
                     CustomPhoneInput(
-                      controller:
-                          context.read<AddManagerCubit>().phoneNumberController,
+                      controller: context.read<AddManagerCubit>().phoneNumberController,
                       validator: (p0) {
                         if (p0 == null || p0.isEmpty) {
                           return "Please enter phone number";
@@ -106,19 +100,37 @@ class AddManagerScreen extends StatelessWidget {
                       },
                       title: "Phone Number",
                     ),
-                    CustomDropdown(
-                      title: "Store",
-                      items: state.model.content!
-                          .map((e) => CustomDropdownModel(
-                                id: e.id.toString(),
-                                name: e.name.toString(),
-                              ))
-                          .toList(),
-                      onChanged: (value) {
-                        context.read<AddManagerCubit>().branchId =
-                            value.toString();
+                    BlocBuilder<AddManagerCubit, AddManagerState>(
+                      buildWhen: (previous, current) => current is AddManagerBranchesSelected,
+                      builder: (context, s) {
+                        return AddOfferDropDown(
+                          items: state.model.content!
+                              .map((e) => DropDownModel(
+                                    id: e.id,
+                                    name: e.name.toString(),
+                                  ))
+                              .toList(),
+                          title: "Branch",
+                          selectedItems: context.read<AddManagerCubit>().branchesId,
+                          onChanged: (p0) {
+                            // print(p0);
+                            context.read<AddManagerCubit>().branchesSelected(p0);
+                          },
+                        );
                       },
                     ),
+                    // CustomDropdown(
+                    //   title: "Branch",
+                    //   items: state.model.content!
+                    //       .map((e) => CustomDropdownModel(
+                    //             id: e.id.toString(),
+                    //             name: e.name.toString(),
+                    //           ))
+                    //       .toList(),
+                    //   onChanged: (value) {
+                    //     context.read<AddManagerCubit>().branchId = value.toString();
+                    //   },
+                    // ),
                     // CustomTextFormField(
                     //   title: " Job ID (optional)",
                     //   hintText: ' Job ID (optional)',
@@ -143,17 +155,14 @@ class AddManagerScreen extends StatelessWidget {
         },
       ),
       bottomNavigationBar: BlocBuilder<AddManagerCubit, AddManagerState>(
-        buildWhen: (previous, current) =>
-            current is AddManagerAddedError ||
-            current is AddManagerError ||
-            current is AddManagerLoaded,
+        buildWhen: (previous, current) => current is AddManagerAddedError || current is AddManagerError || current is AddManagerLoaded,
         builder: (context, state) {
-          if (state is AddManagerAddedError || state is AddManagerError) {
-            return const SizedBox();
-          }
-          if (state is AddManagerLoaded && state.model.content!.isEmpty) {
-            return const SizedBox();
-          }
+          // if (state is AddManagerAddedError || state is AddManagerError) {
+          //   return const SizedBox();
+          // }
+          // if (state is AddManagerLoaded && state.model.content!.isEmpty) {
+          //   return const SizedBox();
+          // }
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             child: CustomButton(

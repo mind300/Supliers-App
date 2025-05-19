@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:supplies/core/components/custom_app_bar.dart';
 import 'package:supplies/core/components/custom_floating_action_button.dart';
 import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/constant/app_colors.dart';
@@ -19,14 +20,11 @@ class ManagerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: AppDrawer(currentPage: 'Managers'),
-      appBar: AppBar(
-        title: const Text('Manager'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-          ),
-        ],
+      appBar: CustomAppBar(
+        title: "Manager",
+        onChanged: (p0) {
+          context.read<ManagersCubit>().getManagers(search: p0);
+        },
       ),
       body: BlocConsumer<ManagersCubit, ManagersState>(
         listener: (context, state) {},

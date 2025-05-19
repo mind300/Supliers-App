@@ -1,5 +1,4 @@
 import '../../../../branch_feature/data/model/contant_branch_cashier.dart';
-import 'branch.dart';
 import 'package:supplies/feature/branch_feature/data/model/content.dart' as s;
 
 class Content {
@@ -38,16 +37,19 @@ class Content {
         code: json['code'] as int?,
         mobilePhone: json['mobile_number'] as String?,
         // branch: json['branch'] == null ? null : Branch.fromJson(json['branch'] as Map<String, dynamic>),
-        branch: (json['branches'] as List<dynamic>?)
-            ?.map((e) => s.Content.fromJson(e as Map<String, dynamic>))
-            .toList(),
-        branchCashier: (json['branch'] != null && json['branch'] is Map<String, dynamic>)
+        branch: json['branches'] is List
+            ? (json['branches'] as List<dynamic>?)
+                ?.map((e) => s.Content.fromJson(e as Map<String, dynamic>))
+                .toList()
+            : [s.Content.fromJson(json['branches'] as Map<String, dynamic>)],
+        branchCashier:
+            (json['branch'] != null && json['branch'] is Map<String, dynamic>)
                 ? [
                     ContantBranchCashier.fromJson(
                         json['branch'] as Map<String, dynamic>)
                   ]
                 : [],
-        jobId: json['job_id'] as String?,
+        jobId: json['job_id'].toString(),
         isActive: json['is_active'] as int?,
         manger: json['manager'],
         images: json['image'] as String?,

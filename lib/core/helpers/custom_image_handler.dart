@@ -6,14 +6,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomImageHandler extends StatelessWidget {
   const CustomImageHandler({
-    Key? key,
+    super.key,
     required this.path,
     this.fit = BoxFit.contain,
     this.height,
     this.width,
     this.size,
     this.color,
-  }) : super(key: key);
+  });
   final dynamic path;
   final BoxFit fit;
   final double? height, width, size;

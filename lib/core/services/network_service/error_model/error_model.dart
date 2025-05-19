@@ -1,5 +1,3 @@
-import 'error.dart';
-
 class ErrorModel {
   String? message;
 

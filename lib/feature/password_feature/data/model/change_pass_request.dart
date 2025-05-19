@@ -1,4 +1,3 @@
-
 class ChangePasswordRequest {
   final String oldPassword;
   final String newPassword;
@@ -11,8 +10,8 @@ class ChangePasswordRequest {
   });
 
   Map<String, dynamic> toJson() => {
-    'old_password': oldPassword,
-    'new_password': newPassword,
-    'new_password_confirmation': confirmPassword,
-  };
+        'old_password': oldPassword,
+        'new_password': newPassword,
+        'new_password_confirmation': confirmPassword,
+      };
 }

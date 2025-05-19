@@ -23,7 +23,7 @@ class BranchAddressInputWidget extends StatelessWidget {
             Expanded(
               child: CustomTextFormField(
                 title: "Branch Address",
-                hintText: 'Branch Name',
+                hintText: 'Branch Address',
                 validator: (p0) {
                   if (p0 == null || p0.isEmpty) {
                     return "Branch Address is required";
@@ -33,8 +33,7 @@ class BranchAddressInputWidget extends StatelessWidget {
                   }
                   return null;
                 },
-                controller:
-                    context.read<AddBranchCubit>().branchAddressController,
+                controller: context.read<AddBranchCubit>().branchAddressController,
               ),
             ),
             SizedBox(

@@ -1,12 +1,9 @@
-import 'dart:io';
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:supplies/core/components/custom_app_bar.dart';
 import 'package:supplies/core/components/custom_button.dart';
 import 'package:supplies/core/components/custom_text_form_field.dart';
+import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
@@ -21,9 +18,22 @@ class AddOfferScreen extends StatelessWidget {
     return BlocConsumer<AddOfferCubit, AddOfferState>(
       buildWhen: (previous, current) => current is AddOfferCategoriesLoaded || current is AddOfferCategoryError || current is AddOfferCategoriesLoading,
       listener: (context, state) {
+        if (state is AddOfferLoading) {
+          startLoading(context);
+        }
         if (state is AddOfferError) {
+          stopLoading(context);
           ToastManager.showErrorToast(state.message);
         }
+        if (state is AddOfferSuccess) {
+          stopLoading(context);
+          Navigator.of(context).pop(true);
+          ToastManager.showToast(state.message);
+        }
+        if (state is AddOfferWarning) {
+          ToastManager.showErrorToast(state.message);
+        }
+
         // if (state is AddOfferSuccess) {
         //   Navigator.pop(context);
         //   ScaffoldMessenger.of(context).showSnackBar(

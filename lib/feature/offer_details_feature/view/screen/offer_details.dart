@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
-import 'package:supplies/feature/offer_details_feature/view/widget/offer_expansion_tile.dart';
+import 'package:supplies/core/widgets/image_viewer.dart';
 import 'package:supplies/feature/offer_feature/data/model/offer_model/content.dart';
 
 class OfferDetails extends StatelessWidget {
@@ -29,9 +29,23 @@ class OfferDetails extends StatelessWidget {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
-            child: CustomImageHandler(
-              path: AppImages.offerTest,
-              fit: BoxFit.cover,
+            child: GestureDetector(
+              onTap: () {
+                // Navigate to the image viewer screen
+                MaterialPageRoute route = MaterialPageRoute(
+                  builder: (context) => ImageViewer(
+                    images: offer?.images ?? [],
+                  ),
+                );
+                Navigator.push(context, route);
+                // Navigator.push(, route)
+              },
+              child: CustomImageHandler(
+                path: offer?.images?.first,
+                fit: BoxFit.cover,
+                height: MediaQuery.of(context).size.width / 3,
+                width: double.infinity,
+              ),
             ),
           ),
         ),

@@ -25,7 +25,8 @@ class CacheHelper {
     if (val == null) return Future.value(false);
 
     if (key == 'Services') return await setIdsList('service_id', val);
-    if (key == 'Gallery') return await sharedPreferences!.setBool('Gallery', true);
+    if (key == 'Gallery')
+      return await sharedPreferences!.setBool('Gallery', true);
     if (val is bool) return await sharedPreferences!.setBool(key, val);
     if (val is double) return await sharedPreferences!.setDouble(key, val);
     if (val is String) return await sharedPreferences!.setString(key, val);
@@ -33,7 +34,6 @@ class CacheHelper {
 
     return Future.value(false); // unsupported type
   }
-
 
   static Future<bool> setIdsList(String idKey, dynamic jsonList) async {
     String ids = '';

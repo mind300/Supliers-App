@@ -54,17 +54,14 @@ class CashierScreen extends StatelessWidget {
             return AnimationLimiter(
               child: NotificationListener(
                 onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels ==
-                          scrollInfo.metrics.maxScrollExtent &&
-                      state.cashiers.pagination?.nextPageUrl != null) {
+                  if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && state.cashiers.pagination?.nextPageUrl != null) {
                     context.read<CashiersCubit>().getCashiers();
                   }
                   return true;
                 },
                 child: ListView.separated(
                   separatorBuilder: (context, index) => SizedBox(height: 15.h),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 25.h),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 25.h),
                   itemCount: state.cashiers.content!.length,
                   itemBuilder: (context, index) {
                     return AnimationConfiguration.staggeredList(
@@ -74,13 +71,11 @@ class CashierScreen extends StatelessWidget {
                         verticalOffset: 50.0,
                         child: FadeInAnimation(
                           child: EmployeeDataBuilder(
-                            id: state.cashiers.content![index].id.toString() ??
-                                '',
+                            id: state.cashiers.content![index].id.toString() ?? '',
                             name: state.cashiers.content![index].name ?? '',
                             image: state.cashiers.content![index].images ?? '',
                             userType: UsersType.cashier,
-                            subtitle:
-                                state.cashiers.content![index].jobId ?? '',
+                            subtitle: state.cashiers.content![index].jobId ?? '',
                           ),
                         ),
                       ),
@@ -98,8 +93,11 @@ class CashierScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: CustomFloatingActionButton(
-        onPressed: () {
-          context.pushNamed(Routes.addCashiers);
+        onPressed: () async {
+          var res = await context.pushNamed(Routes.addCashiers);
+          if (res != null) {
+            context.read<CashiersCubit>().getCashiers();
+          }
         },
         icon: Icons.add,
       ),

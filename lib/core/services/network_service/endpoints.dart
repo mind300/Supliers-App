@@ -5,13 +5,15 @@ class EndPoints {
   static const String branch = '$baseUrl/branches';
   static const String me = '$baseUrl/profiles/me';
   static const String cashiers = '$baseUrl/cashiers';
-  static const String addBranch = '$baseUrl/owners/branches';
+  static const String addBranch = '$baseUrl/branches';
   static const String manager = '$baseUrl/managers';
   static const String offer = '$baseUrl/offers';
-  static const String allManagers = '$baseUrl/managers/list';
+  static const String allManagers = '$baseUrl/getAllManagerslist';
   static const String categoriesList = '$baseUrl/categories/list';
   static const String allBranches = '$baseUrl/branches/list';
   static const String about = '$baseUrl/pages/1';
+  static const String withoutOffers = '$baseUrl/branches/withoutOffers';
+  static const String getAllCashiersThatWithoutBranch = '$baseUrl/getAllCashiersThatWithoutBranch';
   static const String updateProfile = '$baseUrl/profiles/update';
   static const String forgetPassword = '$baseUrl/auth/password/forget';
   static const String verifyPinCode = '$baseUrl/auth/otp/check';
@@ -19,6 +21,4 @@ class EndPoints {
 
   static const String allBranchesWithoutManagers = '$baseUrl/branches/withoutManagers';
   static const String transactions = '$baseUrl/transactions';
-
-
 }

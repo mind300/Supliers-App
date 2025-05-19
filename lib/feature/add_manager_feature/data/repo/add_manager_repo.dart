@@ -6,7 +6,7 @@ import 'package:supplies/core/services/network_service/error.dart';
 import 'package:supplies/feature/add_manager_feature/data/model/branch_list_model/branch_list_model.dart';
 
 abstract class AddManagerRepo {
-  Future<Either<CustomException, String>> addManager({required Map data});
+  Future<Either<CustomException, String>> addManager({required FormData data});
   Future<Either<CustomException, BranchListModel>> getAllBranches();
 }
 
@@ -16,8 +16,7 @@ class AddManagerRepoImpl implements AddManagerRepo {
   AddManagerRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, String>> addManager(
-      {required Map data}) async {
+  Future<Either<CustomException, String>> addManager({required FormData data}) async {
     try {
       Response res = await dioHelper.post(
         endPoint: EndPoints.manager,

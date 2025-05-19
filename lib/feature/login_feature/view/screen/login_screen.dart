@@ -7,7 +7,6 @@ import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/di/injection.dart';
 import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/helpers/extensitions.dart';

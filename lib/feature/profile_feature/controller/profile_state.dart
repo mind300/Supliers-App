@@ -20,6 +20,12 @@ final class ProfileManagerLoaded extends ProfileState {
   ProfileManagerLoaded(this.managerProfileModel);
 }
 
+final class ProfileMeLoaded extends ProfileState {
+  final MyProfileModel managerProfileModel;
+
+  ProfileMeLoaded(this.managerProfileModel);
+}
+
 final class ProfileCashierLoaded extends ProfileState {
   final ManagerProfileModel cashierProfileModel;
 
@@ -30,6 +36,18 @@ final class ProfileError extends ProfileState {
   final String error;
 
   ProfileError(this.error);
+}
+
+final class ProfileDeleteError extends ProfileState {
+  final String error;
+
+  ProfileDeleteError(this.error);
+}
+
+final class ProfileDeleteSuccess extends ProfileState {
+  final String message;
+
+  ProfileDeleteSuccess(this.message);
 }
 
 //update loading

@@ -3,8 +3,8 @@ class Content {
   dynamic name;
   String? email;
   dynamic code;
-  dynamic branchId;
-  dynamic jobId;
+  String? branchId;
+  String? jobId;
   int? isActive;
   String? images;
   String? createdAt;
@@ -26,8 +26,8 @@ class Content {
         name: json['name'] as dynamic,
         email: json['email'] as String?,
         code: json['code'] as dynamic,
-        branchId: json['branch_id'] as dynamic,
-        jobId: json['job_id'] as int?,
+        branchId: json['branch_id'].toString(),
+        jobId: json['job_id'].toString(),
         isActive: json['is_active'] as int?,
         images: json['images'] as String?,
         createdAt: json['created_at'] as String?,

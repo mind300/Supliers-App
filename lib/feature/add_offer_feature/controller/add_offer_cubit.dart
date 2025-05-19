@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:meta/meta.dart';
 import 'package:supplies/feature/add_offer_feature/data/repo/add_offer_repo.dart';
 import 'package:supplies/feature/add_offer_feature/view/widget/add_offer_drop_down.dart';
 import 'package:supplies/feature/offer_feature/data/model/categories_list/categories_list.dart';
@@ -26,9 +25,14 @@ class AddOfferCubit extends Cubit<AddOfferState> {
 
   Future<void> pickMultipleImages() async {
     try {
-      final List<XFile>? images = await _picker.pickMultiImage(limit: 5);
-      if (images != null && images.isNotEmpty) {
-        selectedImages = images.map((e) => File(e.path)).toList();
+      final List<XFile> images = await _picker.pickMultiImage(limit: 5);
+      if (images.isNotEmpty) {
+        if (selectedImages == null) {
+          selectedImages = images.map((e) => File(e.path)).toList();
+        } else {
+          selectedImages!.addAll(images.map((e) => File(e.path)).toList());
+        }
+        // selectedImages?.addAll(images);
         emit(AddOfferImagePicked());
       }
     } catch (e) {
@@ -45,27 +49,16 @@ class AddOfferCubit extends Cubit<AddOfferState> {
 
   addOffer() async {
     if (!formKey.currentState!.validate()) {
-      emit(AddOfferError("Please fill all fields"));
+      emit(AddOfferWarning("Please check fill all fields"));
       return;
     }
     if (selectedImages!.isEmpty) {
-      emit(AddOfferError("Please select images"));
+      emit(AddOfferWarning("Please select images"));
       return;
     }
-    // if (offerNameController.text.isEmpty) {
-    //   emit(AddOfferError("Please enter offer name"));
-    //   return;
-    // }
-    // if (offerDiscountController.text.isEmpty) {
-    //   emit(AddOfferError("Please enter offer discount"));
-    //   return;
-    // }
-    // if (offerDescriptionController.text.isEmpty) {
-    //   emit(AddOfferError("Please enter offer description"));
-    //   return;
-    // }
+
     if (selectedCategories.isEmpty) {
-      emit(AddOfferError("Please select categories"));
+      emit(AddOfferWarning("Please select categories"));
       return;
     }
 
@@ -77,12 +70,19 @@ class AddOfferCubit extends Cubit<AddOfferState> {
     for (var element in selectedCategories) {
       formData.fields.add(MapEntry("branch_ids[]", element.id.toString()));
     }
-    selectedImages!.forEach((element) async {
+    print("selected Image: ${selectedImages!.length}");
+    // selectedImages!.forEach((element) async {
+    //   formData.files.add(MapEntry(
+    //     "media[]",
+    //     await MultipartFile.fromFile(element.path, filename: element.name),
+    //   ));
+    // });
+    for (var element in selectedImages!) {
       formData.files.add(MapEntry(
         "media[]",
-        await MultipartFile.fromFile(element.path, filename: element.name),
+        await MultipartFile.fromFile(element.path, filename: element.path.split('/').last),
       ));
-    });
+    }
 
     emit(AddOfferLoading());
     var res = await addOfferRepo.addOffer(formData);
@@ -121,9 +121,29 @@ class AddOfferCubit extends Cubit<AddOfferState> {
     offerDiscountController.text = args.discount.toString();
     offerDescriptionController.text = args.description ?? "";
     selectedImages = args.images?.map((e) => XFile(e)).toList();
+    getCategores();
 
     // selectedCategories = args.categories!
     //     .map((e) => DropDownModel(id: e.id, name: e.name))
     // .toList();
+  }
+
+  void deleteOffer(int id) async {
+    emit(AddOfferDeleteLoading());
+    var res = await addOfferRepo.deleteOffer(id);
+    res.fold(
+      (l) {
+        emit(AddOfferDeleteError(l.message));
+      },
+      (r) {
+        emit(AddOfferDeleteSuccess(r));
+      },
+    );
+  }
+
+  @override
+  void onChange(Change<AddOfferState> change) {
+    print("State changed from ${change.currentState} to ${change.nextState}");
+    super.onChange(change);
   }
 }

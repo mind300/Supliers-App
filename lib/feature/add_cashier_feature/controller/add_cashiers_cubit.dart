@@ -1,12 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:meta/meta.dart';
-import 'package:supplies/core/components/pagination_drop_down_menu.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/feature/add_cashier_feature/data/repo/add_cashiers_repo.dart';
-import 'package:supplies/feature/add_cashier_feature/view/widget/t.dart';
-import 'package:supplies/feature/add_manager_feature/data/model/branch_list_model/branch_list_model.dart';
 
 part 'add_cashiers_state.dart';
 
