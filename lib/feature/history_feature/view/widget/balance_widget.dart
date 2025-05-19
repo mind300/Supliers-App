@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 
 class BalanceWidget extends StatelessWidget {
-  const BalanceWidget({super.key});
+
+  final String totalExpend;
+
+  const BalanceWidget({super.key, required this.totalExpend});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class BalanceWidget extends StatelessWidget {
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: const Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -38,7 +41,7 @@ class BalanceWidget extends StatelessWidget {
             ),
           ),
           Text(
-            '\$50,000',
+            totalExpend ?? "",
             style: TextStyle(
               fontSize: 24.sp,
               fontWeight: FontWeight.w700,

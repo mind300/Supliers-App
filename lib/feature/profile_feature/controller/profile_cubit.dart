@@ -31,9 +31,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileDelete());
   }
 
-  getManagerProfile(
-    String id,
-  ) async {
+  getManagerProfile( String id, ) async {
     // print(id);
     emit(ProfileLoading());
     var res = await profileRepo.getManagerProfile(id);
@@ -51,10 +49,22 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  getCashierProfile(
-    String id,
-  ) {
-    print(id);
+  getCashierProfile( String id, ) async {
+    print("getCashierProfile id: ${id}");
+    emit(ProfileLoading());
+    var response = await profileRepo.getCashierProfile(id);
+    response.fold(
+          (l) {
+        emit(ProfileError(l.message));
+      },
+          (r) {
+        nameController.text = r.content?.name ?? '';
+        phoneNumberController.text = r.content?.mobilePhone ?? '';
+        jobIdController.text = r.content?.jobId ?? '';
+        profileImage = r.content?.images ?? '';
+        emit(ProfileCashierLoaded(r));
+      },
+    );
   }
 
   getMe() async {
@@ -81,7 +91,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       context: context,
       builder: (context) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Choose Image Source', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text('Choose Image Source',
+            style: TextStyle(fontWeight: FontWeight.bold)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

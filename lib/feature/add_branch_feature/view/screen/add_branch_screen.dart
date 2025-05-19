@@ -6,15 +6,9 @@ import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:supplies/core/constant/app_images.dart';
-import 'package:supplies/core/di/injection.dart';
-import 'package:supplies/core/helpers/custom_image_handler.dart';
-import 'package:supplies/core/helpers/extensitions.dart';
-import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 import 'package:supplies/feature/add_branch_feature/view/widget/branch_address_input_widget.dart';
 import 'package:supplies/feature/add_branch_feature/view/widget/branch_detail_builder_widget.dart';
-import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 
 class AddBranchScreen extends StatelessWidget {
   const AddBranchScreen({super.key});

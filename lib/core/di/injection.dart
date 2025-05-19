@@ -1,12 +1,16 @@
 import 'package:get_it/get_it.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
 import 'package:supplies/core/services/network_service/api_service.dart';
+import 'package:supplies/feature/about_feature/controller/about_cubit.dart';
+import 'package:supplies/feature/about_feature/data/repo/about_repo.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
 import 'package:supplies/feature/add_branch_feature/data/repo/add_branch_repo.dart';
 import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/data/repo/add_cashiers_repo.dart';
 import 'package:supplies/feature/add_manager_feature/controller/add_manager_cubit.dart';
 import 'package:supplies/feature/add_manager_feature/data/repo/add_manager_repo.dart';
+import 'package:supplies/feature/add_offer_feature/controller/add_offer_cubit.dart';
+import 'package:supplies/feature/add_offer_feature/data/repo/add_offer_repo.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/data/repo/branch_details_repo.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
@@ -17,10 +21,17 @@ import 'package:supplies/feature/forget_password_feature/controller/forget_cubit
 import 'package:supplies/feature/forget_password_feature/controller/pin_cubit/pin_cubit.dart';
 import 'package:supplies/feature/forget_password_feature/controller/reset_cubit/reset_password_cubit.dart';
 import 'package:supplies/feature/forget_password_feature/data/repo/forget_password_repo.dart';
+import 'package:supplies/feature/history_feature/controller/transaction_cubit.dart';
+import 'package:supplies/feature/history_feature/data/repo/transaction_repo.dart';
+
 import 'package:supplies/feature/login_feature/controller/login_cubit.dart';
 import 'package:supplies/feature/login_feature/data/repo/login_repo.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 import 'package:supplies/feature/manager_feature/data/repo/manager_repo.dart';
+import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
+import 'package:supplies/feature/offer_feature/data/repo/offer_repo.dart';
+import 'package:supplies/feature/password_feature/controller/change_pass_cubit.dart';
+import 'package:supplies/feature/password_feature/data/repo/change_pass_repoImpl.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/data/repo/profile_repo.dart';
 
@@ -65,4 +76,17 @@ void initGetIt() {
   getIt.registerFactory<PinCubit>(() => PinCubit(getIt(), getIt()));
   //reset password
   getIt.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getIt()));
+  //offer
+  getIt.registerFactory<OfferRepo>(() => OfferRepoImpl(getIt()));
+  getIt.registerFactory<OfferCubit>(() => OfferCubit(getIt()));
+  //add offer
+  getIt.registerFactory<AddOfferRepo>(() => AddOfferRepoImpl(getIt()));
+  getIt.registerFactory<AddOfferCubit>(() => AddOfferCubit(getIt()));
+  //about
+  getIt.registerFactory<AboutRepo>(() => AboutRepoImpl(getIt()));
+  getIt.registerFactory<AboutCubit>(() => AboutCubit(getIt()));
+
+  // History Transaction
+  getIt.registerFactory<TransactionRepo>(() => TransactionRepoImpl(getIt()));
+  getIt.registerFactory<TransactionCubit>(() => TransactionCubit(getIt()));
 }

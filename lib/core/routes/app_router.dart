@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supplies/core/di/injection.dart';
-import 'package:supplies/core/enums/account_type.dart';
-import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/feature/about_feature/controller/about_cubit.dart';
 import 'package:supplies/feature/about_feature/view/screen/about_screen.dart';
 import 'package:supplies/feature/add_branch_feature/controller/add_branch_cubit.dart';
+import 'package:supplies/feature/history_feature/controller/transaction_cubit.dart';
+import 'package:supplies/feature/offer_feature/data/model/offer_model/content.dart';
+
 import 'package:supplies/feature/add_branch_feature/view/screen/add_branch_screen.dart';
 import 'package:supplies/feature/add_branch_feature/view/screen/choose_address_screen.dart';
 import 'package:supplies/feature/add_cashier_feature/controller/add_cashiers_cubit.dart';
 import 'package:supplies/feature/add_cashier_feature/view/screen/add_cashier_screen.dart';
 import 'package:supplies/feature/add_manager_feature/controller/add_manager_cubit.dart';
 import 'package:supplies/feature/add_manager_feature/view/screen/add_manager_screen.dart';
+import 'package:supplies/feature/add_offer_feature/controller/add_offer_cubit.dart';
+import 'package:supplies/feature/add_offer_feature/view/screen/add_offer_screen.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/view/screen/branch_details_screen.dart';
 import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
@@ -29,8 +33,10 @@ import 'package:supplies/feature/login_feature/view/screen/login_screen.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 import 'package:supplies/feature/manager_feature/view/screen/manager_screen.dart';
 import 'package:supplies/feature/offer_details_feature/view/screen/offer_details_screen.dart';
+import 'package:supplies/feature/offer_feature/controller/offer_cubit.dart';
 import 'package:supplies/feature/offer_feature/view/screen/offer_screen.dart';
-import 'package:supplies/feature/password_feature/view/screen/password_screen.dart';
+import 'package:supplies/feature/password_feature/controller/change_pass_cubit.dart';
+import 'package:supplies/feature/password_feature/view/screen/change_password_screen.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/view/screen/cashier_profile_screen.dart';
 import 'package:supplies/feature/profile_feature/view/screen/manager_profile_screen.dart';
@@ -80,7 +86,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<BranchDetailsCubit>()..getBranchDetails((args as BranchDetailsArguments).branchId),
-            child: const BranchDetailsScreen(),
+            child: BranchDetailsScreen(branchId: (args as BranchDetailsArguments).branchId),
           ),
         );
       case Routes.profile:
@@ -106,11 +112,31 @@ class AppRouter {
         );
       case Routes.offer:
         return MaterialPageRoute(
-          builder: (_) => const OfferScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<OfferCubit>()..getOffers(),
+            child: const OfferScreen(),
+          ),
+        );
+      case Routes.addOffer:
+        return MaterialPageRoute(
+          builder: (_) {
+            if (args is Content) {
+              return BlocProvider(
+                create: (context) => getIt<AddOfferCubit>()
+                  // ..getCategores()
+                  ..initData(args),
+                child: AddOfferScreen(),
+              );
+            }
+            return BlocProvider(
+              create: (context) => getIt<AddOfferCubit>()..getCategores(),
+              child: const AddOfferScreen(),
+            );
+          },
         );
       case Routes.offerDetails:
         return MaterialPageRoute(
-          builder: (_) => const OfferDetailsScreen(),
+          builder: (_) => OfferDetailsScreen(offer: args as Content),
         );
       case Routes.cashier:
         return MaterialPageRoute(
@@ -119,17 +145,19 @@ class AppRouter {
             child: const CashierScreen(),
           ),
         );
-      case Routes.password:
-        return MaterialPageRoute(
-          builder: (_) => const PasswordScreen(),
-        );
       case Routes.about:
         return MaterialPageRoute(
-          builder: (_) => const AboutScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AboutCubit>()..getAbout(),
+            child: const AboutScreen(),
+          ),
         );
       case Routes.history:
         return MaterialPageRoute(
-          builder: (_) => const HistoryScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<TransactionCubit>()..getTransactions(),
+            child: const HistoryScreen(),
+          ),
         );
       case Routes.historyDetails:
         return MaterialPageRoute(
@@ -192,6 +220,15 @@ class AppRouter {
               ),
             );
           },
+        );
+
+
+        case Routes.changePassword:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ChangePasswordCubit>(),
+            child: const ChangePasswordScreen(),
+          ),
         );
       default:
         return MaterialPageRoute(

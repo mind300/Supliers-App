@@ -56,7 +56,8 @@ class AddCashierScreen extends StatelessWidget {
                   CustomTextFormField(
                     title: "Email",
                     hintText: 'Email',
-                    controller: context.read<AddCashiersCubit>().emailController,
+                    controller:
+                        context.read<AddCashiersCubit>().emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter email';
@@ -66,7 +67,8 @@ class AddCashierScreen extends StatelessWidget {
                   ),
                   CustomPhoneInput(
                     title: "Phone Number",
-                    controller: context.read<AddCashiersCubit>().phoneController,
+                    controller:
+                        context.read<AddCashiersCubit>().phoneController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter phone number';
@@ -84,9 +86,11 @@ class AddCashierScreen extends StatelessWidget {
                   //   hintText: ' Job ID (optional)',
                   // ),
                   PaginatedDropdownExample(
-                    searchController: context.read<AddCashiersCubit>().searchController,
+                    searchController:
+                        context.read<AddCashiersCubit>().searchController,
                     onItemSelected: (p0) {
-                      context.read<AddCashiersCubit>().searchController.text = p0.name ?? '';
+                      context.read<AddCashiersCubit>().searchController.text =
+                          p0.name ?? '';
                       context.read<AddCashiersCubit>().branchId = p0.id!;
                     },
                   ),

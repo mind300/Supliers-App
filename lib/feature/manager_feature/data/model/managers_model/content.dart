@@ -27,7 +27,7 @@ class Content {
         email: json['email'] as String?,
         code: json['code'] as dynamic,
         branchId: json['branch_id'] as dynamic,
-        jobId: json['job_id'] as dynamic,
+        jobId: json['job_id'] as int?,
         isActive: json['is_active'] as int?,
         images: json['images'] as String?,
         createdAt: json['created_at'] as String?,

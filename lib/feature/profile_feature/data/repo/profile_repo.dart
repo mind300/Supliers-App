@@ -9,7 +9,7 @@ abstract class ProfileRepo {
   Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(
     String id,
   );
-  Future<Either<CustomException, Unit>> getCashierProfile(
+  Future<Either<CustomException, ManagerProfileModel>> getCashierProfile(
     String id,
   );
   Future<Either<CustomException, ManagerProfileModel>> getMe();
@@ -22,7 +22,8 @@ class ProfileRepoImpl implements ProfileRepo {
   ProfileRepoImpl(this.dioHelper);
 
   @override
-  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(String id) async {
+  Future<Either<CustomException, ManagerProfileModel>> getManagerProfile(
+      String id) async {
     try {
       Response res = await dioHelper.get(
         endPoint: "${EndPoints.manager}/$id",
@@ -46,14 +47,14 @@ class ProfileRepoImpl implements ProfileRepo {
   }
 
   @override
-  Future<Either<CustomException, Unit>> getCashierProfile(String id) async {
+  Future<Either<CustomException, ManagerProfileModel>> getCashierProfile(String id) async {
     try {
       Response res = await dioHelper.get(
         endPoint: "${EndPoints.cashiers}/$id",
       );
       if (res.statusCode == 200) {
-        // Handle the response data as needed
-        return Right(unit);
+
+        return Right(ManagerProfileModel.fromJson(res.data));
       } else {
         return Left(
           CustomException(

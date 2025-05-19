@@ -22,7 +22,8 @@ import 'package:supplies/feature/cashier_feature/view/widget/cashier_builder.dar
 // keep all your imports as-is...
 
 class BranchDetailsScreen extends StatelessWidget {
-  const BranchDetailsScreen({super.key});
+  const BranchDetailsScreen({super.key, required this.branchId});
+  final int branchId;
 
   @override
   Widget build(BuildContext ctx) {
@@ -63,11 +64,7 @@ class BranchDetailsScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is BranchDetailsError) {
             return RetryWidget(onRetry: () {
-              var args = ModalRoute.of(context)!.settings.arguments
-                  as BranchDetailsArguments;
-              context
-                  .read<BranchDetailsCubit>()
-                  .getBranchDetails(args.branchId);
+              context.read<BranchDetailsCubit>().getBranchDetails(branchId);
             });
           } else if (state is BranchDetailsLoaded) {
             return SingleChildScrollView(

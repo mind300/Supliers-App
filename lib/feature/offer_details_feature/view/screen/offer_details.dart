@@ -4,9 +4,11 @@ import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/constant/app_images.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/feature/offer_details_feature/view/widget/offer_expansion_tile.dart';
+import 'package:supplies/feature/offer_feature/data/model/offer_model/content.dart';
 
 class OfferDetails extends StatelessWidget {
-  const OfferDetails({super.key});
+  const OfferDetails({super.key, this.offer});
+  final Content? offer;
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +39,15 @@ class OfferDetails extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CustomImageHandler(
-              path: AppImages.profileTest,
-              width: 30.w,
-              height: 30.h,
-            ),
-            SizedBox(width: 10.w),
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       Expanded(
                         child: Text(
-                          "KFC",
+                          offer?.title ?? "",
                           style: TextStyle(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w500,
@@ -71,7 +67,7 @@ class OfferDetails extends StatelessWidget {
                   ),
                   SizedBox(height: 4.h),
                   Text(
-                    "An offer is a conditional proposal made by a buyer or seller to buy or sell an asset, which becomes legally binding if something for sale, or the submission of a total price for a product or service.",
+                    offer?.description ?? "",
                     // overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 12.sp,
@@ -79,21 +75,24 @@ class OfferDetails extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 4.h),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.w,
-                      vertical: 5.h,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.yellow,
-                      borderRadius: BorderRadius.circular(30.r),
-                    ),
-                    child: Text(
-                      "200 EGP",
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.white,
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.w,
+                        vertical: 5.h,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.yellow,
+                        borderRadius: BorderRadius.circular(30.r),
+                      ),
+                      child: Text(
+                        "${offer?.discount}% off",
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w900,
+                          color: AppColors.white,
+                        ),
                       ),
                     ),
                   ),
@@ -105,22 +104,22 @@ class OfferDetails extends StatelessWidget {
           ],
         ),
         // SizedBox(height: 20.h),
-        Text(
-          "Offer Details",
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        SizedBox(height: 10.h),
-        OfferExpansionTile(
-          title: "Classic Package",
-          points: "200",
-        ),
-        OfferExpansionTile(
-          title: "VIP Package",
-          points: "700",
-        ),
+        // Text(
+        //   "Offer Details",
+        //   style: TextStyle(
+        //     fontSize: 16.sp,
+        //     fontWeight: FontWeight.w500,
+        //   ),
+        // ),
+        // SizedBox(height: 10.h),
+        // OfferExpansionTile(
+        //   title: "Classic Package",
+        //   points: "200",
+        // ),
+        // OfferExpansionTile(
+        //   title: "VIP Package",
+        //   points: "700",
+        // ),
       ],
     );
   }

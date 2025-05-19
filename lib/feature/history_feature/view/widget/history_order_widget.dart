@@ -7,13 +7,16 @@ import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
 
 class HistoryOrderWidget extends StatelessWidget {
-  const HistoryOrderWidget({super.key});
+
+  final String status, createdAt, branchName, brandName, cashierName, totalBefore, totalAfter, discountAmount;
+  const HistoryOrderWidget({super.key, required this.status, required this.branchName, required this.brandName, required this.cashierName, required this.totalBefore, required this.totalAfter, required this.discountAmount, required this.createdAt});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(Routes.historyDetails);
+        // If Need it in future plan
+       // context.pushNamed(Routes.historyDetails);
       },
       child: Container(
         padding: EdgeInsets.all(15.sp),
@@ -44,6 +47,7 @@ class HistoryOrderWidget extends StatelessWidget {
             ),
             SizedBox(width: 8.w),
             Expanded(
+              flex: 1,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -55,7 +59,7 @@ class HistoryOrderWidget extends StatelessWidget {
                     padding:
                         EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
                     child: Text(
-                      "Confirmed",
+                      status ?? "",
                       style: TextStyle(
                         fontSize: 10.sp,
                         fontWeight: FontWeight.w700,
@@ -64,7 +68,7 @@ class HistoryOrderWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Employee Name",
+                    branchName ??"",
                     style: TextStyle(
                       fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
@@ -72,7 +76,15 @@ class HistoryOrderWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Manager Name",
+                    cashierName ??"",
+                    style: TextStyle(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.black,
+                    ),
+                  ),
+                  Text(
+                    brandName ?? "",
                     style: TextStyle(
                       fontSize: 10.sp,
                       fontWeight: FontWeight.w500,
@@ -82,35 +94,50 @@ class HistoryOrderWidget extends StatelessWidget {
                 ],
               ),
             ),
-            // Spacer(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  "\$ 340",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.redDark,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "\EGP ${totalBefore ?? ""}",
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.redDark,
+                        ),
+                      ),
+                      Text(
+                        "  -${discountAmount ?? ""}",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.redDark,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Text(
-                  "\$ 100",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.green,
+                  Text(
+                    "\EGP ${totalAfter ?? ""}",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.green,
+                    ),
                   ),
-                ),
-                Text(
-                  "17 Sep 2023\n10:00 AM",
-                  style: TextStyle(
-                    fontSize: 10.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.gray,
+                  Text(
+                    "${createdAt ?? ""} ",
+                    maxLines: 2,
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.gray,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

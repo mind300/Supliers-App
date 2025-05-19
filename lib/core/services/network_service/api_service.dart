@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:supplies/core/routes/routes.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
@@ -268,8 +267,7 @@ class DioImpl extends DioHelper {
 
   multiPartTheFile(File? file) async {
     if (file != null) {
-      return await MultipartFile.fromFile(file.path,
-          filename: file.path.split('/').last);
+      return await MultipartFile.fromFile(file.path, filename: file.path.split('/').last);
     } else {
       return null;
     }
@@ -287,8 +285,7 @@ class DioImpl extends DioHelper {
         case DioExceptionType.cancel:
           throw CustomException(message: "Request has been canceled.");
         case DioExceptionType.connectionTimeout:
-          throw CustomException(
-              message: "Sorry! Your connection has timed out.");
+          throw CustomException(message: "Sorry! Your connection has timed out.");
         case DioExceptionType.badResponse:
           if (e.response!.statusCode == 401) {
             // Handle token refresh or logout
@@ -296,9 +293,18 @@ class DioImpl extends DioHelper {
           }
           ErrorModel errorModel = ErrorModel.fromJson(e.response!.data);
           throw CustomException(
-            message: e.response?.statusMessage ?? "Something went wrong",
+            message: e.response?.data['message'] ?? "Something went wrong",
             // message: errorModel.errors?.isEmpty ?? true ? errorModel.message : errorModel.errors?.first.value?.first ?? e.response!.data['message'] ?? "Something went wrong",
           );
+
+        case DioExceptionType.unknown:
+          if (e.response!.statusCode == 422) {
+            throw CustomException(
+              message: e.response!.data['message'] ?? "Something went wrong",
+              // message: errorModel.errors?.isEmpty ?? true ? errorModel.message : errorModel.errors?.first.value?.first ?? e.response!.data['message'] ?? "Something went wrong",
+            );
+          }
+
         case DioExceptionType.connectionError:
           if (e.error is SocketException) {
             throw CustomException(message: "No internet connection.");
@@ -316,7 +322,6 @@ class DioImpl extends DioHelper {
 
   void reset() async {
     await CacheHelper.clear();
-    navigatorKey.currentState
-        ?.pushNamedAndRemoveUntil(Routes.login, (route) => false);
+    navigatorKey.currentState?.pushNamedAndRemoveUntil(Routes.login, (route) => false);
   }
 }

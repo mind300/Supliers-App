@@ -108,10 +108,6 @@ class LoginScreen extends StatelessWidget {
                     hintText: "Enter your password",
                     controller: context.read<LoginCubit>().passwordController,
                     obscureText: true,
-                    suffixIcon: Padding(
-                      padding: EdgeInsets.all(12.sp),
-                      child: CustomImageHandler(path: AppImages.closeEye),
-                    ),
                     validator: (p0) {
                       if (p0 == null || p0.isEmpty) {
                         return "Please enter your password";
