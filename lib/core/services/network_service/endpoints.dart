@@ -13,6 +13,10 @@ class EndPoints {
   static const String allBranches = '$baseUrl/branches/list';
   static const String about = '$baseUrl/pages/1';
   static const String updateProfile = '$baseUrl/profiles/update';
+  static const String forgetPassword = '$baseUrl/auth/password/forget';
+  static const String verifyPinCode = '$baseUrl/auth/otp/check';
+  static const String resetPassword = '$baseUrl//auth/password/reset';
+
   static const String allBranchesWithoutManagers = '$baseUrl/branches/withoutManagers';
   static const String transactions = '$baseUrl/transactions';
 

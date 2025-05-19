@@ -102,6 +102,7 @@ class AppDrawer extends StatelessWidget {
                 Spacer(),
                 CustomButton(
                   onPressed: () {
+                    CacheHelper.clear();
                     context.pushNamedAndRemoveAll(
                       Routes.login,
                     );

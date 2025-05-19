@@ -123,12 +123,17 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: 4.h),
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
-                    child: Text(
-                      "Forget password?",
-                      style: TextStyle(
-                        fontSize: 10.sp,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.black,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.pushNamed(Routes.forgetPassword);
+                      },
+                      child: Text(
+                        "Forget password?",
+                        style: TextStyle(
+                          fontSize: 10.sp,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.black,
+                        ),
                       ),
                     ),
                   ),

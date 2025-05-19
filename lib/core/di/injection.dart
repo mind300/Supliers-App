@@ -17,8 +17,13 @@ import 'package:supplies/feature/branch_feature/controller/branch_cubit.dart';
 import 'package:supplies/feature/branch_feature/data/repo/branch_repo.dart';
 import 'package:supplies/feature/cashier_feature/controller/cashiers_cubit.dart';
 import 'package:supplies/feature/cashier_feature/data/repo/cashiers_repo.dart';
+import 'package:supplies/feature/forget_password_feature/controller/forget_cubit/forget_password_cubit.dart';
+import 'package:supplies/feature/forget_password_feature/controller/pin_cubit/pin_cubit.dart';
+import 'package:supplies/feature/forget_password_feature/controller/reset_cubit/reset_password_cubit.dart';
+import 'package:supplies/feature/forget_password_feature/data/repo/forget_password_repo.dart';
 import 'package:supplies/feature/history_feature/controller/transaction_cubit.dart';
 import 'package:supplies/feature/history_feature/data/repo/transaction_repo.dart';
+
 import 'package:supplies/feature/login_feature/controller/login_cubit.dart';
 import 'package:supplies/feature/login_feature/data/repo/login_repo.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
@@ -64,6 +69,13 @@ void initGetIt() {
   //add cashiers
   getIt.registerFactory<AddCashiersRepo>(() => AddCashiersRepoImpl(getIt()));
   getIt.registerFactory<AddCashiersCubit>(() => AddCashiersCubit(getIt()));
+  //forget password
+  getIt.registerFactory<ForgetPasswordRepo>(() => ForgetPasswordRepoImpl(getIt()));
+  getIt.registerFactory<ForgetPasswordCubit>(() => ForgetPasswordCubit(getIt()));
+  //pin code
+  getIt.registerFactory<PinCubit>(() => PinCubit(getIt(), getIt()));
+  //reset password
+  getIt.registerFactory<ResetPasswordCubit>(() => ResetPasswordCubit(getIt()));
   //offer
   getIt.registerFactory<OfferRepo>(() => OfferRepoImpl(getIt()));
   getIt.registerFactory<OfferCubit>(() => OfferCubit(getIt()));

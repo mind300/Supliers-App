@@ -14,5 +14,7 @@ startLoading(BuildContext context) {
 }
 
 stopLoading(BuildContext context) {
-  Navigator.of(context).pop();
+  if (Navigator.canPop(context)) {
+    Navigator.of(context).pop();
+  }
 }

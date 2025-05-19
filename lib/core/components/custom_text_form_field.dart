@@ -77,8 +77,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                   Text(
                     widget.title!,
                     style: TextStyle(
-                      fontSize:
-                      Theme.of(context).textTheme.titleSmall!.fontSize,
+                      fontSize: Theme.of(context).textTheme.titleSmall!.fontSize,
+
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -86,7 +86,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                     Tooltip(
                       message: widget.toolTipMessage!,
                       triggerMode: TooltipTriggerMode.tap,
-                      showDuration: const Duration(seconds: 3),
+                      showDuration: Duration(seconds: toolTipMessage != null ? 3 : 0),
+
                       child: Icon(
                         Icons.help_outline_outlined,
                         size: 14.sp,
