@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:supplies/core/constant/app_colors.dart';
@@ -14,16 +13,7 @@ Future<void> main() async {
   initGetIt();
 
   runApp(
-    EasyLocalization(
-      useOnlyLangCode: true,
-      supportedLocales: const [
-        Locale('ar'),
-        Locale('en'),
-      ],
-      path: 'assets/translations',
-      startLocale: const Locale('en'),
-      child: MyApp(),
-    ),
+    MyApp(),
   );
 }
 
@@ -46,9 +36,9 @@ class MyApp extends StatelessWidget {
           onGenerateRoute: AppRouter().generateRoute,
           debugShowCheckedModeBanner: false,
           initialRoute: Routes.splash,
-          locale: context.locale,
-          supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
+          // locale: context.locale,
+          // supportedLocales: context.supportedLocales,
+          // localizationsDelegates: context.localizationDelegates,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             scaffoldBackgroundColor: AppColors.white,
