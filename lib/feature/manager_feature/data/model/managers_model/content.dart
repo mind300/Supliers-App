@@ -29,7 +29,7 @@ class Content {
         branchId: json['branch_id'].toString(),
         jobId: json['job_id'].toString(),
         isActive: json['is_active'] as int?,
-        images: json['images'] as String?,
+        images: json['image'] as String?,
         createdAt: json['created_at'] as String?,
       );
 

@@ -6,6 +6,7 @@ class LoginModel {
   String? token;
   String? deviceToken;
   String? message;
+  String? image;
   int? isActive;
   int? expireIn;
 
@@ -18,6 +19,7 @@ class LoginModel {
     this.deviceToken,
     this.message,
     this.isActive,
+    this.image,
     this.expireIn,
   });
 
@@ -29,6 +31,7 @@ class LoginModel {
         token: json['token'] as String?,
         deviceToken: json['device_token'] as String?,
         message: json['message'] as String?,
+        image: json['image'] as String?,
         isActive: json['is_active'] as int?,
         expireIn: json['expire_in'] as int?,
       );
@@ -41,6 +44,7 @@ class LoginModel {
         'token': token,
         'device_token': deviceToken,
         'message': message,
+        'image': message,
         'is_active': isActive,
         'expire_in': expireIn,
       };

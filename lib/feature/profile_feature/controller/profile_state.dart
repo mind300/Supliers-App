@@ -64,3 +64,18 @@ final class ProfileUpdateError extends ProfileState {
 
   ProfileUpdateError(this.error);
 }
+
+//delete my account
+final class ProfileDeleteAccountLoading extends ProfileState {}
+
+final class ProfileDeleteAccountSuccess extends ProfileState {
+  final String message;
+
+  ProfileDeleteAccountSuccess(this.message);
+}
+
+final class ProfileDeleteAccountError extends ProfileState {
+  final String error;
+
+  ProfileDeleteAccountError(this.error);
+}

@@ -7,6 +7,8 @@ import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/helpers/custom_image_handler.dart';
 import 'package:supplies/core/helpers/extensitions.dart';
 import 'package:supplies/core/routes/routes.dart';
+import 'package:supplies/core/services/cache/cache_helper.dart';
+import 'package:supplies/core/services/cache/cache_keys.dart';
 import 'package:supplies/feature/cashier_feature/controller/cashiers_cubit.dart';
 import 'package:supplies/feature/manager_feature/controller/managers_cubit.dart';
 
@@ -50,41 +52,54 @@ class EmployeeDataBuilder extends StatelessWidget {
             onDeletePressed!();
             return;
           }
-          if (userType == UsersType.cashier) {
-            var res = await context.pushNamed(
-              Routes.cashierProfile,
-              arguments: {
-                "id": id,
-              },
-            );
-            if (res != null) {
-              context.read<CashiersCubit>().getCashiers();
+          if (CacheHelper.getData(CacheKeys.userType) == 'cashier') {
+            return;
+          }
+          if (CacheHelper.getData(CacheKeys.userType) == 'manager') {
+            if (userType == UsersType.cashier) {
+              var res = await context.pushNamed(
+                Routes.cashierProfile,
+                arguments: {
+                  "id": id,
+                },
+              );
+              if (res != null) {
+                context.read<CashiersCubit>().getCashiers();
+              }
             }
-          } else if (userType == UsersType.manager) {
-            var res = await context.pushNamed(
-              Routes.managerProfile,
-              arguments: {
-                "id": id,
-              },
-            );
-            if (res != null) {
-              context.read<ManagersCubit>().getManagers();
+          }
+          if (CacheHelper.getData(CacheKeys.userType) == 'owner') {
+            if (userType == UsersType.cashier) {
+              var res = await context.pushNamed(
+                Routes.cashierProfile,
+                arguments: {
+                  "id": id,
+                },
+              );
+              if (res != null) {
+                context.read<CashiersCubit>().getCashiers();
+              }
+            } else if (userType == UsersType.manager) {
+              var res = await context.pushNamed(
+                Routes.managerProfile,
+                arguments: {
+                  "id": id,
+                },
+              );
+              if (res != null) {
+                context.read<ManagersCubit>().getManagers();
+              }
             }
           }
         },
         contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
         leading: ClipOval(
-          child: image != null && image!.isNotEmpty
-              ? CustomImageHandler(
-                  path: image!,
-                  width: 50.sp,
-                  height: 50.sp,
-                  fit: BoxFit.cover,
-                )
-              : CustomImageHandler(
-                  path: AppImages.profileTest,
-                ),
-        ),
+            child: CustomImageHandler(
+          path: image,
+          width: 50.sp,
+          height: 50.sp,
+          fit: BoxFit.cover,
+        )),
         title: Text(
           // "Mohamed Ali",
           name ?? "",
@@ -100,9 +115,11 @@ class EmployeeDataBuilder extends StatelessWidget {
             color: Colors.grey[600],
           ),
         ),
-        trailing: Icon(
-          onDeletePressed != null ? Icons.delete : Icons.arrow_forward_ios,
-        ),
+        trailing: (CacheHelper.getData(CacheKeys.userType) == 'manager' && userType == UsersType.manager) || CacheHelper.getData(CacheKeys.userType) == 'cashier'
+            ? null
+            : Icon(
+                onDeletePressed != null ? Icons.delete : Icons.arrow_forward_ios,
+              ),
       ),
     );
   }

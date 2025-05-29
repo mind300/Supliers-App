@@ -35,9 +35,7 @@ class Content {
         isActive: json['is_active'] as int?,
         image: json['image'] as String?,
         createdAt: json['created_at'] as String?,
-        branches: (json['branches'] as List<dynamic>?)
-            ?.map((e) => Branch.fromJson(e as Map<String, dynamic>))
-            .toList(),
+        branches: (json['branches'] as List<dynamic>?)?.map((e) => Branch.fromJson(e as Map<String, dynamic>)).toList(),
       );
 
   Map<String, dynamic> toJson() => {

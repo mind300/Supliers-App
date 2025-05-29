@@ -21,6 +21,12 @@ class AddCashierScreen extends StatelessWidget {
         if (state is AddCashiersLoading) {
           startLoading(context);
         }
+        if (state is AddCashiersError) {
+          stopLoading(context);
+          ToastManager.showErrorToast(
+            state.message,
+          );
+        }
         if (state is AddCashiersSuccess) {
           stopLoading(context);
           ToastManager.showToast(

@@ -18,7 +18,7 @@ class BranchDetailsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100.h,
+      // height: 100.h,
       margin: EdgeInsets.symmetric(vertical: 5.h),
       decoration: BoxDecoration(
         color: AppColors.white,

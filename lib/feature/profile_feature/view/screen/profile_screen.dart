@@ -5,11 +5,13 @@ import 'package:supplies/core/components/custom_text_form_field.dart';
 import 'package:supplies/core/components/loading.dart';
 import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/components/toast_manager.dart';
+import 'package:supplies/core/services/network_service/api_service.dart';
 import 'package:supplies/core/widgets/drawer.dart';
 import 'package:supplies/feature/branch_feature/data/model/content.dart';
 import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/view/widget/profile_button.dart';
+import 'package:supplies/feature/profile_feature/view/widget/profile_delete_account_dialog.dart';
 import 'package:supplies/feature/profile_feature/view/widget/profile_image.dart';
 import 'package:supplies/feature/profile_feature/view/widget/profile_name_editor.dart';
 
@@ -22,10 +24,16 @@ class ProfileScreen extends StatelessWidget {
 
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
-        if (state is ProfileUpdateLoading) {
+        if (state is ProfileUpdateLoading || state is ProfileDeleteAccountLoading) {
           startLoading(context);
         }
         if (state is ProfileError) {
+          stopLoading(context);
+          ToastManager.showErrorToast(
+            state.error,
+          );
+        }
+        if (state is ProfileDeleteAccountError) {
           stopLoading(context);
           ToastManager.showErrorToast(
             state.error,
@@ -35,19 +43,40 @@ class ProfileScreen extends StatelessWidget {
           stopLoading(context);
           ToastManager.showToast(state.message);
         }
+        if (state is ProfileDeleteAccountSuccess) {
+          stopLoading(context);
+          reset();
+          ToastManager.showToast(state.message);
+        }
       },
       buildWhen: (previous, current) => current is ProfileLoading || current is ProfileMeLoaded || current is ProfileError,
       builder: (context, state) => Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                final cubit = context.read<ProfileCubit>();
+                showAdaptiveDialog(
+                  context: context,
+                  builder: (_) => BlocProvider.value(
+                    value: cubit,
+                    child: const ProfileDeleteAccountDialog(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.delete_forever,
+                color: Colors.red,
+              ),
+            ),
+          ],
           title: Text(
             'Profile',
           ),
         ),
-        drawer: canPop
-            ? null
-            : AppDrawer(
-                currentPage: 'profile',
-              ),
+        drawer: AppDrawer(
+          currentPage: 'profile',
+        ),
         body: state is ProfileError
             ? RetryWidget(
                 onRetry: () {

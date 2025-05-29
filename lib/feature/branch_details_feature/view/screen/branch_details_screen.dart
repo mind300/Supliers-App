@@ -11,6 +11,7 @@ import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/enums/users_type.dart';
 import 'package:supplies/core/services/cache/cache_helper.dart';
+import 'package:supplies/core/services/cache/cache_keys.dart';
 import 'package:supplies/feature/add_offer_feature/view/widget/add_offer_drop_down.dart';
 import 'package:supplies/feature/branch_details_feature/controller/branch_details_cubit.dart';
 import 'package:supplies/feature/branch_details_feature/view/widget/action_buttons_widget.dart';
@@ -70,7 +71,7 @@ class BranchDetailsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (CacheHelper.userType == UsersType.owner)
+                    if (CacheHelper.getData(CacheKeys.userType) == 'owner')
                       ActionButtonsWidget(
                         onDeletePressed: () {
                           final cubit = context.read<BranchDetailsCubit>();

@@ -22,5 +22,6 @@ class EndPoints {
   static const String resetPassword = '$baseUrl/auth/password/reset';
 
   static const String transactions = '$baseUrl/transactions';
+  static const String deleteMyAccount = '$baseUrl/deleteMyAccount';
   //ahmed.mind.2025@gmail.com
 }

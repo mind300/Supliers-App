@@ -39,6 +39,9 @@ class ChangePasswordScreen extends StatelessWidget {
       builder: (context, state) {
         // return SizedBox();
         return Scaffold(
+          onDrawerChanged: (p0) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
           appBar: AppBar(
             title: const Text('Change Password'),
           ),

@@ -318,9 +318,9 @@ class DioImpl extends DioHelper {
       throw CustomException(message: "An unknown error occurred.");
     }
   }
+}
 
-  void reset() async {
-    await CacheHelper.clear();
-    navigatorKey.currentState?.pushNamedAndRemoveUntil(Routes.login, (route) => false);
-  }
+void reset() async {
+  await CacheHelper.clear();
+  navigatorKey.currentState?.pushNamedAndRemoveUntil(Routes.login, (route) => false);
 }

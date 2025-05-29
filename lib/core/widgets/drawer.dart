@@ -58,6 +58,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: MediaQuery.of(context).size.width * 0.75,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -77,7 +78,15 @@ class AppDrawer extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: CustomImageHandler(path: AppImages.profileTest),
+                  leading: ClipOval(
+                    child: CustomImageHandler(
+                      path: CacheHelper.getData(CacheKeys.image).isEmpty ? null : CacheHelper.getData(CacheKeys.image),
+                      width: 50.w,
+                      height: 50.h,
+                      size: 50.sp,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                   title: Text(
                     '${CacheHelper.getData(CacheKeys.name)}',
                     style: TextStyle(

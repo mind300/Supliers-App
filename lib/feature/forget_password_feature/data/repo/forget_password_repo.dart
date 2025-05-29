@@ -50,7 +50,7 @@ class ForgetPasswordRepoImpl extends ForgetPasswordRepo {
     } catch (e) {
       return Left(
         CustomException(
-          message: "Connection Timeout",
+          message: e.toString(),
         ),
       );
     }
@@ -78,7 +78,7 @@ class ForgetPasswordRepoImpl extends ForgetPasswordRepo {
     } catch (e) {
       return Left(
         CustomException(
-          message: "Connection Timeout",
+          message: e.toString(),
         ),
       );
     }

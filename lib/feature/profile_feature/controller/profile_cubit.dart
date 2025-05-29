@@ -180,8 +180,23 @@ class ProfileCubit extends Cubit<ProfileState> {
       },
       (r) {
         CacheHelper.setData(CacheKeys.name, nameController.text);
+
+        toggleEditing();
         // CacheHelper.setData(CacheKeys.mo, phoneNumberController.text);
         emit(ProfileUpdateSuccess("Profile updated successfully"));
+      },
+    );
+  }
+
+  deletMyAccount() async {
+    emit(ProfileDeleteAccountLoading());
+    var res = await profileRepo.deleteMyAccount();
+    res.fold(
+      (l) {
+        emit(ProfileDeleteAccountError(l.message));
+      },
+      (r) {
+        emit(ProfileDeleteAccountSuccess(r));
       },
     );
   }

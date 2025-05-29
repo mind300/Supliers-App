@@ -63,7 +63,7 @@ class TransactionRepoImpl extends TransactionRepo {
         );
       }
 
-      return Right(res.data['message']);
+      return Right(res.data['message'] ?? "Transaction successful");
     } catch (e, stackTrace) {
       print("Error posting transaction: $e");
       print("Stack trace: $stackTrace");

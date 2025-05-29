@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,8 +12,7 @@ class ProfileImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
-      buildWhen: (previous, current) =>
-          current is ProfileNameUpdated || current is ProfileImageUpdated,
+      buildWhen: (previous, current) => current is ProfileNameUpdated || current is ProfileImageUpdated,
       builder: (context, state) {
         final isEditing = context.read<ProfileCubit>().isEditing;
         return Stack(
@@ -21,7 +22,9 @@ class ProfileImage extends StatelessWidget {
               child: CustomImageHandler(
                 path: context.read<ProfileCubit>().profileImage.isEmpty
                     ? null
-                    : context.read<ProfileCubit>().profileImage,
+                    : context.read<ProfileCubit>().profileImage.contains("http")
+                        ? context.read<ProfileCubit>().profileImage
+                        : File(context.read<ProfileCubit>().profileImage),
                 width: 150.sp,
                 fit: BoxFit.cover,
                 height: 150.sp,
