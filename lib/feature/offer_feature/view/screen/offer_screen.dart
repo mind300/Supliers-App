@@ -42,17 +42,21 @@ class OfferScreen extends StatelessWidget {
                           ? Center(
                               child: Text(
                                 'No offers available',
-                                style: TextStyle(fontSize: 16.sp, color: AppColors.primary),
+                                style: TextStyle(
+                                    fontSize: 16.sp, color: AppColors.primary),
                               ),
                             )
                           : ListView.separated(
                               itemCount: state.offerModel.content?.length ?? 0,
-                              separatorBuilder: (context, index) => SizedBox(height: 20.h),
-                              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 24.w),
+                              separatorBuilder: (context, index) =>
+                                  SizedBox(height: 20.h),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20.h, horizontal: 24.w),
                               itemBuilder: (context, index) {
                                 return TweenAnimationBuilder<double>(
                                   tween: Tween<double>(begin: 0, end: 1),
-                                  duration: Duration(milliseconds: 300 + index * 100),
+                                  duration:
+                                      Duration(milliseconds: 300 + index * 100),
                                   builder: (context, value, child) {
                                     return Opacity(
                                       opacity: value,
@@ -76,18 +80,18 @@ class OfferScreen extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                     ),
-          floatingActionButton: CacheHelper.getData(CacheKeys.userType) == 'cashier'
-              ? SizedBox()
-              : CustomFloatingActionButton(
-                  icon: Icons.add,
-                  onPressed: () async {
-                    // Navigate to the add offer screen
-                    var res = await context.pushNamed(Routes.addOffer);
-                    if (res != null) {
-                      context.read<OfferCubit>().getOffers();
-                    }
-                  },
-                ),
+          // floatingActionButton: CacheHelper.getData(CacheKeys.userType) == 'cashier'
+          //     ? SizedBox()
+          //     : CustomFloatingActionButton(
+          //         icon: Icons.add,
+          //         onPressed: () async {
+          //           // Navigate to the add offer screen
+          //           var res = await context.pushNamed(Routes.addOffer);
+          //           if (res != null) {
+          //             context.read<OfferCubit>().getOffers();
+          //           }
+          //         },
+          //       ),
         );
       },
     );
