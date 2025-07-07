@@ -16,7 +16,10 @@ class AddOfferScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AddOfferCubit, AddOfferState>(
-      buildWhen: (previous, current) => current is AddOfferCategoriesLoaded || current is AddOfferCategoryError || current is AddOfferCategoriesLoading,
+      buildWhen: (previous, current) =>
+          current is AddOfferCategoriesLoaded ||
+          current is AddOfferCategoryError ||
+          current is AddOfferCategoriesLoading,
       listener: (context, state) {
         if (state is AddOfferLoading) {
           startLoading(context);
@@ -61,19 +64,23 @@ class AddOfferScreen extends StatelessWidget {
                       ? Center(
                           child: Text(
                             'No branches available to add an offer',
-                            style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                            style:
+                                TextStyle(fontSize: 16.sp, color: Colors.grey),
                           ),
                         )
                       : SingleChildScrollView(
-                          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 24.w, vertical: 20.h),
                           child: Form(
                             key: context.read<AddOfferCubit>().formKey,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Center(
-                                  child: BlocBuilder<AddOfferCubit, AddOfferState>(
-                                    buildWhen: (_, state) => state is AddOfferImagePicked,
+                                  child:
+                                      BlocBuilder<AddOfferCubit, AddOfferState>(
+                                    buildWhen: (_, state) =>
+                                        state is AddOfferImagePicked,
                                     builder: (context, state) {
                                       return SingleChildScrollView(
                                         scrollDirection: Axis.horizontal,
@@ -82,14 +89,18 @@ class AddOfferScreen extends StatelessWidget {
                                           child: Row(
                                             children: [
                                               GestureDetector(
-                                                onTap: () => context.read<AddOfferCubit>().pickMultipleImages(),
+                                                onTap: () => context
+                                                    .read<AddOfferCubit>()
+                                                    .pickMultipleImages(),
                                                 child: Container(
                                                   margin: EdgeInsets.all(0.sp),
                                                   width: 150.sp,
                                                   height: 150.sp,
                                                   decoration: BoxDecoration(
                                                     color: Colors.grey[200],
-                                                    borderRadius: BorderRadius.circular(10.r),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.r),
                                                   ),
                                                   child: Icon(
                                                     Icons.add_a_photo,
@@ -98,17 +109,33 @@ class AddOfferScreen extends StatelessWidget {
                                                   ),
                                                 ),
                                               ),
-                                              if (context.read<AddOfferCubit>().selectedImages != null && context.read<AddOfferCubit>().selectedImages!.isNotEmpty)
+                                              if (context
+                                                          .read<AddOfferCubit>()
+                                                          .selectedImages !=
+                                                      null &&
+                                                  context
+                                                      .read<AddOfferCubit>()
+                                                      .selectedImages!
+                                                      .isNotEmpty)
                                                 ...List.generate(
-                                                  context.read<AddOfferCubit>().selectedImages!.length,
+                                                  context
+                                                      .read<AddOfferCubit>()
+                                                      .selectedImages!
+                                                      .length,
                                                   (index) => GestureDetector(
                                                     onTap: () {
-                                                      context.read<AddOfferCubit>().removeImage(index);
+                                                      context
+                                                          .read<AddOfferCubit>()
+                                                          .removeImage(index);
                                                     },
                                                     child: Padding(
-                                                      padding: EdgeInsets.all(8.0),
+                                                      padding:
+                                                          EdgeInsets.all(8.0),
                                                       child: AddOfferImage(
-                                                        image: context.read<AddOfferCubit>().selectedImages![index],
+                                                        image: context
+                                                            .read<
+                                                                AddOfferCubit>()
+                                                            .selectedImages![index],
                                                       ),
                                                     ),
                                                   ),
@@ -123,7 +150,9 @@ class AddOfferScreen extends StatelessWidget {
                                 CustomTextFormField(
                                   hintText: 'Title',
                                   title: "Title",
-                                  controller: context.read<AddOfferCubit>().offerNameController,
+                                  controller: context
+                                      .read<AddOfferCubit>()
+                                      .offerNameController,
                                   textInputType: TextInputType.text,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -136,7 +165,9 @@ class AddOfferScreen extends StatelessWidget {
                                 CustomTextFormField(
                                   hintText: 'Description',
                                   title: "Description",
-                                  controller: context.read<AddOfferCubit>().offerDescriptionController,
+                                  controller: context
+                                      .read<AddOfferCubit>()
+                                      .offerDescriptionController,
                                   textInputType: TextInputType.text,
                                   maxLines: 5,
                                   validator: (value) {
@@ -151,20 +182,25 @@ class AddOfferScreen extends StatelessWidget {
                                 CustomTextFormField(
                                   hintText: 'Discount',
                                   title: "Discount",
-                                  controller: context.read<AddOfferCubit>().offerDiscountController,
+                                  controller: context
+                                      .read<AddOfferCubit>()
+                                      .offerDiscountController,
                                   textInputType: TextInputType.number,
                                   suffixIcon: Padding(
                                     padding: EdgeInsets.all(12.sp),
                                     child: Text(
                                       '%',
-                                      style: TextStyle(fontSize: 16.sp, color: Colors.black),
+                                      style: TextStyle(
+                                          fontSize: 16.sp, color: Colors.black),
                                     ),
                                   ),
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return 'Please enter a discount';
                                     }
-                                    if (double.tryParse(value) == null || double.parse(value) < 0 || double.parse(value) > 100) {
+                                    if (double.tryParse(value) == null ||
+                                        double.parse(value) < 0 ||
+                                        double.parse(value) > 100) {
                                       return 'Please enter a valid discount percentage';
                                     }
 
@@ -173,14 +209,24 @@ class AddOfferScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 20.h),
                                 BlocBuilder<AddOfferCubit, AddOfferState>(
-                                  buildWhen: (previous, current) => current is AddOfferCategoriesLoaded || current is AddOfferCategoryChanged,
+                                  buildWhen: (previous, current) =>
+                                      current is AddOfferCategoriesLoaded ||
+                                      current is AddOfferCategoryChanged,
                                   builder: (context, s) {
                                     return AddOfferDropDown(
                                       title: "Select Branch",
-                                      selectedItems: context.read<AddOfferCubit>().selectedCategories,
-                                      items: state.categoriesList.content!.map((e) => DropDownModel.fromJson(e.toJson())).toList(),
-                                      onChanged: (List<DropDownModel> selectedItems) {
-                                        context.read<AddOfferCubit>().onCategoryChanged(selectedItems);
+                                      selectedItems: context
+                                          .read<AddOfferCubit>()
+                                          .selectedCategories,
+                                      items: state.categoriesList.content!
+                                          .map((e) => DropDownModel.fromJson(
+                                              e.toJson()))
+                                          .toList(),
+                                      onChanged:
+                                          (List<DropDownModel> selectedItems) {
+                                        context
+                                            .read<AddOfferCubit>()
+                                            .onCategoryChanged(selectedItems);
                                       },
                                     );
                                   },

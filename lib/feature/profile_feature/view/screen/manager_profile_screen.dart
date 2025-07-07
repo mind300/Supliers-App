@@ -7,6 +7,7 @@ import 'package:supplies/core/components/retry_widget.dart';
 import 'package:supplies/core/components/toast_manager.dart';
 import 'package:supplies/core/constant/app_colors.dart';
 import 'package:supplies/core/widgets/drawer.dart';
+import 'package:supplies/feature/branch_feature/data/model/content.dart';
 import 'package:supplies/feature/branch_feature/view/widget/branch_details_widget.dart';
 import 'package:supplies/feature/profile_feature/controller/profile_cubit.dart';
 import 'package:supplies/feature/profile_feature/view/widget/profile_image.dart';
@@ -21,7 +22,10 @@ class ManagerProfileScreen extends StatelessWidget {
     final canPop = Navigator.of(context).canPop();
 
     return BlocConsumer<ProfileCubit, ProfileState>(
-      buildWhen: (previous, current) => current is ProfileMeLoaded || current is ProfileError || current is ProfileManagerLoaded,
+      buildWhen: (previous, current) =>
+          current is ProfileMeLoaded ||
+          current is ProfileError ||
+          current is ProfileManagerLoaded,
       listener: (context, state) {
         if (state is ProfileDelete) {
           showDialog(
@@ -32,7 +36,8 @@ class ManagerProfileScreen extends StatelessWidget {
                 size: 100.sp,
                 color: AppColors.red,
               ),
-              content: const Text('Are you sure you want to delete this profile?'),
+              content:
+                  const Text('Are you sure you want to delete this profile?'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(),
@@ -136,10 +141,21 @@ class ManagerProfileScreen extends StatelessWidget {
                           ListView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.managerProfileModel.content?.branch?.length ?? 0,
+                            itemCount: state.managerProfileModel.content?.branch
+                                    ?.length ??
+                                0,
                             itemBuilder: (context, index) {
                               return BranchDetailsWidget(
-                                branch: state.managerProfileModel.content!.branch![index],
+                                branch: Content(
+                                  id: state.managerProfileModel.content!
+                                      .branch![index].id,
+                                  name: state.managerProfileModel.content!
+                                      .branch![index].name,
+                                  managerName: context
+                                      .read<ProfileCubit>()
+                                      .nameController
+                                      .text,
+                                ),
                               );
                             },
                           ),
